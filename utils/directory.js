@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as async from 'async';
-import logTable from './table';
 
 const readDir = (pathObj) => {
   if(!pathObj){
@@ -20,19 +19,25 @@ const readDir = (pathObj) => {
         fs.lstat(path.join(pathObj.base, pathObj.name, content), (err, stat)=>{
           finalData.push({
             path: path.join(pathObj.base, pathObj.name, content),
+            name: content,
             size: stat.size,
-            mtime: stat.mtime,
-            ctime: stat.ctime
+            mtime: new Date(stat.mtime).getTime(),
+            ctime: new Date(stat.ctime).getTime(),
+            isFile: stat.isFile()
           });
           _cb();
         })
       }, ()=>{
-        logTable(finalData);
+        resolve(finalData);
       });
     });
   });
 };
 
+
+export {readDir}
+
 if(require.main === module){
-  readDir();
+  console.error('Start this script using index.js from the project root.');
+  process.exit();
 }

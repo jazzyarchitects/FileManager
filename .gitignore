@@ -67,3 +67,6 @@ typings/
 
 
 compiled
+index.js
+index.js.map
+*.map

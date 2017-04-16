@@ -3,12 +3,21 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt);
 
   grunt.initConfig({
+    clean: {
+      utils: {
+        src: ['compiled/*.*']
+      },
+      index: {
+        src: ['index.js', 'index.js.map']
+      }
+    },
+
     babel: {
       options: {
         sourceMap: true,
         presets: ['env']
       },
-      dist: {
+      utils: {
         files: [
             {
                 expand: true,
@@ -17,27 +26,54 @@ module.exports = function (grunt) {
                 dest: 'compiled/'
             }
         ]
+      },
+      index: {
+        files: {
+          'index.js': 'index.es6.js'
+        }
       }
     },
 
     eslint: {
       options: {
         configFile: './.eslintrc.js',
-        silent: true
+        silent: true,
+        fix: true
       },
-      src: ['./utils/*.js', '!./node_modules/**/*.js']
+      utils: {
+        src: ['./utils/*.js', '!./node_modules/**/*.js'],
+      },
+      index:{
+        src: 'index.js'
+      }
+    },
+
+    chmod: {
+      options: {
+        mode: '444'
+      },
+      utils: {
+        src: ['compiled/*.js', 'index.js'],
+      },
+      index: {
+        src: ['index.js']
+      }
     },
 
     watch: {
       utils: {
         files: ['utils/*.js'],
-        tasks: ['eslint', 'babel']
+        tasks: ['clean:utils', 'eslint:utils', 'babel:utils', 'chmod:utils']
+      },
+      index: {
+        files: ['index.es6.js'],
+        tasks: ['clean:index', 'eslint:index', 'babel:index', 'chmod:index']
       }
     }
   });
 
   grunt.loadNpmTasks("gruntify-eslint");
 
-  grunt.registerTask('default', ['babel']);
-  grunt.registerTask('serve', ['babel', 'eslint', 'watch']);
+  grunt.registerTask('default', ['clean','babel']);
+  grunt.registerTask('serve', ['clean', 'babel', 'eslint', 'chmod', 'watch']);
 }
