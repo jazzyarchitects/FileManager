@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as async from 'async';
+import logTable from './table';
 
 const readDir = (pathObj) => {
   if(!pathObj){
@@ -26,7 +27,7 @@ const readDir = (pathObj) => {
           _cb();
         })
       }, ()=>{
-        console.log(finalData);
+        logTable(finalData);
       });
     });
   });
