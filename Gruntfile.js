@@ -68,6 +68,23 @@ module.exports = function (grunt) {
       files: ['./utils/**/*.*','./*.*', '!./index.js', '!./*.map']
     },
 
+    gitcommit: {
+      default: {
+        option: {
+          message: "This is not commit message. Specify using -m flag",
+        }
+      }
+    },
+
+    gitpush: {
+      default: {
+        options: {
+          remote: 'origin',
+          branch: 'master'
+          }
+        }
+    },
+
     watch: {
       utils: {
         files: ['utils/*.js'],
@@ -84,12 +101,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("gruntify-eslint");
   grunt.loadNpmTasks('grunt-git');
 
-  grunt.registerTask('gitpush', 'Adds all files and pushes to git repository', function() {
-    let message = grunt.option('message');
+  grunt.registerTask('push', 'Adds all files and pushes to git repository', function() {
+    let message = grunt.option('m');
     if(!message){
       return grunt.fail.fatal(`Commit message required. Specify using --message="Commit message" flag with grunt command`);
     }
-    console.log(message);
+    grunt.task.run('gitadd', 'gitcommit', 'gitpush');
   });
 
   grunt.registerTask('default', ['clean','babel']);
