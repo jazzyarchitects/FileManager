@@ -33,6 +33,19 @@ and run the following in another terminal:
 
 Running the grunt process is neccessary at it is required to compile es6 file to es5 JS. 
 
+## Testing and Commiting
+Test the changes before commiting to master.  
+To make this easy, there is a grunt task which runs the mocha tests and then adds, commits and pushes the changes to the repository.  Prefer using 
+```shell
+  $ grunt push --message="Commit Message"
+```
+over 
+```shell
+  $ git add .
+  $ git commit -m "Commit message"
+  $ git push origin master
+```
+
 ## FAQ
 1. **Once I run the grunt serve I am unable to edit the compiled files.**  
     The grunt serve process includes a chmod task which assigns a read only status to the compiled files to prevent accidental edits to the compiled files.
