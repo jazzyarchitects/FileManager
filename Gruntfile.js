@@ -34,6 +34,12 @@ module.exports = function (grunt) {
       }
     },
 
+    simplemocha: {
+      test: {
+        src: ['./test/*.js']
+      }
+    },
+
     eslint: {
       options: {
         configFile: './.eslintrc.js',
@@ -100,14 +106,14 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks("gruntify-eslint");
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-simple-mocha');
 
   grunt.registerTask('push', 'Adds all files and pushes to git repository', function() {
     let message = grunt.option('message');
-    console.log(message);
     if(!message){
       return grunt.fail.fatal(`Commit message required. Specify using --message="Commit message" flag with grunt command`);
     }
-    grunt.task.run('gitadd', 'gitcommit', 'gitpush');
+    grunt.task.run('simplemocha', 'gitadd', 'gitcommit', 'gitpush');
   });
 
   grunt.registerTask('default', ['clean','babel']);
