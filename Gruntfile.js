@@ -70,8 +70,8 @@ module.exports = function (grunt) {
 
     gitcommit: {
       default: {
-        option: {
-          message: "This is not commit message. Specify using -m flag",
+        options: {
+          message: grunt.option('message'),
         }
       }
     },
@@ -102,7 +102,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('push', 'Adds all files and pushes to git repository', function() {
-    let message = grunt.option('m');
+    let message = grunt.option('message');
+    console.log(message);
     if(!message){
       return grunt.fail.fatal(`Commit message required. Specify using --message="Commit message" flag with grunt command`);
     }
@@ -111,4 +112,4 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', ['clean','babel']);
   grunt.registerTask('serve', ['clean', 'babel', 'eslint', 'chmod', 'watch']);
-}
+} 
