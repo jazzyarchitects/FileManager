@@ -60,6 +60,14 @@ module.exports = function (grunt) {
       }
     },
 
+    gitadd: {
+      options: {
+        cwd: '.',
+        all: true
+      },
+      files: ['./utils/**/*.*','./*.*', '!./index.js', '!./*.map']
+    },
+
     watch: {
       utils: {
         files: ['utils/*.js'],
@@ -70,9 +78,19 @@ module.exports = function (grunt) {
         tasks: ['clean:index', 'eslint:index', 'babel:index', 'chmod:index']
       }
     }
+
   });
 
   grunt.loadNpmTasks("gruntify-eslint");
+  grunt.loadNpmTasks('grunt-git');
+
+  grunt.registerTask('gitpush', 'Adds all files and pushes to git repository', function() {
+    let message = grunt.option('message');
+    if(!message){
+      return grunt.fail.fatal(`Commit message required. Specify using --message="Commit message" flag with grunt command`);
+    }
+    console.log(message);
+  });
 
   grunt.registerTask('default', ['clean','babel']);
   grunt.registerTask('serve', ['clean', 'babel', 'eslint', 'chmod', 'watch']);
