@@ -71,7 +71,7 @@ module.exports = function (grunt) {
         cwd: '.',
         all: true
       },
-      files: ['./utils/**/*.*','./*.*', '!./index.js', '!./*.map']
+      files: ['./utils/**/*.*', './test/**/*.*', './public/**/*.*', './*.*', '!./index.js', '!./*.map']
     },
 
     gitcommit: {
