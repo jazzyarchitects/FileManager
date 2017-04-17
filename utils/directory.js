@@ -1,6 +1,8 @@
 import * as fs from 'fs';
+import * as FS from 'then-fs';
 import * as path from 'path';
 import * as async from 'async';
+import 'babel-polyfill';
 
 const readDir = (pathObj) => {
   if(!pathObj){

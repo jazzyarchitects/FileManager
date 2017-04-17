@@ -7,9 +7,9 @@ const path = require('path');
 
 const Module = require('../compiled');
 
-describe('Directory list test', () => {
+describe('Directory Operation test', () => {
 
-  it('Reads file list correctly', (done)=>{
+  it('Reads directory contents list correctly', (done)=>{
     let basePath = path.join(__dirname, '..');
     Module.Directory.readDir({
       base: basePath
@@ -29,9 +29,7 @@ describe('Directory list test', () => {
           element.ctime === new Date(stat.ctime).getTime() &&
           element.isFile === stat.isFile()
         });
-        if(foundObject){
-          found.push(foundObject);
-        }
+        found.push(foundObject);
 
       });
       expect(found.length).to.equal(data.length);

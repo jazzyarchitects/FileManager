@@ -108,6 +108,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-simple-mocha');
 
+  grunt.registerTask('mocha', 'Alias for simplemocha', ()=>{
+    grunt.task.run('simplemocha');
+  });
+
+  grunt.registerTask('test', 'Alias for simplemocha', ()=>{
+    grunt.task.run('simplemocha');
+  })
+
   grunt.registerTask('push', 'Adds all files and pushes to git repository', function() {
     let message = grunt.option('message');
     if(!message){
