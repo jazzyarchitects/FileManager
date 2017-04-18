@@ -12,12 +12,12 @@ const readDir = (pathObj) => {
 
   pathObj.name = pathObj.name || '';
 
-  return new Promise((resolve)=>{
+  return new Promise((resolve) => {
     let finalData = [];
 
     fs.readdir(path.join(pathObj.base, pathObj.name), (err, contents) => {
       async.eachLimit(contents, 5, (content, _cb) => {
-        fs.lstat(path.join(pathObj.base, pathObj.name, content), (err, stat)=>{
+        fs.lstat(path.join(pathObj.base, pathObj.name, content), (err, stat) => {
           finalData.push({
             path: path.join(pathObj.base, pathObj.name, content),
             name: content,
@@ -28,7 +28,7 @@ const readDir = (pathObj) => {
           });
           _cb();
         })
-      }, ()=>{
+      }, () => {
         resolve(finalData);
       });
     });
