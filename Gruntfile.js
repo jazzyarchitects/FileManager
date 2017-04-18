@@ -47,7 +47,10 @@ module.exports = function (grunt) {
         fix: true
       },
       utils: {
-        src: ['./utils/*.js', '!./node_modules/**/*.js'],
+        src: ['./utils/*.js', '!./node_modules/**/*.js']
+      },
+      tests: {
+        src: ['./test/*.js']
       },
       index:{
         src: 'index.js'
@@ -93,12 +96,16 @@ module.exports = function (grunt) {
 
     watch: {
       utils: {
-        files: ['utils/*.js'],
+        files: ['./utils/*.js'],
         tasks: ['clean:utils', 'eslint:utils', 'babel:utils', 'chmod:utils']
       },
       index: {
         files: ['index.es6.js'],
         tasks: ['clean:index', 'eslint:index', 'babel:index', 'chmod:index']
+      },
+      tests: {
+        files: ['./test/*.js'],
+        tasks: ['eslint:tests']
       }
     }
 

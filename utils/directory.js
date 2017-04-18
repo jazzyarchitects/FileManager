@@ -5,15 +5,14 @@ import * as async from 'async';
 import 'babel-polyfill';
 
 const readDir = (pathObj) => {
-  if(!pathObj){
+  if (!pathObj) {
     pathObj = {};
     pathObj.base = '/';
   }
 
-  pathObj.name = pathObj.name ||  '';
+  pathObj.name = pathObj.name || '';
 
   return new Promise((resolve)=>{
-
     let finalData = [];
 
     fs.readdir(path.join(pathObj.base, pathObj.name), (err, contents) => {
@@ -36,10 +35,9 @@ const readDir = (pathObj) => {
   });
 };
 
-
 export {readDir}
 
-if(require.main === module){
+if (require.main === module) {
   console.error('Start this script using index.js from the project root.');
   process.exit();
 }
