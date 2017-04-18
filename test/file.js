@@ -43,6 +43,8 @@ describe('File operation test', () => {
     .then(result => {
       let fileCreated = fs.existsSync(path.join(basePath, fileName));
       if (fileCreated) {
+        let content = fs.readFileSync(path.join(basePath, fileName)).toString();
+        expect(content).to.equal("");
         fs.unlinkSync(path.join(basePath, fileName));
       }
       expect(fileCreated).to.be.true;
