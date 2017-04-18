@@ -33,6 +33,23 @@ describe('File operation test', () => {
       });
   });
 
+  it('Creates a blank file', (done)=>{
+    let basePath = path.join(__dirname, '..');
+    let fileName = "newBlankFile.js";
+    Module.File.createFile({
+      base: basePath,
+      name: fileName
+    })
+    .then(result => {
+      let fileCreated = fs.existsSync(path.join(basePath, fileName));
+      if (fileCreated) {
+        fs.unlinkSync(path.join(basePath, fileName));
+      }
+      expect(fileCreated).to.be.true;
+      done();
+    });
+  });
+
   it('Successfully deletes a file', (done)=>{
     let basePath = path.join(__dirname, '..');
     let fileName = "deleteTestFile.json";

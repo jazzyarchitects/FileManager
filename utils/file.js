@@ -28,6 +28,16 @@ const readFile = async function (pathObj) {
   return false;
 }
 
+const createFile = async function (pathObj) {
+  let filePath = path.join(pathObj.base, pathObj.name);
+  let fileExists = await doesExists(filePath);
+  if (fileExists) {
+    return [false, {error: "File exists"}];
+  }
+  let result = await FS.writeFile(filePath, "");
+  return !result && true;
+}
+
 const deleteFile = async (pathObj) => {
   let filePath = path.join(pathObj.base, pathObj.name);
   let fileExists = await doesExists(filePath);
@@ -39,7 +49,7 @@ const deleteFile = async (pathObj) => {
   return false;
 }
 
-export {readFile, deleteFile}
+export {readFile, deleteFile, createFile}
 
 if (require.main === module) {
   console.error('Start this script using index.js from the project root.');
