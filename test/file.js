@@ -69,6 +69,8 @@ describe('File operation test', () => {
       expect(result.success).to.be.false;
       expect(result.error).to.not.be.undefined;
       expect(result.code).to.equal('EEXIST');
+
+      fs.unlinkSync(path.join(basePath, fileName));
       done();
     });
   });

@@ -1,3 +1,6 @@
-import {Directory, File, logTable} from './compiled';
+import * as express from 'express';
+import * as http from 'http';
+import * as socket from 'socket.io';
 
-global.logTable = logTable;
+global.console.table = logTable;
+
