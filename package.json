@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A browser based file manager",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "author": "Jibin Mathews<jibinmathews7@gmail.com>",
   "license": "MIT",
   "dependencies": {
