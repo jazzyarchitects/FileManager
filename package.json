@@ -42,6 +42,7 @@
     "jit-grunt": "^0.10.0",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^3.2.0",
+    "request": "^2.81.0",
     "socket.io": "^1.7.3",
     "then-fs": "^2.0.0",
     "typescript": "^2.2.2"

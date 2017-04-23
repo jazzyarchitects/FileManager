@@ -4,8 +4,14 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     clean: {
+      all: {
+        src: ['compiled/**/*.*']
+      },
       utils: {
-        src: ['compiled/*.*']
+        src: ['compiled/utils/*.*']
+      },
+      modules: {
+        src: ['compiled/modules/**/*.*']
       },
       index: {
         src: ['index.js', 'index.js.map']
@@ -23,9 +29,17 @@ module.exports = function (grunt) {
                 expand: true,
                 cwd: 'utils/',
                 src: ['*.js'],
-                dest: 'compiled/'
+                dest: 'compiled/utils/'
             }
         ]
+      },
+      modules: {
+        files: [{
+          expand: true,
+          cwd: 'modules/',
+          src: ['**/*.js'],
+          dest: 'compiled/modules/'
+        }]
       },
       index: {
         files: {
@@ -49,11 +63,14 @@ module.exports = function (grunt) {
       utils: {
         src: ['./utils/*.js', '!./node_modules/**/*.js']
       },
+      modules: {
+        src: ['./modules/**/*.js',]
+      },
       tests: {
-        src: ['./test/*.js']
+        // src: ['./test/*.js']
       },
       index:{
-        src: 'index.js'
+        src: ['index.es6.js', '!index.js']
       }
     },
 
@@ -61,8 +78,14 @@ module.exports = function (grunt) {
       options: {
         mode: '444'
       },
+      all: {
+        src: ['./compiled/**/*.*', 'index.js', '*.map']
+      },
       utils: {
-        src: ['compiled/*.js', 'index.js'],
+        src: ['./compiled/utils/*.js'],
+      },
+      modules: {
+        src: ['./compiled/modules/*.js'],
       },
       index: {
         src: ['index.js']
@@ -74,7 +97,7 @@ module.exports = function (grunt) {
         cwd: '.',
         all: true
       },
-      files: ['./utils/**/*.*', './test/**/*.*', './public/**/*.*', './*.*', '!./index.js', '!./*.map']
+      files: ['./utils/**/*.*', './modules/**/*.*', './test/**/*.*', './public/**/*.*', './*.*', '!./index.js', '!./*.map']
     },
 
     gitcommit: {
@@ -98,6 +121,10 @@ module.exports = function (grunt) {
       utils: {
         files: ['./utils/*.js'],
         tasks: ['clean:utils', 'eslint:utils', 'babel:utils', 'chmod:utils']
+      },
+      modules: {
+        files: ['./modules/**/*.js'],
+        tasks: ['clean:modules', 'eslint:modules', 'babel:modules', 'chmod:modules']
       },
       index: {
         files: ['index.es6.js'],

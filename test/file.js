@@ -5,7 +5,7 @@ const expect = chai.expect;
 const fs = require('fs');
 const path = require('path');
 
-const Module = require('../compiled');
+const Module = require('../compiled/utils');
 
 describe('File operation test', () => {
   it('Reads file contents correctly', done => {
