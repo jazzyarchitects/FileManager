@@ -19,7 +19,7 @@ const start = () => {
   });
 };
 
-export {start};
+export { start };
 
 if (require.main === module) {
   start();

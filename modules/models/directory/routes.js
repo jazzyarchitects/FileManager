@@ -7,11 +7,11 @@ export function initiateRoute (router) {
 
   Router.get('/', (req, res) => {
     let params = req.query;
-    Utils.Directory.readDir({base: params.base})
+    Utils.Directory.readDir({ base: params.base })
     .then(result => {
       res.json(result);
     });
   });
 
   router.use('/directory', Router);
-};
+}

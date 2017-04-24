@@ -23,19 +23,19 @@ const readFile = async function (pathObj) {
   let fileExists = await doesExists(filePath)
   if (fileExists) {
     let buf = await FS.readFile(filePath);
-    return {success: true, content: buf.toString()};
+    return { success: true, content: buf.toString() };
   }
-  return {success: false, error: 'File does not exists', code: 'ENOENT'};
+  return { success: false, error: 'File does not exists', code: 'ENOENT' };
 }
 
 const createFile = async function (pathObj, content = "") {
   let filePath = path.join(pathObj.base, pathObj.name);
   let fileExists = await doesExists(filePath);
   if (fileExists) {
-    return {success: false, error: "File exists", code: 'EEXIST'};
+    return { success: false, error: "File exists", code: 'EEXIST' };
   }
   let result = await FS.writeFile(filePath, content);
-  return {success: true};
+  return { success: true };
 }
 
 const deleteFile = async (pathObj) => {
@@ -43,9 +43,9 @@ const deleteFile = async (pathObj) => {
   let fileExists = await doesExists(filePath);
   if (fileExists) {
     let result = await FS.unlink(filePath);
-    return {success: true};
+    return { success: true };
   }
-  return {success: false, error: 'File does not exists', code: 'ENOENT'};
+  return { success: false, error: 'File does not exists', code: 'ENOENT' };
 }
 
 const writeFile = async (pathObj, content) => {
@@ -54,15 +54,15 @@ const writeFile = async (pathObj, content) => {
   if (!fileExists) {
     await createFile(pathObj);
     let error = await FS.writeFile(filePath, content);
-    if (!error) return {success: true};
-    return {success: false, error: error};
+    if (!error) return { success: true };
+    return { success: false, error: error };
   }
   let error = await FS.writeFile(filePath, content);
-  if (!error) return {success: true};
-  return {success: false, error: error};
+  if (!error) return { success: true };
+  return { success: false, error: error };
 }
 
-export {readFile, deleteFile, createFile, writeFile}
+export { readFile, deleteFile, createFile, writeFile }
 
 if (require.main === module) {
   console.error('Start this script using index.js from the project root.');

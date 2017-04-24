@@ -1,6 +1,6 @@
 import Table from 'cli-table';
 
-export default function logTable (array, {maxColWidth = 20, excluded = []} = {}) {
+export default function logTable (array, { maxColWidth = 20, excluded = [] } = {}) {
   if (!array[0]) {
     return;
   }
@@ -24,7 +24,7 @@ export default function logTable (array, {maxColWidth = 20, excluded = []} = {})
   for (let key of keys) {
     colWidths.push(maxColWidth >= (first[key].toString().length + 5) ? (first[key].toString().length + 5) : maxColWidth);
   }
-  let table = new Table({head: keys, colWidths: colWidths});
+  let table = new Table({ head: keys, colWidths: colWidths });
 
   for (let obj of array) {
     let row = [];

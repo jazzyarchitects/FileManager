@@ -34,7 +34,7 @@ const readDir = (pathObj) => {
   });
 };
 
-export {readDir}
+export { readDir }
 
 if (require.main === module) {
   console.error('Start this script using index.js from the project root.');

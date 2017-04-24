@@ -7,7 +7,9 @@ export default function (config) {
   let app = express();
 
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.urlencoded({ extended: true }));
+
+  app.use(express.static(path.join(__dirname, '..', '..', '..', 'public'), { maxAge: 60 }));
 
   for (let key of Object.keys(config)) {
     if (typeof (config[key]) !== 'function') {
@@ -16,7 +18,7 @@ export default function (config) {
   }
 
   app.all('/test', (req, res) => {
-    res.json({success: true});
+    res.json({ success: true });
   });
 
   (function () {
@@ -34,4 +36,4 @@ export default function (config) {
   })();
 
   return app;
-};
+}

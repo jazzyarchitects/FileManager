@@ -7,9 +7,9 @@ module.exports = function (grunt) {
       all: {
         src: ['compiled/**/*.*', 'compiled/**']
       },
-      // utils: {
-      //   src: ['compiled/utils/*.*']
-      // },
+      react: {
+        src: ['compiled/react/**/*.*', 'compiled/react/']
+      },
       modules: {
         src: ['compiled/modules/**/*.*']
       },
@@ -23,16 +23,14 @@ module.exports = function (grunt) {
         sourceMap: true,
         presets: ['env']
       },
-      // utils: {
-      //   files: [
-      //       {
-      //           expand: true,
-      //           cwd: 'utils/',
-      //           src: ['*.js'],
-      //           dest: 'compiled/utils/'
-      //       }
-      //   ]
-      // },
+      react: {
+        files: [{
+          expand: true,
+          cwd: 'react/',
+          src: ['**/*.js'],
+          dest: 'compiled/react/'
+        }]
+      },
       modules: {
         files: [{
           expand: true,
@@ -42,6 +40,9 @@ module.exports = function (grunt) {
         }]
       },
       index: {
+        options: {
+          sourceMap: false
+        },
         files: {
           'index.js': 'index.es6.js'
         }
@@ -60,9 +61,9 @@ module.exports = function (grunt) {
         silent: true,
         fix: true
       },
-      // utils: {
-      //   src: ['./utils/*.js', '!./node_modules/**/*.js']
-      // },
+      react: {
+        src: ['./react/**/*.js', '!./node_modules/**/*.js']
+      },
       modules: {
         src: ['./modules/**/*.js',]
       },
@@ -81,11 +82,11 @@ module.exports = function (grunt) {
       all: {
         src: ['./compiled/**/*.*', 'index.js', '*.map']
       },
-      // utils: {
-      //   src: ['./compiled/utils/*.js'],
-      // },
+      react: {
+        src: ['./compiled/react/**/*.js'],
+      },
       modules: {
-        src: ['./compiled/modules/*.js'],
+        src: ['./compiled/modules/**/*.js'],
       },
       index: {
         src: ['index.js']
@@ -126,10 +127,10 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      // utils: {
-      //   files: ['./utils/*.js'],
-      //   tasks: ['clean:utils', 'eslint:utils', 'babel:utils', 'chmod:utils']
-      // },
+      react: {
+        files: ['./react/**/*.js'],
+        tasks: ['clean:react', 'eslint:react', 'babel:react', 'chmod:react']
+      },
       modules: {
         files: ['./modules/**/*.js'],
         tasks: ['clean:modules', 'eslint:modules', 'babel:modules', 'chmod:modules']
@@ -164,6 +165,11 @@ module.exports = function (grunt) {
       return grunt.fail.fatal(`Commit message required. Specify using --message="Commit message" flag with grunt command`);
     }
     grunt.task.run('clean', 'eslint', 'babel', 'simplemocha', 'gitadd', 'gitcommit', 'gitpush', 'clean');
+  });
+
+  grunt.registerTask('build', 'Builds the project for deployment', () => {
+    console.log("Building this project. Run npm start to start the server");
+    grunt.task.run('clean', 'babel', 'simplemocha');
   });
 
   grunt.registerTask('default', ['clean','babel']);
