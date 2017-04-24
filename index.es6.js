@@ -1,12 +1,13 @@
 import createServer from './compiled/modules/framework/bootstrap'
 import http from 'http';
-import socket from 'socket.io';
-import logTable from './compiled/utils/table';
+import logTable from './compiled/modules/utils/table';
 
 global.console.table = logTable;
 let isTesting = false;
 
 const start = () => {
+  global.isTesting = isTesting;
+
   const app = createServer({
     // Server config here
   });

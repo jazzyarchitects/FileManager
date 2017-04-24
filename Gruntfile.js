@@ -7,9 +7,9 @@ module.exports = function (grunt) {
       all: {
         src: ['compiled/**/*.*']
       },
-      utils: {
-        src: ['compiled/utils/*.*']
-      },
+      // utils: {
+      //   src: ['compiled/utils/*.*']
+      // },
       modules: {
         src: ['compiled/modules/**/*.*']
       },
@@ -23,16 +23,16 @@ module.exports = function (grunt) {
         sourceMap: true,
         presets: ['env']
       },
-      utils: {
-        files: [
-            {
-                expand: true,
-                cwd: 'utils/',
-                src: ['*.js'],
-                dest: 'compiled/utils/'
-            }
-        ]
-      },
+      // utils: {
+      //   files: [
+      //       {
+      //           expand: true,
+      //           cwd: 'utils/',
+      //           src: ['*.js'],
+      //           dest: 'compiled/utils/'
+      //       }
+      //   ]
+      // },
       modules: {
         files: [{
           expand: true,
@@ -60,9 +60,9 @@ module.exports = function (grunt) {
         silent: true,
         fix: true
       },
-      utils: {
-        src: ['./utils/*.js', '!./node_modules/**/*.js']
-      },
+      // utils: {
+      //   src: ['./utils/*.js', '!./node_modules/**/*.js']
+      // },
       modules: {
         src: ['./modules/**/*.js',]
       },
@@ -81,9 +81,9 @@ module.exports = function (grunt) {
       all: {
         src: ['./compiled/**/*.*', 'index.js', '*.map']
       },
-      utils: {
-        src: ['./compiled/utils/*.js'],
-      },
+      // utils: {
+      //   src: ['./compiled/utils/*.js'],
+      // },
       modules: {
         src: ['./compiled/modules/*.js'],
       },
@@ -97,7 +97,15 @@ module.exports = function (grunt) {
         cwd: '.',
         all: true
       },
-      files: ['./utils/**/*.*', './modules/**/*.*', './test/**/*.*', './public/**/*.*', './*.*', '!./index.js', '!./*.map']
+      files: [
+      // './utils/**/*.*', 
+      './modules/**/*.*', 
+      './test/**/*.*', 
+      './public/**/*.*',
+      './*.*',
+      '!./index.js', 
+      '!./*.map'
+      ]
     },
 
     gitcommit: {
@@ -118,10 +126,10 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      utils: {
-        files: ['./utils/*.js'],
-        tasks: ['clean:utils', 'eslint:utils', 'babel:utils', 'chmod:utils']
-      },
+      // utils: {
+      //   files: ['./utils/*.js'],
+      //   tasks: ['clean:utils', 'eslint:utils', 'babel:utils', 'chmod:utils']
+      // },
       modules: {
         files: ['./modules/**/*.js'],
         tasks: ['clean:modules', 'eslint:modules', 'babel:modules', 'chmod:modules']

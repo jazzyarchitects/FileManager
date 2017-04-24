@@ -19,5 +19,19 @@ export default function (config) {
     res.json({success: true});
   });
 
+  (function () {
+    let modelPath = path.join(__dirname, '..', 'models');
+    fs.readdirSync(modelPath).forEach(model => {
+      let folderPath = path.join(modelPath, model);
+      let stat = fs.lstatSync(folderPath);
+      if (stat.isDirectory()) {
+        let routePath = path.join(folderPath, 'routes.js');
+        if (fs.existsSync(routePath)) {
+          require(routePath).initiateRoute(app);
+        }
+      }
+    });
+  })();
+
   return app;
 };

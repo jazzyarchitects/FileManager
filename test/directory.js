@@ -5,7 +5,7 @@ const expect = chai.expect;
 const fs = require('fs');
 const path = require('path');
 
-const Module = require('../compiled/utils');
+const Module = require('../compiled/modules/utils');
 
 describe('Directory Operation test', () => {
   it('Reads directory contents list correctly', (done) => {
