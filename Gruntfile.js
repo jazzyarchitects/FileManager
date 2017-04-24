@@ -5,7 +5,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     clean: {
       all: {
-        src: ['compiled/**/*.*']
+        src: ['compiled/**/*.*', 'compiled/**']
       },
       // utils: {
       //   src: ['compiled/utils/*.*']
