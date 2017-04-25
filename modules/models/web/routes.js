@@ -8,12 +8,10 @@ import FolderListItem from '../../../react/components/FolderListItem';
 
 export function initiateRoute (router) {
   let Router = express.Router();
-
   Router.all('/', (req, res) => {
     let markup = renderToString(<FolderListItem />)
     res.render('index', { markup });
-    // res.sendFile('index.html', { root: path.join(__dirname, '..', '..', '..', '..', 'public') });
   });
 
-  router.use('/', Router);
+  router.use(Router);
 }

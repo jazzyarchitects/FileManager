@@ -1,21 +1,39 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import compression from 'compression';
+import helmet from 'helmet';
+import morgan from 'morgan';
 import path from 'path';
 import fs from 'fs';
 
 export default function (config) {
   let app = express();
 
+  app.locals.pretty = true;
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.use(express.static(path.join(__dirname, '..', '..', '..', 'public'), { maxAge: 60 }));
+  app.set('view engine', 'ejs');
+  app.set('views', path.join(__dirname, '..', '..', '..', 'public'));
+
+  app.use(compression({
+    level: 9
+  }));
+
+  app.use(helmet());
+
+  if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
+    app.use(morgan('dev'));
+  }
 
   for (let key of Object.keys(config)) {
     if (typeof (config[key]) !== 'function') {
       app.set(`config.${key}`, config[key]);
     }
   }
+
+  app.use('/public', express.static(path.join(__dirname, '..', '..', '..', 'public'), { maxAge: 60 }));
 
   app.all('/test', (req, res) => {
     res.json({ success: true });

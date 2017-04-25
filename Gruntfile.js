@@ -164,7 +164,7 @@ module.exports = function (grunt) {
     if(!message){
       return grunt.fail.fatal(`Commit message required. Specify using --message="Commit message" flag with grunt command`);
     }
-    grunt.task.run('clean', 'eslint', 'babel', 'simplemocha', 'gitadd', 'gitcommit', 'gitpush', 'clean');
+    grunt.task.run('clean', 'eslint', 'babel', 'simplemocha',  'clean', 'gitadd', 'gitcommit', 'gitpush');
   });
 
   grunt.registerTask('build', 'Builds the project for deployment', () => {
