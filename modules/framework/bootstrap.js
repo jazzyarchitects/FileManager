@@ -23,7 +23,7 @@ export default function (config) {
 
   app.use(helmet());
 
-  if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
+  if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV && !global.isTesting) {
     app.use(morgan('dev'));
   }
 

@@ -49,6 +49,7 @@
     "inferno-component": "^3.0.4",
     "jit-grunt": "^0.10.0",
     "load-grunt-tasks": "^3.5.2",
+    "material-ui": "^0.17.4",
     "mocha": "^3.2.0",
     "morgan": "^1.8.1",
     "react": "15.3.x",
