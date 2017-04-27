@@ -23,6 +23,14 @@ module.exports = function (grunt) {
         sourceMap: false,
         presets: ['env']
       },
+      utils: {
+        files: [{
+          expand: true,
+          cwd: 'utils/',
+          src: ['**/*.js'],
+          dest: 'compiled/modules/utils/'
+        }]
+      },
       react: {
         files: [{
           expand: true,

@@ -20,7 +20,7 @@ describe('Directory Operation test', () => {
         let contentPath = path.join(basePath, content);
         let stat = fs.lstatSync(contentPath);
 
-        let foundObject = data.find((element) => {
+        let foundObject = data.content.find((element) => {
           return element.path === contentPath &&
           element.name === content &&
           element.size === stat.size &&
@@ -30,7 +30,7 @@ describe('Directory Operation test', () => {
         });
         found.push(foundObject);
       });
-      expect(found.length).to.equal(data.length);
+      expect(found.length).to.equal(data.content.length);
       done();
     });
   });

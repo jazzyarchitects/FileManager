@@ -28,7 +28,7 @@ const readDir = (pathObj) => {
           _cb();
         })
       }, () => {
-        resolve(finalData);
+        resolve({success: true, content: finalData});
       });
     });
   });
