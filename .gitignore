@@ -70,3 +70,4 @@ compiled
 ./index.js
 ./index.js.map
 *.map
+public/js/bundle.js

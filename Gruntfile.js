@@ -114,6 +114,7 @@ module.exports = function (grunt) {
       './modules/**/*.*', 
       './test/**/*.*', 
       './public/**/*.*',
+      './react/**/*.*',
       '!.public/js/bundle.js',
       './*.*',
       '!./index.js', 

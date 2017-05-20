@@ -2,12 +2,11 @@ import React from 'react';
 
 export default class FolderListItem extends React.Component {
   render () {
-    const name = this.props.name;
-    const code = this.props.code;
+    let content = this.props.item;
 
     return (
       <span className='folder-list-item'>
-        Hello
+        {content.name}
       </span>
     )
   }
