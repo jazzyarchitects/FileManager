@@ -4,7 +4,8 @@
   "description": "A browser based file manager",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --watch"
+    "compile": "webpack",
+    "start": "node index.js"
   },
   "author": "Jibin Mathews<jibinmathews7@gmail.com>",
   "license": "MIT",
@@ -14,6 +15,7 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.0.0",
     "babel-plugin-inferno": "^3.2.0",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "babel-polyfill": "^6.23.0",
@@ -58,13 +60,15 @@
     "request": "^2.81.0",
     "socket.io": "^1.7.3",
     "then-fs": "^2.0.0",
-    "typescript": "^2.2.2"
+    "typescript": "^2.2.2",
+    "webpack": "^2.5.1"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.7.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "grunt-webpack": "^3.0.0"
   }
 }

@@ -1,3 +1,5 @@
+const webpackConfig = require('./webpack.config.js');
+
 module.exports = function (grunt) {
   // Automatically add all installed grunt tasks
   require('jit-grunt')(grunt);
@@ -5,10 +7,10 @@ module.exports = function (grunt) {
   grunt.initConfig({
     clean: {
       all: {
-        src: ['compiled/**/*.*', 'compiled/**']
+        src: ['compiled/**/*.*', 'compiled/**', 'public/js/bundle.js']
       },
       react: {
-        src: ['compiled/react/**/*.*', 'compiled/react/']
+        src: ['compiled/react/**/*.*', 'compiled/react/', 'public/js/bundle.js']
       },
       modules: {
         src: ['compiled/modules/**/*.*']
@@ -31,14 +33,14 @@ module.exports = function (grunt) {
           dest: 'compiled/modules/utils/'
         }]
       },
-      react: {
-        files: [{
-          expand: true,
-          cwd: 'react/',
-          src: ['**/*.js'],
-          dest: 'compiled/react/'
-        }]
-      },
+      // react: {
+      //   files: [{
+      //     expand: true,
+      //     cwd: 'react/',
+      //     src: ['**/*.js'],
+      //     dest: 'compiled/react/'
+      //   }]
+      // },
       modules: {
         files: [{
           expand: true,
@@ -91,7 +93,8 @@ module.exports = function (grunt) {
         src: ['./compiled/**/*.*', 'index.js', '*.map']
       },
       react: {
-        src: ['./compiled/react/**/*.js'],
+        // src: ['./compiled/react/**/*.js'],
+        src: ['./public/js/bundle.js']
       },
       modules: {
         src: ['./compiled/modules/**/*.js'],
@@ -111,6 +114,7 @@ module.exports = function (grunt) {
       './modules/**/*.*', 
       './test/**/*.*', 
       './public/**/*.*',
+      '!.public/js/bundle.js',
       './*.*',
       '!./index.js', 
       '!./*.map'
@@ -137,7 +141,8 @@ module.exports = function (grunt) {
     watch: {
       react: {
         files: ['./react/**/*.js'],
-        tasks: ['clean:react', 'eslint:react', 'babel:react', 'chmod:react']
+        tasks: ['clean:react', 'eslint:react', 'webpack:dev', 'chmod:react']
+        // tasks: ['clean:react', 'eslint:react', 'babel:react', 'chmod:react']
       },
       modules: {
         files: ['./modules/**/*.js'],
@@ -151,13 +156,21 @@ module.exports = function (grunt) {
         files: ['./test/*.js'],
         tasks: ['eslint:tests']
       }
+    },
+    webpack: {
+      options: {
+        stats: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
+        cache: true
+      },
+      prod: webpackConfig,
+      dev: webpackConfig
     }
-
   });
 
   grunt.loadNpmTasks("gruntify-eslint");
   grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-simple-mocha');
+  grunt.loadNpmTasks('grunt-webpack');
 
   grunt.registerTask('mocha', 'Alias for simplemocha', ()=>{
     grunt.task.run('simplemocha');
@@ -181,5 +194,5 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['clean','babel']);
-  grunt.registerTask('serve', ['clean', 'babel', 'eslint', 'chmod', 'watch']);
+  grunt.registerTask('serve', ['clean', 'babel', 'eslint', 'webpack:dev', 'chmod', 'watch']);
 } 
