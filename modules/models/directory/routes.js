@@ -7,6 +7,7 @@ export function initiateRoute (router) {
 
   Router.get('/', (req, res) => {
     let params = req.query;
+    // console.log(params);
     Utils.Directory.readDir({ base: params.base })
     .then(result => {
       res.json(result);

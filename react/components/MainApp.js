@@ -1,11 +1,17 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
-import FolderListItem from './FolderListItem';
+import FolderList from './FolderList';
 
 export default class App extends React.Component {
   render () {
     return (
-      <FolderListItem />
+      <FolderList />
     )
   }
+}
+
+// console.log(document);
+window.onload = function () {
+  ReactDOM.render(<App />, document.getElementById('folderListContainer'));
 }

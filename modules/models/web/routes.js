@@ -28,14 +28,15 @@ export function initiateRoute (router) {
     res.sendFile(path.join(__dirname, '..', '..', '..', '..', 'public', 'index.html'));
   });
 
-  Router.get('/directory', async (req, res) => {
-    let pathObj = {};
-    pathObj.base = path.join(req.body.currentBase, '..');
-    let result = await Utils.Directory.readDir(pathObj);
+  Router.get('/directory', (req, res) => {
+    // console.log(req.query);
+    // let pathObj = {};
+    // pathObj.base = path.join(req.query.current_base, '..');
+    // let result = await Utils.Directory.readDir(pathObj);
 
-    let list = result.content;
+    // let list = result.content;
 
-    res.json(result);
+    // res.json(result);
   });
 
   router.use(Router);

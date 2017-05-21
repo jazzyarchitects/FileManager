@@ -1,35 +1,61 @@
 import React from "react";
 
 import FolderListItem from './FolderListItem';
-import * as Constants from '../constants';
+import Constants from '../constants';
 
 export default class FolderList extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {folderContents: [], pathObj: {}};
+  }
 
-    this.folderContents = props.folderContents;
-    this.pathObj = props.pathObj;
+  componentDidMount () {
+    this.state.pathObj.base = '/home/jibin/Documents/NodeJS/FileManager';
+    this.fetchFromDirectory();
   }
 
   goBack (e) {
-    let base = this.props.pathObj.base;
+    let base = this.state.pathObj.base || '/';
     let lastIndex = base.lastIndexOf('/');
-    base = base.slice(lastIndex);
-    fetch(`${Constants.BASE_URL}/api/directory/?${encodeURIComponent(base)}`)
+    if (base.indexOf('/') === base.lastIndexOf('/')) {
+      return;
+    }
+    this.state.pathObj.base = base.slice(0, lastIndex);
+    this.fetchFromDirectory();
+  }
+
+  moveToDirectory (targetFolder) {
+    this.state.pathObj.base = `${this.state.pathObj.base}/${targetFolder}`;
+    this.fetchFromDirectory();
+  }
+
+  fetchFromDirectory (directoryPath) {
+    // console.log(this.state.pathObj.base);
+    fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(this.state.pathObj.base)}`)
     .then(response => {
-      console.log(response);
+      return response.json();
+    })
+    .then(contents => {
+      // console.log(contents);
+      this.setState({folderContents: contents.content});
     });
   }
 
   render () {
-    let folderContents = this.folderContents;
+    // console.log("Render");
+    // console.log(this.state);
+    let folderContents = this.state.folderContents;
     return (
       <div className="folderList">
         <ul>
-          <li onclick={goBack.bind(this)}>Back</li>
+          <li onClick={this.goBack.bind(this)} className="folder-list-back-button">Back</li>
         {
-          folderContents.map(function (content, index) {
-            return <li><FolderListItem key={index} item={content} /></li>
+          folderContents.map((content, index) => {
+            if (!content.isFile) {
+              return <li key={index} onClick={this.moveToDirectory.bind(this, content.name)} ><FolderListItem item={content} /></li>
+            } else {
+              return <li key={index}><FolderListItem item={content} /></li>
+            }
           })
         }
         </ul>
