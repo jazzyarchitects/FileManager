@@ -3,7 +3,7 @@ const fs = require('fs');
  
 module.exports = {
   // context: path.join(__dirname, 'react'),
-  entry: path.join(__dirname, 'react', 'components', 'MainApp.js'),
+  entry: path.join(__dirname, 'react', 'index.js'),
   output: {
     path: path.join(__dirname, 'public', 'js'),
     filename: 'bundle.js',

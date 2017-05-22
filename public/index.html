@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script type="text/javascript" src="/public/js/material.min.js"></script>
   <script type="text/javascript" src="/public/js/bundle.js"></script>
+  <link rel="stylesheet" href="/public/css/index.css" />
 </head>
 
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -33,13 +34,27 @@
           </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">keyboard_backspace</i>Back</a>
+          <!--<a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">keyboard_backspace</i>Back</a>-->
           <div id="folderListContainer"><!--{%- folderList -%}--></div>
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-          {%- folderContent -%}
+        <div class="folder-content-container" id="folderContentContainer">
+          <!--<div class="directory-item">
+              Node Modules
+          </div><div class="directory-item">
+              Node Modules 1
+          </div><div class="directory-item">
+              Node Modules 2
+          </div><div class="directory-item">
+              Node Modules 3
+          </div><div class="directory-item">
+              Node Modules 4
+          </div><div class="directory-item">
+              Node Modules 5
+          </div>-->
+        </div>
         </div>
       </main>
     </div>

@@ -1,0 +1,70 @@
+.cursor{
+  cursor: pointer;
+}
+
+.back-button{
+  padding-left: 10px;
+}
+
+.current-path{
+  font-size: 0.8em;
+  padding: 3px;
+  padding-left: 8px; 
+  color: rgba(255,255,255,0.5);
+}
+
+.current-directory-name{
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 3px;
+  padding-left: 10px;
+}
+
+.folder-list-item{
+  transition: all 0.25s;
+  font-size: 18px;
+  padding: 3px 0;
+}
+
+.folder-list-item:hover{
+  transform: scale(1.1);
+  color: #fff;
+  font-weight: bold;
+}
+
+.directory-item{
+  background: #fff;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+  margin: 5px;
+  padding: 5px 10px; 
+  /*float: left;*/
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 2px solid rgba(0,0,0,0);
+}
+
+.directory-item:hover{
+  background: #2196F3;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.section-heading{
+  font-size: 1.2em;
+  color: #333;
+  font-weight: bold;
+  margin-top: 0px; 
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  line-height: 32px;
+}
+
+.section{
+  display: -webkit-flex;
+  height: auto;
+  flex-flow: row wrap;
+}
+
+.file-section{
+  margin-top: 10px;
+}

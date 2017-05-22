@@ -1,5 +1,4 @@
 import fs from 'fs';
-import FS from 'then-fs';
 import path from 'path';
 import async from 'async';
 import 'babel-polyfill';
@@ -12,11 +11,20 @@ const readDir = (pathObj) => {
 
   pathObj.name = pathObj.name || '';
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    if (!reject) {
+      reject = console.err;
+    }
     let finalData = [];
     fs.readdir(path.join(pathObj.base, pathObj.name), (err, contents) => {
+      if (err) {
+        return reject(err);
+      }
       async.eachLimit(contents, 5, (content, _cb) => {
         fs.lstat(path.join(pathObj.base, pathObj.name, content), (err, stat) => {
+          if (err) {
+            return reject(err);
+          }
           finalData.push({
             path: path.join(pathObj.base, pathObj.name, content),
             name: content,

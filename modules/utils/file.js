@@ -34,7 +34,7 @@ const createFile = async function (pathObj, content = "") {
   if (fileExists) {
     return { success: false, error: "File exists", code: 'EEXIST' };
   }
-  let result = await FS.writeFile(filePath, content);
+  await FS.writeFile(filePath, content);
   return { success: true };
 }
 
@@ -42,7 +42,7 @@ const deleteFile = async (pathObj) => {
   let filePath = path.join(pathObj.base, pathObj.name);
   let fileExists = await doesExists(filePath);
   if (fileExists) {
-    let result = await FS.unlink(filePath);
+    await FS.unlink(filePath);
     return { success: true };
   }
   return { success: false, error: 'File does not exists', code: 'ENOENT' };

@@ -7,6 +7,12 @@ export default class FolderList extends React.Component {
   constructor (props) {
     super(props);
     this.state = {folderContents: [], pathObj: {}};
+    this.state.pathObj.getCurrentFolderName = () => {
+      if (this.state.pathObj.base) {
+        return this.state.pathObj.base.slice(this.state.pathObj.base.lastIndexOf('/') + 1);
+      }
+      return "";
+    };
   }
 
   componentDidMount () {
@@ -36,7 +42,8 @@ export default class FolderList extends React.Component {
       return response.json();
     })
     .then(contents => {
-      // console.log(contents);
+      let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content, 'pathObj': this.state.pathObj}});
+      document.dispatchEvent(event);
       this.setState({folderContents: contents.content});
     });
   }
@@ -47,14 +54,18 @@ export default class FolderList extends React.Component {
     let folderContents = this.state.folderContents;
     return (
       <div className="folderList">
+        <span className="current-directory-name">{this.state.pathObj.getCurrentFolderName()}</span><br />
+        <span className="current-path">{this.state.pathObj.base}</span>
+        <span onClick={this.goBack.bind(this)} className="cursor mdl-navigation__link back-button" href=""><i className="mdl-color-text--blue-grey-400 material-icons" role="presentation">keyboard_backspace</i>Back</span>
+        {/* <li onClick={this.goBack.bind(this)} className="folder-list-back-button">Back</li> */}
         <ul>
-          <li onClick={this.goBack.bind(this)} className="folder-list-back-button">Back</li>
         {
           folderContents.map((content, index) => {
             if (!content.isFile) {
-              return <li key={index} onClick={this.moveToDirectory.bind(this, content.name)} ><FolderListItem item={content} /></li>
+              return <li key={index} onClick={this.moveToDirectory.bind(this, content.name)} className="cursor folder-list-item" ><FolderListItem item={content} /></li>
             } else {
-              return <li key={index}><FolderListItem item={content} /></li>
+              { /* return <li key={index}><FolderListItem item={content} /></li> */ }
+              return null;
             }
           })
         }
