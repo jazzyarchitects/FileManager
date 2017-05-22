@@ -1,9 +1,21 @@
 import React from 'react';
 import File from './File';
 
+import Constants from '../constants';
+
 export default class FileList extends React.Component {
   constructor (props) {
     super(props);
+  }
+
+  openFolder (folderObj) {
+    // console.log("Opening folder: " + JSON.stringify(folderObj));
+    let event = new CustomEvent(Constants.Events.directoryChangeFromContents, {detail: {folderObj: folderObj, pathObj: this.props.pathObj}});
+    document.dispatchEvent(event);
+  }
+
+  showFileDetails (fileObj) {
+
   }
 
   // componentDidMount () {
@@ -19,7 +31,7 @@ export default class FileList extends React.Component {
           {
             this.contents.map((content, index) => {
               if (!content.isFile) {
-                return <File key={index} content={content}/>
+                return <File key={index} content={content} onClick={this.openFolder.bind(this, content)}/>
               }
               return null;
             })

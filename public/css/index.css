@@ -68,3 +68,20 @@
 .file-section{
   margin-top: 10px;
 }
+
+.back_button{
+  color: #fff;
+  font-size: 1.3em;
+  background: #1565c0;
+  align-items: center;
+  display: flex !important;
+  flex-direction: row;
+  line-height: 24px;
+  padding: 15px;
+  transition: all 0.2s;
+}
+
+.back_button:hover{
+  background: #2979ff;
+  font-weight: bold;
+}

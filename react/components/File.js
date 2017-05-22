@@ -7,7 +7,7 @@ export default class File extends React.Component {
 
   render () {
     return (
-      <div className="directory-item">
+      <div className="directory-item" onClick={this.props.onClick}>
         {this.props.content.name}
       </div>
     );

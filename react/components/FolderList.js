@@ -7,16 +7,40 @@ export default class FolderList extends React.Component {
   constructor (props) {
     super(props);
     this.state = {folderContents: [], pathObj: {}};
-    this.state.pathObj.getCurrentFolderName = () => {
+    this.state.pathObj.getCurrentFolderName = (path) => {
       if (this.state.pathObj.base) {
         return this.state.pathObj.base.slice(this.state.pathObj.base.lastIndexOf('/') + 1);
+      }
+      return "";
+    };
+    this.state.pathObj.parent = () => {
+      // console.log("Parent");
+      // console.log(this.state.pathObj.base);
+      if (this.state.pathObj.base) {
+        // console.log(this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/')));
+        return this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/'));
       }
       return "";
     };
   }
 
   componentDidMount () {
-    this.state.pathObj.base = '/home/jibin/Documents/NodeJS/FileManager';
+    this.state.pathObj.base = '/home/jibin/Documents';
+    this.fetchFromDirectory();
+  }
+
+  componentWillReceiveProps () {
+    // console.log("component will recieve props");
+    // console.log(this.props);
+    if (!this.props.pathObj) {
+      this.state.pathObj.base = '/home/jibin/Documents';
+    }
+    this.state.pathObj.getCurrentFolderName = () => {
+      if (this.state.pathObj.base) {
+        return this.state.pathObj.base.slice(this.state.pathObj.base.lastIndexOf('/') + 1);
+      }
+      return "";
+    };
     this.fetchFromDirectory();
   }
 
@@ -31,32 +55,36 @@ export default class FolderList extends React.Component {
   }
 
   moveToDirectory (targetFolder) {
-    this.state.pathObj.base = `${this.state.pathObj.base}/${targetFolder}`;
+    this.state.pathObj.base = `${this.state.pathObj.parent()}/${targetFolder}`;
     this.fetchFromDirectory();
   }
 
-  fetchFromDirectory (directoryPath) {
-    // console.log(this.state.pathObj.base);
-    fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(this.state.pathObj.base)}`)
+  fetchFromDirectory (directoryPath, preventUpdate) {
+    // console.log("fetch: " + (directoryPath || this.state.pathObj.base));
+    fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`)
     .then(response => {
       return response.json();
     })
     .then(contents => {
-      let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content, 'pathObj': this.state.pathObj}});
-      document.dispatchEvent(event);
-      this.setState({folderContents: contents.content});
+      if (!preventUpdate) {
+        let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content, 'pathObj': this.state.pathObj}});
+        document.dispatchEvent(event);
+        this.fetchFromDirectory(this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/')), true);
+      } else {
+        this.setState({folderContents: contents.content});
+      }
     });
   }
 
   render () {
     // console.log("Render");
-    // console.log(this.state);
+    // console.log(this.state.pathObj);
     let folderContents = this.state.folderContents;
     return (
       <div className="folderList">
-        <span className="current-directory-name">{this.state.pathObj.getCurrentFolderName()}</span><br />
-        <span className="current-path">{this.state.pathObj.base}</span>
-        <span onClick={this.goBack.bind(this)} className="cursor mdl-navigation__link back-button" href=""><i className="mdl-color-text--blue-grey-400 material-icons" role="presentation">keyboard_backspace</i>Back</span>
+        <span className="current-directory-name">{this.state.pathObj.parent().getCurrentFolderName()}</span><br />
+        <span className="current-path">{this.state.pathObj.parent()}</span>
+        <span onClick={this.goBack.bind(this)} className="cursor back-button back_button" href="" ><i className="material-icons" role="presentation">keyboard_backspace</i>&nbsp;&nbsp;&nbsp;Back</span>
         {/* <li onClick={this.goBack.bind(this)} className="folder-list-back-button">Back</li> */}
         <ul>
         {
