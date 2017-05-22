@@ -88,7 +88,13 @@ export default class FolderList extends React.Component {
         {/* <li onClick={this.goBack.bind(this)} className="folder-list-back-button">Back</li> */}
         <ul>
         {
-          folderContents.map((content, index) => {
+          folderContents.filter((content) => {
+            if (document.hiddenVisible) {
+              return true;
+            } else {
+              return content.name[0] !== '.';
+            }
+          }).map((content, index) => {
             if (!content.isFile) {
               return <li key={index} onClick={this.moveToDirectory.bind(this, content.name)} className="cursor folder-list-item" ><FolderListItem item={content} /></li>
             } else {

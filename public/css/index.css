@@ -85,3 +85,7 @@
   background: #2979ff;
   font-weight: bold;
 }
+
+.toggle-icon{
+  cursor: pointer;
+}

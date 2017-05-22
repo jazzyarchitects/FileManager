@@ -29,7 +29,13 @@ export default class FileList extends React.Component {
           <h2 className="section-heading"> Folders </h2>
         <div className="folder-section section">
           {
-            this.contents.map((content, index) => {
+            this.contents.filter((content) => {
+              if (document.hiddenVisible) {
+                return true;
+              } else {
+                return content.name[0] !== '.';
+              }
+            }).map((content, index) => {
               if (!content.isFile) {
                 return <File key={index} content={content} onClick={this.openFolder.bind(this, content)}/>
               }
@@ -42,7 +48,13 @@ export default class FileList extends React.Component {
 
       <div className="file-section section">
       {
-        this.contents.map((content, index) => {
+        this.contents.filter((content) => {
+          if (document.hiddenVisible) {
+            return true;
+          } else {
+            return content.name[0] !== '.';
+          }
+        }).map((content, index) => {
           if (content.isFile) {
             return <File key={index} content={content}/>
           }

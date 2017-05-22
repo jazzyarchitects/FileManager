@@ -1,5 +1,6 @@
 import FolderList from './components/FolderList';
 import FileList from './components/FileList';
+import HiddenToggle from './components/HiddenToggle';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,14 +13,26 @@ String.prototype.getCurrentFolderName = function () {
   return "";
 }
 
-window.onload = function () {
-  ReactDOM.render(<FolderList pathObj={{}} />, document.getElementById('folderListContainer'));
+window.onload = render;
+
+let currentPathObj = {};
+
+function render () {
+  ReactDOM.render(<FolderList pathObj={currentPathObj} />, document.getElementById('folderListContainer'));
   ReactDOM.render(<FileList />, document.getElementById('folderContentContainer'));
-};
+  ReactDOM.render(<HiddenToggle visibility={document.hiddenVisible || false} />, document.getElementById('hidden-visibility-toggle-container'));
+}
 
 document.addEventListener(Constants.Events.directoryChange, (e) => {
   document.getElementById('content-name-holder').innerHTML = `<a style="color: #222; line-height: 1.6em">${e.detail.pathObj.getCurrentFolderName()}</a><br /><a style='font-size: 0.6em; color: #555;'>${e.detail.pathObj.base}</a>`;
   ReactDOM.render(<FileList contents={e.detail.contents} pathObj={e.detail.pathObj} />, document.getElementById('folderContentContainer'));
+});
+
+document.addEventListener(Constants.Events.hiddenVisibilityToggle, (e) => {
+  // if(e.detail.visible){
+  document.hiddenVisible = e.detail.visibility || false;
+  render();
+  // }
 });
 
 document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
@@ -27,5 +40,6 @@ document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
   let folderObj = e.detail.folderObj;
 
   pathObj.base += `/${folderObj.name}`;
+  currentPathObj = pathObj;
   ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
 });
