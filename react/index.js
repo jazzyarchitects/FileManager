@@ -1,6 +1,7 @@
 import FolderList from './components/FolderList';
 import FileList from './components/FileList';
 import HiddenToggle from './components/HiddenToggle';
+import FilePreview from './components/FilePreview';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -24,11 +25,13 @@ window.onload = function () {
 };
 
 let currentPathObj = {};
+let currentFile = {};
 
 function render () {
   ReactDOM.render(<FolderList pathObj={currentPathObj} />, document.getElementById('folderListContainer'));
   ReactDOM.render(<FileList />, document.getElementById('folderContentContainer'));
   ReactDOM.render(<HiddenToggle visibility={document.hiddenVisible || false} />, document.getElementById('hidden-visibility-toggle-container'));
+  ReactDOM.render(<FilePreview currentFile={currentFile} />, document.getElementById('file-preview'));
 }
 
 document.addEventListener(Constants.Events.directoryChange, (e) => {
@@ -41,6 +44,11 @@ document.addEventListener(Constants.Events.hiddenVisibilityToggle, (e) => {
   document.hiddenVisible = e.detail.visibility || false;
   render();
   // }
+});
+
+document.addEventListener(Constants.Events.showFileDetails, (e) => {
+  currentFile = e.detail;
+  ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
 });
 
 document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {

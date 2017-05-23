@@ -3,6 +3,7 @@ export default {
   "Events": {
     "directoryChange": 'directory-change',
     "directoryChangeFromContents": 'directory-change-from-contents',
-    "hiddenVisibilityToggle": 'change-hidden-visibility'
+    "hiddenVisibilityToggle": 'change-hidden-visibility',
+    "showFileDetails": 'show-file-details'
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import File from './File';
+import Folder from './Folder'
 
 import Constants from '../constants';
 
@@ -37,7 +38,7 @@ export default class FileList extends React.Component {
               }
             }).map((content, index) => {
               if (!content.isFile) {
-                return <File key={index} content={content} onClick={this.openFolder.bind(this, content)}/>
+                return <Folder key={index} content={content} onClick={this.openFolder.bind(this, content)}/>
               }
               return null;
             })

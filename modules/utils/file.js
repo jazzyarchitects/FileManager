@@ -19,7 +19,8 @@ const doesExists = (filePath) => {
 }
 
 const readFile = async function (pathObj) {
-  let filePath = path.join(pathObj.base, pathObj.name);
+  let filePath;
+  if (pathObj.name) { filePath = path.join(pathObj.base, pathObj.name); } else { filePath = pathObj.base; }
   let fileExists = await doesExists(filePath)
   if (fileExists) {
     let buf = await FS.readFile(filePath);
