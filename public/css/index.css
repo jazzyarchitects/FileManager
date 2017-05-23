@@ -150,5 +150,10 @@ main .mdl-grid{
 .image-preview{
   width: 100%;
   height: 50%;
-  background: #ababab;
+  background: #fff;
+}
+
+.preview-image{
+  width: 100%;
+  object-fit: cover;
 }

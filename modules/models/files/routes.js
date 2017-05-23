@@ -4,10 +4,10 @@ import * as Utils from '../../utils';
 export function initiateRoute (router) {
   let Router = express.Router();
 
-  Router.get('/', (req, res) => {
+  Router.get('/:fileType', (req, res) => {
     let params = req.query;
     console.log(params);
-    Utils.File.readFile({ base: params.path })
+    Utils.File.readFile({ base: params.path }, req.params.fileType === "image")
     .then(result => {
       res.json(result);
     });

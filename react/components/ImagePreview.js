@@ -14,12 +14,13 @@ export default class ImagePreview extends React.Component {
     if (!this.props || !this.props.content) {
       return;
     }
-    fetch(`${Constants.BASE_URL}/file?path=${encodeURIComponent(this.props.content.path)}`)
+    fetch(`${Constants.BASE_URL}/file/image?path=${encodeURIComponent(this.props.content.path)}`)
     .then(result => {
       return result.json();
     })
     .then(result => {
-      this.setState({imageData: result.content});
+      console.log(result.mime);
+      this.setState({imageData: 'data:' + result.mime + ';base64,' + result.content});
     })
   }
 
@@ -30,8 +31,8 @@ export default class ImagePreview extends React.Component {
     }
     return (
      <div className="image-preview">
-       {console.log(this.state.imageData)};
-       <img src={this.state.imageData} />
+       {console.log(this.state.imageData)}
+       <img src={this.state.imageData} className="preview-image" />
      </div>
     )
   }

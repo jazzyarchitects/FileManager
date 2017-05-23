@@ -1,6 +1,7 @@
 import FS from 'then-fs';
 import fs from 'fs';
 import path from 'path';
+import mime from 'mime-types';
 import 'babel-polyfill';
 
 const doesExists = (filePath) => {
@@ -18,13 +19,17 @@ const doesExists = (filePath) => {
   });
 }
 
-const readFile = async function (pathObj) {
+const readFile = async function (pathObj, isImage) {
   let filePath;
   if (pathObj.name) { filePath = path.join(pathObj.base, pathObj.name); } else { filePath = pathObj.base; }
   let fileExists = await doesExists(filePath)
   if (fileExists) {
     let buf = await FS.readFile(filePath);
-    return { success: true, content: buf.toString() };
+    let type = mime.lookup(filePath.slice(filePath.lastIndexOf('.') + 1));
+    if (isImage) {
+      return { success: true, content: buf.toString('base64'), mime: type };
+    }
+    return { success: true, content: buf.toString(), mime: type };
   }
   return { success: false, error: 'File does not exists', code: 'ENOENT' };
 }
