@@ -2,6 +2,11 @@
   cursor: pointer;
 }
 
+.demo-drawer{
+  overflow: hidden;
+  height: 100%;
+}
+
 .back-button{
   padding-left: 10px;
 }
@@ -13,6 +18,33 @@
   color: rgba(255,255,255,0.5);
 }
 
+#nav-folder-list{
+  height: auto;
+  overflow-y: auto;
+}
+
+#folderListContainer ul::-webkit-scrollbar{
+  width: 0.5em;
+  background: #1565c0;
+  border-radius: 3px; 
+}
+
+#folderListContainer ul::-webkit-scrollbar-track{
+  width: 0.5em;
+  background: #1565c0;
+}
+#folderListContainer ul::-webkit-scrollbar-button{
+  width: 0.5em;
+  background: #0942a0;
+  border-radius: 2px;
+}
+#folderListContainer ul::-webkit-scrollbar-thumb{
+  width: 0.5em;
+  background: #ddddff;
+  border-radius: 3px;
+  height: 25px;
+}
+
 .current-directory-name{
   font-size: 1.2em;
   font-weight: bold;
@@ -22,14 +54,17 @@
 
 .folder-list-item{
   transition: all 0.25s;
-  font-size: 18px;
+  font-size: 16px;
   padding: 3px 0;
+  margin: 1px 0;
 }
 
 .folder-list-item:hover{
-  transform: scale(1.1);
+  /*transform: scale(1.1) translateX(10px);*/
+  background: rgba(255,255,255,0.1);
   color: #fff;
-  font-weight: bold;
+  /*font-weight: bold;*/
+  /*margin: 3px 0;*/
 }
 
 .directory-item{

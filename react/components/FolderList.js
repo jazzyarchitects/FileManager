@@ -84,9 +84,9 @@ export default class FolderList extends React.Component {
       <div className="folderList">
         <span className="current-directory-name">{this.state.pathObj.parent().getCurrentFolderName()}</span><br />
         <span className="current-path">{this.state.pathObj.parent()}</span>
-        <span onClick={this.goBack.bind(this)} className="cursor back-button back_button" href="" ><i className="material-icons" role="presentation">keyboard_backspace</i>&nbsp;&nbsp;&nbsp;Back</span>
+        <span onClick={this.goBack.bind(this)} className="cursor back-button back_button" href="" id="back-button"><i className="material-icons" role="presentation">keyboard_backspace</i>&nbsp;&nbsp;&nbsp;Back</span>
         {/* <li onClick={this.goBack.bind(this)} className="folder-list-back-button">Back</li> */}
-        <ul>
+        <ul id="nav-folder-list">
         {
           folderContents.filter((content) => {
             if (document.hiddenVisible) {

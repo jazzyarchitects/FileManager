@@ -5,7 +5,7 @@ export default class FolderListItem extends React.Component {
     let content = this.props.item;
 
     return (
-      <span className='folder-list-item'>
+      <span>
         {content.name}
       </span>
     )

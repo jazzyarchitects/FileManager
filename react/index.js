@@ -13,7 +13,15 @@ String.prototype.getCurrentFolderName = function () {
   return "";
 }
 
-window.onload = render;
+window.onload = function () {
+  render();
+  let backButton = document.getElementById('back-button');
+  let folderList = document.getElementById('nav-folder-list');
+  console.log(backButton);
+  console.log(folderList);
+  folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
+  console.log(folderList.style.height);
+};
 
 let currentPathObj = {};
 
