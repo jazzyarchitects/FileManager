@@ -18,10 +18,8 @@ window.onload = function () {
   render();
   let backButton = document.getElementById('back-button');
   let folderList = document.getElementById('nav-folder-list');
-  console.log(backButton);
-  console.log(folderList);
   folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
-  console.log(folderList.style.height);
+  ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
 };
 
 let currentPathObj = {};
@@ -31,7 +29,6 @@ function render () {
   ReactDOM.render(<FolderList pathObj={currentPathObj} />, document.getElementById('folderListContainer'));
   ReactDOM.render(<FileList />, document.getElementById('folderContentContainer'));
   ReactDOM.render(<HiddenToggle visibility={document.hiddenVisible || false} />, document.getElementById('hidden-visibility-toggle-container'));
-  ReactDOM.render(<FilePreview currentFile={currentFile} />, document.getElementById('file-preview'));
 }
 
 document.addEventListener(Constants.Events.directoryChange, (e) => {
@@ -40,22 +37,21 @@ document.addEventListener(Constants.Events.directoryChange, (e) => {
 });
 
 document.addEventListener(Constants.Events.hiddenVisibilityToggle, (e) => {
-  // if(e.detail.visible){
   document.hiddenVisible = e.detail.visibility || false;
   render();
   // }
 });
 
 document.addEventListener(Constants.Events.showFileDetails, (e) => {
+  ReactDOM.render(<FilePreview contents={e.detail} />, document.getElementById('file-preview'));
   currentFile = e.detail;
-  ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
 });
 
 document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
+  ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
   let pathObj = e.detail.pathObj;
   let folderObj = e.detail.folderObj;
 
   pathObj.base += `/${folderObj.name}`;
   currentPathObj = pathObj;
-  ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
 });

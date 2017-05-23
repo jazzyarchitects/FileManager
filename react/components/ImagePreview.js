@@ -2,36 +2,44 @@ import React from 'react';
 import Constants from '../constants';
 
 export default class ImagePreview extends React.Component {
+  constructor (props) {
+    super(props);
+    this.count = 1;
+    this.state = {};
+  }
+
   componentDidMount () {
     this.fetchData();
   }
-  componentWillReceiveProps () {
-    this.fetchData();
+  componentWillReceiveProps (newProps) {
+    this.count = 1;
+    this.fetchData(newProps);
   }
 
-  fetchData () {
-    console.log("fetch data");
-    if (!this.props || !this.props.content) {
+  fetchData (optionsProps) {
+    let props = optionsProps || this.props;
+    if (!props || !props.content) {
       return;
     }
-    fetch(`${Constants.BASE_URL}/file/image?path=${encodeURIComponent(this.props.content.path)}`)
+    fetch(`${Constants.BASE_URL}/file/image?path=${encodeURIComponent(props.content.path)}`)
     .then(result => {
       return result.json();
     })
     .then(result => {
-      console.log(result.mime);
-      this.setState({imageData: 'data:' + result.mime + ';base64,' + result.content});
+      this.setState({imageData: 'data:' + result.mime + ';base64,' + result.content, mime: result.mime});
     })
   }
 
   render () {
-    console.log(this.state);
-    if (!this.state || !this.state.imageData) {
+    if (!this.state || !this.state.mime) {
+      if (this.props && this.count) {
+        this.count --;
+        this.fetchData();
+      }
       return null;
     }
     return (
      <div className="image-preview">
-       {console.log(this.state.imageData)}
        <img src={this.state.imageData} className="preview-image" />
      </div>
     )

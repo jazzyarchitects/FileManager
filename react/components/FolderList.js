@@ -14,10 +14,7 @@ export default class FolderList extends React.Component {
       return "";
     };
     this.state.pathObj.parent = () => {
-      // console.log("Parent");
-      // console.log(this.state.pathObj.base);
       if (this.state.pathObj.base) {
-        // console.log(this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/')));
         return this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/'));
       }
       return "";
@@ -30,8 +27,6 @@ export default class FolderList extends React.Component {
   }
 
   componentWillReceiveProps () {
-    // console.log("component will recieve props");
-    // console.log(this.props);
     if (!this.props.pathObj) {
       this.state.pathObj.base = '/home/jibin/Documents';
     }
@@ -60,7 +55,6 @@ export default class FolderList extends React.Component {
   }
 
   fetchFromDirectory (directoryPath, preventUpdate) {
-    // console.log("fetch: " + (directoryPath || this.state.pathObj.base));
     fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`)
     .then(response => {
       return response.json();
@@ -77,15 +71,12 @@ export default class FolderList extends React.Component {
   }
 
   render () {
-    // console.log("Render");
-    // console.log(this.state.pathObj);
     let folderContents = this.state.folderContents;
     return (
       <div className="folderList">
         <span className="current-directory-name">{this.state.pathObj.parent().getCurrentFolderName()}</span><br />
         <span className="current-path">{this.state.pathObj.parent()}</span>
         <span onClick={this.goBack.bind(this)} className="cursor back-button back_button" href="" id="back-button"><i className="material-icons" role="presentation">keyboard_backspace</i>&nbsp;&nbsp;&nbsp;Back</span>
-        {/* <li onClick={this.goBack.bind(this)} className="folder-list-back-button">Back</li> */}
         <ul id="nav-folder-list">
         {
           folderContents.filter((content) => {
@@ -98,7 +89,6 @@ export default class FolderList extends React.Component {
             if (!content.isFile) {
               return <li key={index} onClick={this.moveToDirectory.bind(this, content.name)} className="cursor folder-list-item" ><FolderListItem item={content} /></li>
             } else {
-              { /* return <li key={index}><FolderListItem item={content} /></li> */ }
               return null;
             }
           })
