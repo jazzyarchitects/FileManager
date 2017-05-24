@@ -10,7 +10,7 @@ export default class FileList extends React.Component {
   }
 
   openFolder (folderObj) {
-    // console.log("Opening folder: " + JSON.stringify(folderObj));
+    console.log("Opening folder: " + JSON.stringify(folderObj));
     let event = new CustomEvent(Constants.Events.directoryChangeFromContents, {detail: {folderObj: folderObj, pathObj: this.props.pathObj}});
     document.dispatchEvent(event);
   }

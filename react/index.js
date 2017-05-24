@@ -48,10 +48,10 @@ document.addEventListener(Constants.Events.showFileDetails, (e) => {
 });
 
 document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
-  ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
   let pathObj = e.detail.pathObj;
   let folderObj = e.detail.folderObj;
 
   pathObj.base += `/${folderObj.name}`;
   currentPathObj = pathObj;
+  ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
 });
