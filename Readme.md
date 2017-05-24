@@ -14,12 +14,14 @@ I hope to have an hands on experience with these technologies which are used in 
 
 ## How do I run this?
 First you need to clone this repository. Obviously...  
+You would need g++ installed on your machine to correctly install and build sharp module.  
+
 Then run the followin in terminal:  
 ```shell
   $ yarn install
+  $ yarn add sharp
 ```
-
-You would need g++ installed on your machine to correctly install and build sharp module.  
+You may need to install sharp seperately if some error occurs in ``` $ yarn install ```.  
 
 Once all the packages have been installed, you need to run two processes -- Grunt and other main terminal.  
 
