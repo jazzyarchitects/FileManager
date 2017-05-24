@@ -22,13 +22,13 @@ export default class FolderList extends React.Component {
   }
 
   componentDidMount () {
-    this.state.pathObj.base = '/home/jibin/Documents';
+    this.state.pathObj.base = '/';
     this.fetchFromDirectory();
   }
 
   componentWillReceiveProps () {
     if (!this.props.pathObj) {
-      this.state.pathObj.base = '/home/jibin/Documents';
+      this.state.pathObj.base = '/';
     }
     this.state.pathObj.getCurrentFolderName = () => {
       if (this.state.pathObj.base) {
