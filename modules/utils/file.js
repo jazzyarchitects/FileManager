@@ -27,13 +27,16 @@ const readFile = async function (pathObj, options = {}) {
   if (fileExists) {
     let buf = await FS.readFile(filePath);
     let type = mime.lookup(filePath.slice(filePath.lastIndexOf('.') + 1));
-    if (options.isImage) {
+    if (options.fileType === "image") {
       if (options.isThumbnail) {
         let data = await Image.getImageThumbnail(filePath, options.width, options.height)
         return Promise.resolve({ success: true, content: data, mime: type });
       } else {
         return { success: true, content: buf.toString('base64'), mime: type };
       }
+    }
+    if (options.fileType === "string") {
+      return { success: true, content: buf.toString(), mime: type };
     }
     return { success: true, content: buf.toString(), mime: type };
   }

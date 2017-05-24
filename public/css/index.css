@@ -1,3 +1,7 @@
+html{
+  user-select: none;
+}
+
 .cursor{
   cursor: pointer;
 }
@@ -163,4 +167,57 @@ main .mdl-grid{
 .preview-image{
   width: 100%;
   object-fit: cover;
+}
+
+.content-preview{
+  height: 50%;
+  overflow: scroll;
+  background: #eee;
+  font-family: monospace;
+  font-size: 10px;
+  padding: 3px;
+}
+
+.content-preview::-webkit-scrollbar{
+  width: 0.5em;
+  height: 0.5em;
+}
+
+.content-preview::-webkit-scrollbar-track{
+  background: #eee;
+}
+.content-preview::-webkit-scrollbar-button{
+  background: #555;
+  border-radius: 3px;
+}
+.content-preview::-webkit-scrollbar-thumb{
+  background: #aaa;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pdf-preview{
+  height: 60%;
+  width: calc(100% - 2px);
+}
+
+.preview-h3{
+  font-size: 1.5em;
+  margin: 5px 0;
+}
+.open-file-button{
+  width: 100%;
+  padding: 8px 10px;
+  background: #00796b;
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  border: none;
+  margin-top: 3px;
+}
+
+.open-file-button:hover{
+  background: #004d40; 
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }

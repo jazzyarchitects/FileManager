@@ -22,13 +22,13 @@ export default class FolderList extends React.Component {
   }
 
   componentDidMount () {
-    this.state.pathObj.base = '/';
+    this.state.pathObj.base = Constants.DefaultPath;
     this.fetchFromDirectory();
   }
 
   componentWillReceiveProps () {
     if (!this.props.pathObj) {
-      this.state.pathObj.base = '/';
+      this.state.pathObj.base = Constants.DefaultPath;
     }
     this.state.pathObj.getCurrentFolderName = () => {
       if (this.state.pathObj.base) {
@@ -40,7 +40,7 @@ export default class FolderList extends React.Component {
   }
 
   goBack (e) {
-    let base = this.state.pathObj.base || '/';
+    let base = this.state.pathObj.base || Constants.DefaultPath;
     let lastIndex = base.lastIndexOf('/');
     if (base.indexOf('/') === base.lastIndexOf('/')) {
       return;

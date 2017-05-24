@@ -1,32 +1,66 @@
 import React from 'react';
 import ImagePreview from './ImagePreview';
+import PdfPreview from './PdfPreview';
+import DefaultFilePreview from './DefaultFilePreview';
+import FileDetailsView from './FileDetailsView';
 
 export default class FilePreview extends React.Component {
   constructor (props) {
     super(props);
 
     this.imageFileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+    this.pdfFileExtensions = ['pdf'];
+    this.videoFileExtensions = ['mkv', 'mp4', '3gp', 'avi'];
+    this.audioFileExtensions = ['mp3', 'wav'];
     this.IMAGE = 'image';
     this.PDF = 'pdf';
+    this.VIDEO = 'video';
+    this.AUDIO = 'audio';
+    this.DEFAULT = 'default';
   }
 
   decidePreviewType () {
     if (!this.props || !this.props.contents || !this.props.contents.name) {
       return 0;
     }
-    if (this.imageFileExtensions.indexOf(this.props.contents.name.slice(this.props.contents.name.lastIndexOf('.') + 1).toLowerCase()) !== -1) {
+    let fileExtension = this.props.contents.name.slice(this.props.contents.name.lastIndexOf('.') + 1).toLowerCase();
+    if (this.imageFileExtensions.indexOf(fileExtension) !== -1) {
       return this.IMAGE;
     }
-    return 0;
+    if (this.pdfFileExtensions.indexOf(fileExtension) !== -1) {
+      return this.PDF;
+    }
+    if (this.videoFileExtensions.indexOf(fileExtension) !== -1) {
+      return this.VIDEO;
+    }
+    if (this.audioFileExtensions.indexOf(fileExtension) !== -1) {
+      return this.AUDIO;
+    }
+    return this.DEFAULT;
   }
 
   render () {
     let result = this.decidePreviewType.bind(this)();
+    let content;
     switch (result) {
       case this.IMAGE:
-        return (<ImagePreview content={this.props.contents}/>);
+        content = <ImagePreview content={this.props.contents}/>;
+        break;
+      case this.PDF:
+        content = <PdfPreview content={this.props.contents} />;
+        break;
+      case this.DEFAULT:
+        content = <DefaultFilePreview content={this.props.contents} />;
+        break;
       default:
         return null;
     }
+    return (
+      <div className="file-preview-main">
+        <h3 className="preview-h3">{this.props.contents.name}</h3>
+        {content}
+        <FileDetailsView content={this.props.contents} />
+      </div>
+    )
   }
 }
