@@ -4,11 +4,16 @@
 
 .demo-content{
   max-width: 100%;
+  overflow: hidden;
 }
 
 .demo-drawer{
   overflow: hidden;
   height: 100%;
+}
+
+main{
+  overflow: hidden;
 }
 
 main .mdl-grid{
@@ -57,6 +62,8 @@ main .mdl-grid{
 
 .folder-content-container{
   width: 73%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .file-preview{

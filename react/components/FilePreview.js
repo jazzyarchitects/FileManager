@@ -14,7 +14,7 @@ export default class FilePreview extends React.Component {
     if (!this.props || !this.props.contents || !this.props.contents.name) {
       return 0;
     }
-    if (this.imageFileExtensions.indexOf(this.props.contents.name.slice(this.props.contents.name.lastIndexOf('.') + 1)) !== -1) {
+    if (this.imageFileExtensions.indexOf(this.props.contents.name.slice(this.props.contents.name.lastIndexOf('.') + 1).toLowerCase()) !== -1) {
       return this.IMAGE;
     }
     return 0;

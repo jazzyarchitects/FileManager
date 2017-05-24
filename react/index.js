@@ -19,6 +19,10 @@ window.onload = function () {
   let backButton = document.getElementById('back-button');
   let folderList = document.getElementById('nav-folder-list');
   folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
+
+  let folderContentContainer = document.getElementById("folderContentContainer");
+  let header = document.querySelector("header");
+  folderContentContainer.style.height = window.innerHeight - header.getBoundingClientRect().bottom - 8;
   ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
 };
 
