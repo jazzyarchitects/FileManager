@@ -59,6 +59,7 @@
     "react-dom": "15.3.x",
     "react-router": "2.6.x",
     "request": "^2.81.0",
+    "sharp": "^0.17.3",
     "socket.io": "^1.7.3",
     "then-fs": "^2.0.0",
     "typescript": "^2.2.2",

@@ -2,6 +2,7 @@ import FS from 'then-fs';
 import fs from 'fs';
 import path from 'path';
 import mime from 'mime-types';
+import * as Image from './image';
 import 'babel-polyfill';
 
 const doesExists = (filePath) => {
@@ -19,15 +20,20 @@ const doesExists = (filePath) => {
   });
 }
 
-const readFile = async function (pathObj, isImage) {
+const readFile = async function (pathObj, options = {}) {
   let filePath;
   if (pathObj.name) { filePath = path.join(pathObj.base, pathObj.name); } else { filePath = pathObj.base; }
   let fileExists = await doesExists(filePath)
   if (fileExists) {
     let buf = await FS.readFile(filePath);
     let type = mime.lookup(filePath.slice(filePath.lastIndexOf('.') + 1));
-    if (isImage) {
-      return { success: true, content: buf.toString('base64'), mime: type };
+    if (options.isImage) {
+      if (options.isThumbnail) {
+        let data = await Image.getImageThumbnail(filePath, options.width, options.height)
+        return Promise.resolve({ success: true, content: data, mime: type });
+      } else {
+        return { success: true, content: buf.toString('base64'), mime: type };
+      }
     }
     return { success: true, content: buf.toString(), mime: type };
   }

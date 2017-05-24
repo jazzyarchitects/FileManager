@@ -6,10 +6,18 @@ export function initiateRoute (router) {
 
   Router.get('/:fileType', (req, res) => {
     let params = req.query;
-    console.log(params);
-    Utils.File.readFile({ base: params.path }, req.params.fileType === "image")
+    Utils.File.readFile({ base: params.path }, {isImage: req.params.fileType === "image"})
     .then(result => {
       res.json(result);
+    });
+  });
+
+  Router.get('/thumb/:fileType/:size', (req, res) => {
+    let params = req.query;
+    let dimens = req.params.size.split('x');
+    Utils.File.readFile({ base: params.path }, {isImage: req.params.fileType === "image", isThumbnail: true, width: dimens[0], height: dimens[1]})
+    .then(result => {
+      res.json({success: result.success, content: result.content.toString('base64'), mime: result.mime});
     });
   });
 

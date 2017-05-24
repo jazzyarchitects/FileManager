@@ -16,7 +16,6 @@ describe('File operation test', () => {
     })
     .then(result => {
       let c = fs.readFileSync(path.join(basePath, 'package.json')).toString();
-
       expect(result.success).to.be.true;
       expect(result.content).to.equal(c);
       done();

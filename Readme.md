@@ -19,6 +19,8 @@ Then run the followin in terminal:
   $ yarn install
 ```
 
+You would need g++ installed on your machine to correctly install and build sharp module.  
+
 Once all the packages have been installed, you need to run two processes -- Grunt and other main terminal.  
 
 Open up a new terminal at project root and run the following:

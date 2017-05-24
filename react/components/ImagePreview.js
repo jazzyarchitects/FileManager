@@ -21,7 +21,8 @@ export default class ImagePreview extends React.Component {
     if (!props || !props.content) {
       return;
     }
-    fetch(`${Constants.BASE_URL}/file/image?path=${encodeURIComponent(props.content.path)}`)
+    let previewContainer = document.getElementById('file-preview');
+    fetch(`${Constants.BASE_URL}/file/thumb/image/${previewContainer.offsetWidth}x${previewContainer.offsetHeight / 2}?path=${encodeURIComponent(props.content.path)}`)
     .then(result => {
       return result.json();
     })
