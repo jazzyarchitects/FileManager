@@ -19,6 +19,10 @@ export default class FolderList extends React.Component {
       }
       return "";
     };
+
+    document.addEventListener(Constants.Events.goBackFromContents, (e) => {
+      this.goBack();
+    });
   }
 
   componentDidMount () {
@@ -61,7 +65,12 @@ export default class FolderList extends React.Component {
     })
     .then(contents => {
       if (!preventUpdate) {
-        let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content, 'pathObj': this.state.pathObj}});
+        contents.content = contents.content.sort(function (a, b) {
+          if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+          return 0;
+        });
+        let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content.sort(), 'pathObj': this.state.pathObj}});
         document.dispatchEvent(event);
         this.fetchFromDirectory(this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/')), true);
       } else {

@@ -5,6 +5,8 @@ export default {
     "directoryChange": 'directory-change',
     "directoryChangeFromContents": 'directory-change-from-contents',
     "hiddenVisibilityToggle": 'change-hidden-visibility',
-    "showFileDetails": 'show-file-details'
+    "showFileDetails": 'show-file-details',
+    "goBackFromContents": 'go-back-from-contents',
+    "showFolderDetails": 'show-folder-details'
   }
 }

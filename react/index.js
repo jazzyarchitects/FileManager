@@ -2,6 +2,7 @@ import FolderList from './components/FolderList';
 import FileList from './components/FileList';
 import HiddenToggle from './components/HiddenToggle';
 import FilePreview from './components/FilePreview';
+import FolderPreview from './components/FolderPreview';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -49,6 +50,10 @@ document.addEventListener(Constants.Events.hiddenVisibilityToggle, (e) => {
 document.addEventListener(Constants.Events.showFileDetails, (e) => {
   ReactDOM.render(<FilePreview contents={e.detail} />, document.getElementById('file-preview'));
   currentFile = e.detail;
+});
+
+document.addEventListener(Constants.Events.showFolderDetails, (e) => {
+  ReactDOM.render(<FolderPreview contents={e.detail} />, document.getElementById('file-preview'));
 });
 
 document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {

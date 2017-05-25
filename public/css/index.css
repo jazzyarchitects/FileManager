@@ -221,3 +221,7 @@ main .mdl-grid{
   background: #004d40; 
   box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }
+
+.details-table{
+  font-size: 12px;
+}

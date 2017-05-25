@@ -8,7 +8,7 @@ const getImageThumbnail = (imagePath, width, height) => {
   return new Promise((resolve, reject) => {
     fs.readFile(imagePath, (err, buf) => {
       sharp(imagePath)
-      .resize(Number(width) || 200, Number(height) || 300)
+      .resize(Number(Math.floor(width)) || 200, Number(Math.floor(height)) || 300)
       .max()
       .toBuffer()
       .then(data => {

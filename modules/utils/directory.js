@@ -29,8 +29,10 @@ const readDir = (pathObj) => {
             path: path.join(pathObj.base, pathObj.name, content),
             name: content,
             size: stat.size,
+            atime: new Date(stat.atime).getTime(),
             mtime: new Date(stat.mtime).getTime(),
             ctime: new Date(stat.ctime).getTime(),
+            btime: new Date(stat.birthtime).getTime(),
             isFile: stat.isFile()
           });
           _cb();
