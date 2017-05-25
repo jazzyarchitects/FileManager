@@ -4,6 +4,8 @@ import PdfPreview from './PdfPreview';
 import DefaultFilePreview from './DefaultFilePreview';
 import FileDetailsView from './FileDetailsView';
 
+import Constants from '../constants';
+
 export default class FilePreview extends React.Component {
   constructor (props) {
     super(props);

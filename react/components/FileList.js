@@ -29,8 +29,8 @@ export default class FileList extends React.Component {
       <div className="directory-list">
           <h2 className="section-heading"> Folders </h2>
         <div className="folder-section section">
-          <div className="directory-item" onClick={this.goBack} title="Back">
-              <i className="material-icons" role="presentation">keyboard_backspace</i>
+          <div className="directory-item" onClick={this.goBack} title="Back" style={{textAlign: 'center'}}>
+              <i className="material-icons" role="presentation">keyboard_backspace</i> Back
             </div>
           {
             this.contents.filter((content) => {

@@ -15,6 +15,7 @@ I hope to have an hands on experience with these technologies which are used in 
 ## How do I run this?
 First you need to clone this repository. Obviously...  
 You would need g++ installed on your machine to correctly install and build sharp module.  
+Also ffmpeg>=0.9 is requied for video previews.
 
 Then run the followin in terminal:  
 ```shell

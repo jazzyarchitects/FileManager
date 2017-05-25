@@ -46,6 +46,7 @@ export default class FolderList extends React.Component {
   goBack (e) {
     let base = this.state.pathObj.base || Constants.DefaultPath;
     let lastIndex = base.lastIndexOf('/');
+    /* This code wont allow to visit / path */
     if (base.indexOf('/') === base.lastIndexOf('/')) {
       return;
     }
@@ -70,6 +71,7 @@ export default class FolderList extends React.Component {
           if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
           return 0;
         });
+        // console.log(contents.content);
         let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content.sort(), 'pathObj': this.state.pathObj}});
         document.dispatchEvent(event);
         this.fetchFromDirectory(this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/')), true);

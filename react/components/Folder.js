@@ -25,7 +25,7 @@ export default class Folder extends React.Component {
     if (this.clickedOnce) {
       return this.doubleClick(this);
     }
-    console.log("Single click");
+    // console.log("Single click");
     this.clickedOnce = true;
     this.showDetails.call(this);
 
@@ -36,8 +36,8 @@ export default class Folder extends React.Component {
 
   render () {
     return (
-      <div className="directory-item" onClick={this.selectClick.bind(this)}>
-        {this.props.content.name}
+      <div className="directory-item" onClick={this.selectClick.bind(this)} style={{lineHeight: '20px'}}>
+        <i className="material-icons">folder</i><span>{this.props.content.name}</span>
       </div>
     );
   }

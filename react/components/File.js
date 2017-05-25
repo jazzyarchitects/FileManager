@@ -13,8 +13,8 @@ export default class File extends React.Component {
 
   render () {
     return (
-      <div className="directory-item" onClick={this.showFileDetails.bind(this)}>
-        {this.props.content.name}
+      <div className="file-item" onClick={this.showFileDetails.bind(this)}>
+        <span>{this.props.content.name}</span>
       </div>
     );
   }

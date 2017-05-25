@@ -8,5 +8,7 @@ export default {
     "showFileDetails": 'show-file-details',
     "goBackFromContents": 'go-back-from-contents',
     "showFolderDetails": 'show-folder-details'
-  }
+  },
+  "days": ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  "months": ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Sept', 'Oct', 'Nov', 'Dec']
 }
