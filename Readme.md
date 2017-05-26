@@ -57,5 +57,18 @@ over
 2. **I want to contribute.**  
     Feel free to fork this repository. Currently I do not plan to accept any contributions as this is intended only for learning purposes.
 
+## Installing on your server
+Download the build-build-date.tgz file and extract on your server. This file contains the built version of this project.  
+Also you need to install **g++, ffmpeg** from your linux repositories.    
+Once you extract the file, open the ***package*** folder and run the server using:  
+
+```shell
+ $ PORT=your_port_number npm start
+```
+
+I would suggest you to run this with forever or pm2 as ffmpeg tends to crash sometimes.  
+
+Cheers
+
 ## Contact
 Visit me at: [http://jibinmathews.in](http://jibinmathews.in)
