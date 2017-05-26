@@ -191,7 +191,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', 'Builds the project for deployment', () => {
     console.log("Building this project. Run npm start to start the server");
-    grunt.task.run('clean', 'babel', 'webpack:dev', 'chmod');
+    grunt.task.run('clean', 'babel', 'webpack:dev');
   });
 
   grunt.registerTask('default', ['clean','babel']);
