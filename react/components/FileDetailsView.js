@@ -31,6 +31,7 @@ export default class FileDetailsView extends React.Component {
               }
             })
           }
+          <tr><td>Size</td><td>{Math.floor(this.props.content.size / 10.24) / 100} KB</td></tr>
         </tbody></table>
       </div>
     )

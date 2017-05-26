@@ -3,6 +3,7 @@ import ImagePreview from './ImagePreview';
 import PdfPreview from './PdfPreview';
 import DefaultFilePreview from './DefaultFilePreview';
 import FileDetailsView from './FileDetailsView';
+import VideoPreview from './VideoPreview';
 
 import Constants from '../constants';
 
@@ -38,7 +39,10 @@ export default class FilePreview extends React.Component {
     if (this.audioFileExtensions.indexOf(fileExtension) !== -1) {
       return this.AUDIO;
     }
-    return this.DEFAULT;
+    if (this.props.contents.size <= 1 * 1024 * 1024) {
+      return this.DEFAULT;
+    }
+    return 0;
   }
 
   render () {
@@ -50,6 +54,9 @@ export default class FilePreview extends React.Component {
         break;
       case this.PDF:
         content = <PdfPreview content={this.props.contents} />;
+        break;
+      case this.VIDEO:
+        content = <VideoPreview content={this.props.contents} />
         break;
       case this.DEFAULT:
         content = <DefaultFilePreview content={this.props.contents} />;

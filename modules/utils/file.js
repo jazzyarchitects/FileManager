@@ -77,7 +77,7 @@ const writeFile = async (pathObj, content) => {
   return { success: false, error: error };
 }
 
-export { readFile, deleteFile, createFile, writeFile }
+export { doesExists, readFile, deleteFile, createFile, writeFile }
 
 if (require.main === module) {
   console.error('Start this script using index.js from the project root.');

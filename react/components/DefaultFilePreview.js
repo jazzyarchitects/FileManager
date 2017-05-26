@@ -6,6 +6,8 @@ export default class DefaultFilePreview extends React.Component {
   constructor (props) {
     super(props);
 
+    this.shouldShow = true;
+    this.trucated = false;
     this.state = {};
   }
 
@@ -14,6 +16,7 @@ export default class DefaultFilePreview extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
+    this.shouldShow = true;
     this.fetchFileContent(newProps);
   }
 
@@ -24,11 +27,19 @@ export default class DefaultFilePreview extends React.Component {
     }
     fetch(`${Constants.BASE_URL}/file/string?path=${encodeURIComponent(props.content.path)}`)
     .then(response => {
-      return response.json();
+      if (this.shouldShow) {
+        return response.json();
+      }
+      return null;
     })
     .then(result => {
-      this.setState({data: result.content});
+      this.trucated = result.content.length > 1024 * 2;
+      this.shouldShow && this.setState({data: result.content.slice(0, 1024 * 2)});
     });
+  }
+
+  componentWillUnmount () {
+    this.shouldShow = false;
   }
 
   render () {
@@ -38,9 +49,14 @@ export default class DefaultFilePreview extends React.Component {
       }
       return null;
     }
+    let truncatedMsg = "";
+    if (this.trucated) {
+      truncatedMsg = <div><br /><div>...<b>Open file to view complete content</b></div></div>
+    }
     return (
       <div className="content-preview">
         <pre>{this.state.data}</pre>
+        <br />{truncatedMsg}
       </div>
     )
   }

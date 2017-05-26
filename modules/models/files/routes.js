@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import * as Utils from '../../utils';
 
 export function initiateRoute (router) {
@@ -13,11 +14,23 @@ export function initiateRoute (router) {
   });
 
   Router.get('/:fileType', (req, res) => {
+    let query = req.query;
+    if (req.params.fileType === "video") {
+      Utils.Video.getVideoThumbnail(query.path)
+      .then((result) => {
+        res.json(result);
+      });
+    } else {
+      Utils.File.readFile({ base: query.path }, {fileType: req.params.fileType})
+      .then(result => {
+        res.json(result);
+      });
+    }
+  });
+
+  Router.get('/thumb/video', (req, res) => {
     let params = req.query;
-    Utils.File.readFile({ base: params.path }, {fileType: req.params.fileType})
-    .then(result => {
-      res.json(result);
-    });
+    res.sendFile(path.join(__dirname, '..', '..', '..', '..', 'tmp', params.path));
   });
 
   Router.get('/thumb/:fileType/:size', (req, res) => {
