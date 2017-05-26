@@ -9,6 +9,15 @@ export default class FileDetailsView extends React.Component {
   }
 
   render () {
+    let size = this.props.content.size;
+    let units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    let unitIndex = 0;
+
+    while (size > 1024) {
+      size = Math.floor(size / 10.24) / 100;
+      unitIndex++;
+    }
+
     return (
       <div className='file-details-container'>
         <button className='open-file-button detail' onClick={this.openFile.bind(this)}>Open File</button>
@@ -31,7 +40,7 @@ export default class FileDetailsView extends React.Component {
               }
             })
           }
-          <tr><td>Size</td><td>{Math.floor(this.props.content.size / 10.24) / 100} KB</td></tr>
+          <tr><td>Size</td><td>{size} {units[unitIndex]}</td></tr>
         </tbody></table>
       </div>
     )

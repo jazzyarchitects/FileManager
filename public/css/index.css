@@ -70,10 +70,26 @@ main .mdl-grid{
 
 .file-preview{
   width: 29%;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: calc(100% - 88px);
   background: #fff;
   padding: 8px;
   box-shadow: -3px 0 5px rgba(0,0,0,0.05);
+}
+
+.file-preview::-webkit-scrollbar{
+  width: 0.5em;
+  background: none;
+}
+
+.file-preview::-webkit-scrollbar-thumb{
+  border-radius: 3px;
+  background: #888;
+}
+
+.file-preview::-webkit-scrollbar-button{
+  display: none;
 }
 
 .current-directory-name{
@@ -133,6 +149,10 @@ main .mdl-grid{
   background: #2196F3;
   color: #fff;
   border: 2px solid #fff;
+}
+.directory-item-back-button:hover{
+  background: #1955AE;
+  border: 2px solid #1955AE;
 }
 
 .section-heading{
