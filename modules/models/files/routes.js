@@ -30,8 +30,20 @@ export function initiateRoute (router) {
 
   Router.get('/thumb/video', (req, res) => {
     let params = req.query;
-    res.sendFile(path.join(__dirname, '..', '..', '..', '..', 'tmp', params.path));
+    res.sendFile(path.join(__dirname, '..', '..', '..', '..', 'tmp', 'video', params.path));
   });
+
+  Router.get('/thumb/audio', (req, res) => {
+    Utils.Audio.getAudioDetails(req.query.path)
+    .then(result => {
+      result.success = true;
+      res.json(result);
+    });
+  });
+
+  // Router.get('/thumb/pdf', (req, res) => {
+
+  // });
 
   Router.get('/thumb/:fileType/:size', (req, res) => {
     let params = req.query;

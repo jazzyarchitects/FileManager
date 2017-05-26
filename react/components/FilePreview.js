@@ -4,6 +4,7 @@ import PdfPreview from './PdfPreview';
 import DefaultFilePreview from './DefaultFilePreview';
 import FileDetailsView from './FileDetailsView';
 import VideoPreview from './VideoPreview';
+import AudioPreview from './AudioPreview';
 
 import Constants from '../constants';
 
@@ -20,6 +21,7 @@ export default class FilePreview extends React.Component {
     this.VIDEO = 'video';
     this.AUDIO = 'audio';
     this.DEFAULT = 'default';
+    this.NO_PREVIEW = 'no-view';
   }
 
   decidePreviewType () {
@@ -42,7 +44,7 @@ export default class FilePreview extends React.Component {
     if (this.props.contents.size <= 1 * 1024 * 1024) {
       return this.DEFAULT;
     }
-    return 0;
+    return this.NO_PREVIEW;
   }
 
   render () {
@@ -58,8 +60,14 @@ export default class FilePreview extends React.Component {
       case this.VIDEO:
         content = <VideoPreview content={this.props.contents} />
         break;
+      case this.AUDIO:
+        content = <AudioPreview content={this.props.contents} />
+        break;
       case this.DEFAULT:
         content = <DefaultFilePreview content={this.props.contents} />;
+        break;
+      case this.NO_PREVIEW:
+        content = <div> </div>;
         break;
       default:
         return null;

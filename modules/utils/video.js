@@ -5,7 +5,7 @@ import path from 'path';
 
 const saveVideoThumbnail = (videoPath) => {
   return new Promise((resolve, reject) => {
-    let tempFolder = path.join(__dirname, '..', '..', '..', 'tmp');
+    let tempFolder = path.join(__dirname, '..', '..', '..', 'tmp', 'video');
     let filename;
     ffmpeg(videoPath)
     .on('filenames', (filenames) => { filename = filenames[0] })

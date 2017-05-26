@@ -197,6 +197,18 @@ main .mdl-grid{
   padding: 3px;
 }
 
+.preview{
+  height: 50%;
+  width: 100%;
+  background: #aaa;
+  overflow: hidden;
+}
+
+.preview img{
+  width: 100%;
+  object-fit: cover;
+}
+
 .content-preview::-webkit-scrollbar{
   width: 0.5em;
   height: 0.5em;
