@@ -337,3 +337,25 @@ main .mdl-grid{
     border-width: 0 0 0 4px;
 }
 */
+
+#myMenu{
+  position: absolute;
+  display: none;
+  width: 150px;
+  z-index: 99999;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  padding: 2px;
+}
+
+#myMenu div{
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 1.5px; 
+  margin-top: 1.5px
+  /*border: 1px solid #000;*/
+}
+
+#myMenu div:hover{
+  background: #eee;
+}

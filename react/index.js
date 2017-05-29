@@ -64,3 +64,42 @@ document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
   currentPathObj = pathObj;
   ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
 });
+
+document.oncontextmenu = contextMenuRequestHandler;
+
+function contextMenuRequestHandler (e) {
+  let cursorPostiion = getMousePosition(e);
+  let scrollPosition = getScrollPosition();
+
+  let contextMenu = document.querySelector("#myMenu");
+  contextMenu.style.display = 'block';
+  contextMenu.style.left = cursorPostiion.x + scrollPosition.x;
+  contextMenu.style.top = cursorPostiion.y + scrollPosition.y;
+  e.preventDefault();
+}
+
+function getMousePosition (e) {
+  e = e || window.event;
+  var position = {
+    'x': e.clientX,
+    'y': e.clientY
+  }
+  return position;
+}
+
+function getScrollPosition () {
+  var x = 0;
+  var y = 0;
+
+  if (typeof (window.pageYOffset) === 'number') {
+    x = window.pageXOffset;
+    y = window.pageYOffset;
+  } else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) {
+    x = document.documentElement.scrollLeft;
+    y = document.documentElement.scrollTop;
+  } else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) {
+    x = document.body.scrollLeft;
+    y = document.body.scrollTop;
+  }
+  return {x, y};
+}
