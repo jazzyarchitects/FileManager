@@ -4,6 +4,10 @@ import Constants from '../constants';
 export default class File extends React.Component {
   constructor (props) {
     super(props);
+
+    this.doubleClickDelay = Constants.doubleClickDelay;
+    this.clickedOnce = false;
+    this.timer = undefined;
   }
 
   componentDidMount () {
@@ -19,19 +23,39 @@ export default class File extends React.Component {
     });
   }
 
-  showFileDetails (id) {
-    let allitems = document.querySelectorAll('.item');
-    for (let item of allitems) {
-      item.classList.remove('item-active');
+  selectClick (id) {
+    if (this.clickedOnce) {
+      return this.doubleClick(id);
     }
-    document.querySelector('#file-item-' + id).classList.add('item-active');
+    Constants.resetActiveElement();
+    if (!document.querySelector('#file-item-' + id).classList.contains('item-active')) {
+      document.querySelector('#file-item-' + id).classList.add('item-active');
+    }
+
+    this.showFileDetails();
+    // console.log("Single click");
+    this.clickedOnce = true;
+    this.showFileDetails();
+
+    this.timer = setTimeout(() => {
+      this.clickedOnce = false;
+    }, this.doubleClickDelay);
+  }
+
+  doubleClick (id) {
+    let path = this.props.content.path;
+    let win = window.open(`${Constants.BASE_URL}/file/raw/${this.props.content.name}?path=${path}`)
+    win.focus();
+  }
+
+  showFileDetails (id) {
     let event = new CustomEvent(Constants.Events.showFileDetails, {detail: this.props.content});
     document.dispatchEvent(event);
   }
 
   render () {
     return (
-      <div className="file-item item" onClick={this.showFileDetails.bind(this, this.props.id)} id={`file-item-${this.props.id}`}>
+      <div className="file-item item" onClick={this.selectClick.bind(this, this.props.id)} id={`file-item-${this.props.id}`}>
         <span>{this.props.content.name}</span>
       </div>
     );

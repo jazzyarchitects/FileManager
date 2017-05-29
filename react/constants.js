@@ -12,10 +12,11 @@ export default {
   },
   "days": ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   "months": ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
-  resetActiveElement: () => {
+  "resetActiveElement": () => {
     let allItem = document.querySelectorAll('.item-active');
     for (let item of allItem) {
       item.classList.remove('item-active')
     }
-  }
+  },
+  "doubleClickDelay": 250
 }

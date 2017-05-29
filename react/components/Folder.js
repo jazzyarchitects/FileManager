@@ -5,7 +5,7 @@ export default class Folder extends React.Component {
   constructor (props) {
     super(props); ;
 
-    this.doubleClickDelay = 250;
+    this.doubleClickDelay = Constants.doubleClickDelay;
     this.clickedOnce = false;
     this.timer = undefined;
   }
