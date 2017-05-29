@@ -19,6 +19,8 @@ let contextMenu;
 let currentPathObj = {};
 let currentFile;
 
+let currentContextMenuParent;
+
 window.onload = function () {
   render();
   // Assigning DOM elements
@@ -33,12 +35,16 @@ window.onload = function () {
   // Set file list height to enable sectional scrolling
   folderContentContainer.style.height = window.innerHeight - header.getBoundingClientRect().bottom - 8;
 
+  // Set click listeners on context menu buttons
+  let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste"];
+  let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, pasteCurrentFile];
+  for (let i = 0; i < contextMenuItemIds.length; i++) {
+    document.getElementById(contextMenuItemIds[i]).addEventListener('click', contextMenuItemActions[i]);
+  }
+
   // When user click on file list container but is not on any file or folder item, then reset file preview
   folderContentContainer.addEventListener('click', function (e) {
-    let allItem = document.querySelectorAll('.item-active');
-    for (let item of allItem) {
-      item.classList.remove('item-active')
-    }
+    Constants.resetActiveElement();
     ReactDOM.render(<FilePreview contents={undefined} />, document.getElementById('file-preview'));
     currentFile = undefined;
   }, false);
@@ -71,17 +77,27 @@ document.addEventListener(Constants.Events.hiddenVisibilityToggle, (e) => {
 
 // Event handler for event triggered when user clicks on a file name. Show this file details
 document.addEventListener(Constants.Events.showFileDetails, (e) => {
+  // console.log("Received ");
+  // console.log(Constants.Events.showFileDetails);
   ReactDOM.render(<FilePreview contents={e.detail} />, document.getElementById('file-preview'));
   currentFile = e.detail;
 });
 
 // Event handler for event triggered when user single clicks a folder in file-list-container. Show folder details
 document.addEventListener(Constants.Events.showFolderDetails, (e) => {
+  // console.log("Received " + Constants.Events.showFolderDetails);
   ReactDOM.render(<FolderPreview contents={e.detail} />, document.getElementById('file-preview'));
+});
+
+// Event handler to handle events when a file or folder item is right clicked
+document.addEventListener(Constants.Events.setCurrentContextMenuParent, (e) => {
+  // console.log("Received " + Constants.Events.setCurrentContextMenuParent);
+  currentContextMenuParent = e.detail;
 });
 
 // Event handler for event triggered when user double clicks a folder in folder list in file-list-container. Open clicked folder
 document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
+  // console.log("Received " + Constants.Events.directoryChangeFromContents);
   let pathObj = e.detail.pathObj;
   let folderObj = e.detail.folderObj;
 
@@ -141,4 +157,25 @@ function getScrollPosition () {
     y = document.body.scrollTop;
   }
   return {x, y};
+}
+
+// Context menu actions
+function openCurrentFile () {
+  if (currentContextMenuParent) {
+    let path = currentContextMenuParent.content.path;
+    let win = window.open(`${Constants.BASE_URL}/file/raw/${currentContextMenuParent.content.name}?path=${path}`)
+    win.focus();
+  }
+}
+
+function cutCurrentFile () {
+
+}
+
+function copyCurrentFile () {
+
+}
+
+function pasteCurrentFile () {
+
 }

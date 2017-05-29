@@ -155,6 +155,11 @@ main .mdl-grid{
   color: #fff;
   border: 2px solid #fff;
 }
+
+.item-active{
+  background: #1955AE;
+}
+
 .directory-item-back-button:hover{
   background: #1955AE;
   border: 2px solid #1955AE;
@@ -376,4 +381,8 @@ main .mdl-grid{
 .file-preview-no-select div{
   margin: 150px auto;
   width: 150px;
+}
+
+#myMenu hr{
+ margin: 2px 0;
 }

@@ -6,6 +6,19 @@ export default class File extends React.Component {
     super(props);
   }
 
+  componentDidMount () {
+    this.view = document.querySelector(`#file-item-${this.props.id}`);
+    this.view.addEventListener('contextmenu', (e) => {
+      Constants.resetActiveElement();
+      this.view.classList.add('item-active');
+      let event = new CustomEvent(Constants.Events.setCurrentContextMenuParent, {detail: {content: this.props.content, id: this.props.id, view: this.view}});
+      document.dispatchEvent(event);
+
+      let fileDetailsEvent = new CustomEvent(Constants.Events.showFileDetails, {detail: this.props.content});
+      document.dispatchEvent(fileDetailsEvent);
+    });
+  }
+
   showFileDetails (id) {
     let allitems = document.querySelectorAll('.item');
     for (let item of allitems) {

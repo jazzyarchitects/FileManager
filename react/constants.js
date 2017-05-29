@@ -7,8 +7,15 @@ export default {
     "hiddenVisibilityToggle": 'change-hidden-visibility',
     "showFileDetails": 'show-file-details',
     "goBackFromContents": 'go-back-from-contents',
-    "showFolderDetails": 'show-folder-details'
+    "showFolderDetails": 'show-folder-details',
+    "setCurrentContextMenuParent": 'set-current-context-menu-parent'
   },
   "days": ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  "months": ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+  "months": ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+  resetActiveElement: () => {
+    let allItem = document.querySelectorAll('.item-active');
+    for (let item of allItem) {
+      item.classList.remove('item-active')
+    }
+  }
 }
