@@ -7,6 +7,7 @@ export default class AudioPreview extends React.Component {
     super(props);
 
     this.state = {};
+    this.unmount = false;
   }
 
   componentDidMount () {
@@ -22,8 +23,12 @@ export default class AudioPreview extends React.Component {
     fetch(`${Constants.BASE_URL}/file/thumb/audio?path=${encodeURIComponent(props.path)}`)
     .then(r => r.json())
     .then(result => {
-      this.setState({imageURL: result.imageURL});
+      !this.unmount && this.setState({imageURL: result.imageURL});
     });
+  }
+
+  componentWillUnmount () {
+    this.unmount = true;
   }
 
   render () {

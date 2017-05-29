@@ -41,7 +41,7 @@ export default class FileList extends React.Component {
               }
             }).map((content, index) => {
               if (!content.isFile) {
-                return <Folder key={index} content={content} onClick={this.openFolder.bind(this, content)}/>
+                return <Folder key={index} content={content} onClick={this.openFolder.bind(this, content)} id={index}/>
               }
               return null;
             })
@@ -60,7 +60,7 @@ export default class FileList extends React.Component {
           }
         }).map((content, index) => {
           if (content.isFile) {
-            return <File key={index} content={content}/>
+            return <File key={index} content={content} id={index}/>
           }
           return null;
         })

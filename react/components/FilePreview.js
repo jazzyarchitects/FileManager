@@ -70,14 +70,30 @@ export default class FilePreview extends React.Component {
         content = <div> </div>;
         break;
       default:
-        return null;
+        content = <div></div>;
+        break;
     }
-    return (
-      <div className="file-preview-main">
-        <h3 className="preview-h3">{this.props.contents.name}</h3>
-        {content}
-        <FileDetailsView content={this.props.contents} />
-      </div>
-    )
+    if (this.props.contents) {
+      return (
+        <div className="file-preview-main">
+          <h3 className="preview-h3">{this.props.contents.name}</h3>
+          {content}
+          <FileDetailsView content={this.props.contents} />
+        </div>
+      )
+    } else {
+      return (
+        <div className="file-preview-no-select">
+          <div>
+            <svg fill="#aaa" height="150" viewBox="0 0 24 24" width="150" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+            </svg>
+            <br /><br />
+            <center>File Manager</center>
+          </div>
+        </div>
+      )
+    }
   }
 }

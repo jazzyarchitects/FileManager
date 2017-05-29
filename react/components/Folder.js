@@ -21,10 +21,16 @@ export default class Folder extends React.Component {
     document.dispatchEvent(event);
   }
 
-  selectClick () {
+  selectClick (id) {
     if (this.clickedOnce) {
       return this.doubleClick(this);
     }
+    let allitems = document.querySelectorAll('.item');
+    for (let item of allitems) {
+      item.classList.remove('item-active');
+    }
+    if (!document.querySelector('#folder-item-' + id).classList.contains('item-active')) { document.querySelector('#folder-item-' + id).classList.add('item-active'); }
+
     // console.log("Single click");
     this.clickedOnce = true;
     this.showDetails.call(this);
@@ -36,7 +42,7 @@ export default class Folder extends React.Component {
 
   render () {
     return (
-      <div className="directory-item" onClick={this.selectClick.bind(this)} style={{lineHeight: '20px'}}>
+      <div className="directory-item item" onClick={this.selectClick.bind(this, this.props.id)} style={{lineHeight: '20px'}} id={`folder-item-${this.props.id}`}>
         <i className="material-icons">folder</i><span>{this.props.content.name}</span>
       </div>
     );
