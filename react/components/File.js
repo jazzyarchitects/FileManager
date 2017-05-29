@@ -3,7 +3,7 @@ import Constants from '../constants';
 
 export default class File extends React.Component {
   constructor (props) {
-    super(props); ;
+    super(props);
   }
 
   showFileDetails (id) {

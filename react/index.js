@@ -21,13 +21,19 @@ let currentFile;
 
 window.onload = function () {
   render();
+  // Assigning DOM elements
   let backButton = document.getElementById('back-button');
   let folderList = document.getElementById('nav-folder-list');
-  contextMenu = document.querySelector("#myMenu");
-  folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
-
+  let header = document.querySelector("header");
   let folderContentContainer = document.getElementById("folderContentContainer");
+  contextMenu = document.querySelector("#myMenu");
 
+  // Set nav-bar folder list height to enable partial scroll bar
+  folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
+  // Set file list height to enable sectional scrolling
+  folderContentContainer.style.height = window.innerHeight - header.getBoundingClientRect().bottom - 8;
+
+  // When user click on file list container but is not on any file or folder item, then reset file preview
   folderContentContainer.addEventListener('click', function (e) {
     let allItem = document.querySelectorAll('.item-active');
     for (let item of allItem) {
@@ -37,37 +43,44 @@ window.onload = function () {
     currentFile = undefined;
   }, false);
 
-  let header = document.querySelector("header");
-  folderContentContainer.style.height = window.innerHeight - header.getBoundingClientRect().bottom - 8;
+  // Assign context menu event to only those contextmenu triggers in the file-list section
+  folderContentContainer.addEventListener('contextmenu', contextMenuRequestHandler, false);
+
   ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
 };
 
+// Functiont to render folder list, file list and file preview
 function render () {
   ReactDOM.render(<FolderList pathObj={currentPathObj} />, document.getElementById('folderListContainer'));
   ReactDOM.render(<FileList />, document.getElementById('folderContentContainer'));
   ReactDOM.render(<HiddenToggle visibility={document.hiddenVisible || false} />, document.getElementById('hidden-visibility-toggle-container'));
 }
 
+// Event handler for event when user clicks on a folder from nav bar folder list
 document.addEventListener(Constants.Events.directoryChange, (e) => {
   document.getElementById('content-name-holder').innerHTML = `<a style="color: #222; line-height: 1.6em">${e.detail.pathObj.getCurrentFolderName()}</a><br /><a style='font-size: 0.6em; color: #555;'>${e.detail.pathObj.base}</a>`;
   ReactDOM.render(<FileList contents={e.detail.contents} pathObj={e.detail.pathObj} />, document.getElementById('folderContentContainer'));
 });
 
+// Event handler for event triggered when user changes hidden file visibility
 document.addEventListener(Constants.Events.hiddenVisibilityToggle, (e) => {
   document.hiddenVisible = e.detail.visibility || false;
   render();
   // }
 });
 
+// Event handler for event triggered when user clicks on a file name. Show this file details
 document.addEventListener(Constants.Events.showFileDetails, (e) => {
   ReactDOM.render(<FilePreview contents={e.detail} />, document.getElementById('file-preview'));
   currentFile = e.detail;
 });
 
+// Event handler for event triggered when user single clicks a folder in file-list-container. Show folder details
 document.addEventListener(Constants.Events.showFolderDetails, (e) => {
   ReactDOM.render(<FolderPreview contents={e.detail} />, document.getElementById('file-preview'));
 });
 
+// Event handler for event triggered when user double clicks a folder in folder list in file-list-container. Open clicked folder
 document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
   let pathObj = e.detail.pathObj;
   let folderObj = e.detail.folderObj;
@@ -77,6 +90,8 @@ document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
   ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
 });
 
+/* Context menu related functions */
+// Show context menu at current cursor location
 function showContextMenu (e) {
   let cursorPostiion = getMousePosition(e);
   let scrollPosition = getScrollPosition();
@@ -86,12 +101,12 @@ function showContextMenu (e) {
   contextMenu.style.top = cursorPostiion.y + scrollPosition.y;
 }
 
+// Hide context menu
 function dismissContextMenu () {
   contextMenu.style.display = 'none';
 }
 
-document.oncontextmenu = contextMenuRequestHandler;
-
+// When user click anywhere in the document, dismiss the context menu
 document.addEventListener('click', function (e) {
   dismissContextMenu(e);
 }, false);
@@ -101,6 +116,7 @@ function contextMenuRequestHandler (e) {
   showContextMenu();
 }
 
+/* Helper functions to get cursor position for context menu */
 function getMousePosition (e) {
   e = e || window.event;
   var position = {
