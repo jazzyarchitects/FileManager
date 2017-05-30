@@ -10,6 +10,10 @@ let password = args.filter((content, index) => {
 
 if (password) {
   global.password = password.split('=')[1];
+} else {
+  console.error("-----------------------------------------------------------------")
+  console.error("---------------------No password defined-------------------------");
+  console.error("-----------------------------------------------------------------")
 }
 
 // console.log(global.password);

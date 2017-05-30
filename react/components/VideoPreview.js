@@ -24,7 +24,7 @@ export default class VideoPreview extends React.Component {
       return;
     }
 
-    fetch(`${Constants.BASE_URL}/file/video?path=${encodeURIComponent(props.path)}`)
+    fetch(`${Constants.BASE_URL}/file/video?path=${encodeURIComponent(props.path)}`, {credentials: "same-origin"})
     .then(r => r.json())
     .then(jsonResult => {
       this.setState({thumbURL: jsonResult.path.replace(/\//g, '-').slice(0, jsonResult.path.lastIndexOf('.')) + '.png'});

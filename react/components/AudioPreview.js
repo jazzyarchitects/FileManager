@@ -20,7 +20,7 @@ export default class AudioPreview extends React.Component {
 
   fetchAudioDetails (properties) {
     let props = properties || this.props.content;
-    fetch(`${Constants.BASE_URL}/file/thumb/audio?path=${encodeURIComponent(props.path)}`)
+    fetch(`${Constants.BASE_URL}/file/thumb/audio?path=${encodeURIComponent(props.path)}`, {credentials: "same-origin"})
     .then(r => r.json())
     .then(result => {
       !this.unmount && this.setState({imageURL: result.imageURL});

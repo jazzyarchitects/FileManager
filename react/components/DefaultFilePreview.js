@@ -25,7 +25,7 @@ export default class DefaultFilePreview extends React.Component {
     if (!props || !props.content) {
       return "";
     }
-    fetch(`${Constants.BASE_URL}/file/string?path=${encodeURIComponent(props.content.path)}`)
+    fetch(`${Constants.BASE_URL}/file/string?path=${encodeURIComponent(props.content.path)}`, {credentials: "same-origin"})
     .then(response => {
       if (this.shouldShow) {
         return response.json();

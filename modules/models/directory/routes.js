@@ -6,7 +6,8 @@ export function initiateRoute (router) {
 
   Router.use((req, res, next) => {
     if (req.loggedIn) {
-      return next();
+      next();
+      return;
     }
     res.status(403);
     res.json({success: false, error: 'Authentication Error', code: 403});

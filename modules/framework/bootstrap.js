@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -13,6 +14,8 @@ export default function (config) {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
+
+  app.use(cookieParser());
 
   app.set('view engine', 'ejs');
   app.set('views', path.join(__dirname, '..', '..', '..', 'public'));
@@ -39,10 +42,10 @@ export default function (config) {
     res.json({ success: true });
   });
 
-  app.use((req, res, next) => {
+  app.use('/*', (req, res, next) => {
     if (global.isTesting) {
       req.loggedIn = true;
-    } else if (req.cookies && req.cookies["sfh*#^%dd55"] === global.password) {
+    } else if (req.cookies && req.cookies["_p_u_id"] === global.password) {
       req.loggedIn = true;
     }
     next();

@@ -60,7 +60,7 @@ export default class FolderList extends React.Component {
   }
 
   fetchFromDirectory (directoryPath, preventUpdate) {
-    fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`)
+    fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`, {credentials: "same-origin"})
     .then(response => {
       if (response.status === 403) {
         return undefined;
