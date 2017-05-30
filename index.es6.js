@@ -2,6 +2,18 @@ import createServer from './compiled/modules/framework/bootstrap'
 import http from 'http';
 import logTable from './compiled/modules/utils/table';
 
+let args = process.argv.slice(2);
+
+let password = args.filter((content, index) => {
+  return content.indexOf("--password=") !== -1;
+})[0];
+
+if (password) {
+  global.password = password.split('=')[1];
+}
+
+// console.log(global.password);
+
 global.console.table = logTable;
 let isTesting = false;
 

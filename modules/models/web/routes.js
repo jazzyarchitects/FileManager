@@ -17,5 +17,17 @@ export function initiateRoute (router) {
     res.sendFile(path.join(__dirname, '..', '..', '..', '..', 'public', 'index.html'));
   });
 
+  Router.post('/login', (req, res) => {
+    console.log(req.body);
+    if (req.body.password === global.password) {
+      res.cookie("sfh*#^%dd55", global.password, {
+        httpOnly: true,
+        maxAge: 20 * 60 * 1000
+      });
+      return res.json({success: true});
+    }
+    res.json({success: false});
+  });
+
   router.use(Router);
 }

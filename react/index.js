@@ -3,6 +3,7 @@ import FileList from './components/FileList';
 import HiddenToggle from './components/HiddenToggle';
 import FilePreview from './components/FilePreview';
 import FolderPreview from './components/FolderPreview';
+import PasswordDialog from './components/PasswordDialog';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -52,7 +53,23 @@ window.onload = function () {
   // Assign context menu event to only those contextmenu triggers in the file-list section
   folderContentContainer.addEventListener('contextmenu', contextMenuRequestHandler, false);
 
-  ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
+  // Show password dialog if not logged in
+  if (getCookie("userSessionStatus") !== "loggedIn") {
+    document.isLoggedIn = false;
+    document.body.innerHTML = "";
+    let box = document.createElement('div');
+    box.id = "authenticationBox";
+    document.body.appendChild(box);
+    ReactDOM.render(<PasswordDialog />, document.getElementById("authenticationBox"));
+    // console.log(window.innerHeight);
+    // console.log(document.getElementById('authenticationBox').height);
+    document.getElementById('authenticationBox').style.marginTop = (window.innerHeight - document.getElementById('authenticationBox').clientHeight) / 2;
+    // console.log(document.getElementById('authenticationBox').style.marginTop);
+  } else {
+    document.isLoggedIn = true;
+  }
+
+  if (document.isLoggedIn) { ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview')); }
 };
 
 // Functiont to render folder list, file list and file preview
@@ -178,4 +195,20 @@ function copyCurrentFile () {
 
 function pasteCurrentFile () {
 
+}
+
+function getCookie (cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }

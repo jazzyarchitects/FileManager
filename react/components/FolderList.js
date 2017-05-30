@@ -62,9 +62,15 @@ export default class FolderList extends React.Component {
   fetchFromDirectory (directoryPath, preventUpdate) {
     fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`)
     .then(response => {
+      if (response.status === 403) {
+        return undefined;
+      }
       return response.json();
     })
     .then(contents => {
+      if (contents === undefined) {
+        return;
+      }
       if (!preventUpdate) {
         contents.content = contents.content.sort(function (a, b) {
           if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;

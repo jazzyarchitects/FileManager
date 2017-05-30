@@ -39,6 +39,15 @@ export default function (config) {
     res.json({ success: true });
   });
 
+  app.use((req, res, next) => {
+    if (global.isTesting) {
+      req.loggedIn = true;
+    } else if (req.cookies && req.cookies["sfh*#^%dd55"] === global.password) {
+      req.loggedIn = true;
+    }
+    next();
+  });
+
   (function () {
     let modelPath = path.join(__dirname, '..', 'models');
     fs.readdirSync(modelPath).forEach(model => {
