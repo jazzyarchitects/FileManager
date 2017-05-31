@@ -32,6 +32,7 @@ window.onload = function () {
     document.body.appendChild(box);
     ReactDOM.render(<PasswordDialog />, document.getElementById("authenticationBox"));
     document.getElementById('authenticationBox').style.marginTop = (window.innerHeight - document.getElementById('authenticationBox').clientHeight) / 2;
+    document.getElementById('loginPassword').focus();
     document.authenticationInProgress = true;
   } else {
     document.authenticationInProgress = false;
