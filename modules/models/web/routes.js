@@ -18,7 +18,6 @@ export function initiateRoute (router) {
   });
 
   Router.post('/login', (req, res) => {
-    console.log(req.body);
     if (req.body.password === global.password) {
       res.cookie("_p_u_id", global.password, {
         // httpOnly: true,

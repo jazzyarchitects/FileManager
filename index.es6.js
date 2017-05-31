@@ -8,6 +8,8 @@ let password = args.filter((content, index) => {
   return content.indexOf("--password=") !== -1;
 })[0];
 
+password = password || process.env.FILE_MANAGER_PASSWORD;
+
 if (password) {
   global.password = password.split('=')[1];
 } else {

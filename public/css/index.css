@@ -419,7 +419,7 @@ main .mdl-grid{
   outline: none;
 }
 
-.passwordDialog button{
+.passwordDialog input[type='submit']{
   width: 280px;
   margin: 5px 10px;
   background: #0095DB;
@@ -431,7 +431,37 @@ main .mdl-grid{
   /*margin: 0 auto;*/
 }
 
-.passwordDialog button:hover{
+.passwordDialog  input[type='submit']:hover{
   background: #0045AB;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.passwordDialog .error-input{
+  user-select: none;
+  background: #F44336;
+  border: solid 1px #D22F2F ;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  outline: none;
+  animation-name: errorDialog;
+  animation-duration: 150ms;
+  animation-iteration-count: 3; 
+}
+
+@keyframes errorDialog{
+  0% {
+    transform: translateX(0);
+  }
+  25%{
+    transform: translateX(-5px);
+  }
+  50%{
+    transform: translateX(0px);
+  }
+  75%{
+    transform: translateX(5px);
+  }
+  100%{
+    transform: translateX(0px);
+  }
 }

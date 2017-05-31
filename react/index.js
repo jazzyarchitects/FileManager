@@ -23,36 +23,6 @@ let currentFile;
 let currentContextMenuParent;
 
 window.onload = function () {
-  render();
-  // Assigning DOM elements
-  let backButton = document.getElementById('back-button');
-  let folderList = document.getElementById('nav-folder-list');
-  let header = document.querySelector("header");
-  let folderContentContainer = document.getElementById("folderContentContainer");
-  contextMenu = document.querySelector("#myMenu");
-
-  // Set nav-bar folder list height to enable partial scroll bar
-  folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
-  // Set file list height to enable sectional scrolling
-  folderContentContainer.style.height = window.innerHeight - header.getBoundingClientRect().bottom - 8;
-
-  // Set click listeners on context menu buttons
-  let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste"];
-  let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, pasteCurrentFile];
-  for (let i = 0; i < contextMenuItemIds.length; i++) {
-    document.getElementById(contextMenuItemIds[i]).addEventListener('click', contextMenuItemActions[i]);
-  }
-
-  // When user click on file list container but is not on any file or folder item, then reset file preview
-  folderContentContainer.addEventListener('click', function (e) {
-    Constants.resetActiveElement();
-    ReactDOM.render(<FilePreview contents={undefined} />, document.getElementById('file-preview'));
-    currentFile = undefined;
-  }, false);
-
-  // Assign context menu event to only those contextmenu triggers in the file-list section
-  folderContentContainer.addEventListener('contextmenu', contextMenuRequestHandler, false);
-
   // Show password dialog if not logged in
   if (getCookie("userSessionStatus") !== "loggedIn") {
     document.isLoggedIn = false;
@@ -61,15 +31,44 @@ window.onload = function () {
     box.id = "authenticationBox";
     document.body.appendChild(box);
     ReactDOM.render(<PasswordDialog />, document.getElementById("authenticationBox"));
-    // console.log(window.innerHeight);
-    // console.log(document.getElementById('authenticationBox').height);
     document.getElementById('authenticationBox').style.marginTop = (window.innerHeight - document.getElementById('authenticationBox').clientHeight) / 2;
-    // console.log(document.getElementById('authenticationBox').style.marginTop);
+    document.authenticationInProgress = true;
   } else {
+    document.authenticationInProgress = false;
     document.isLoggedIn = true;
-  }
 
-  if (document.isLoggedIn) { ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview')); }
+    render();
+    // Assigning DOM elements
+    let backButton = document.getElementById('back-button');
+    let folderList = document.getElementById('nav-folder-list');
+    let header = document.querySelector("header");
+    let folderContentContainer = document.getElementById("folderContentContainer");
+    contextMenu = document.querySelector("#myMenu");
+
+    // Set nav-bar folder list height to enable partial scroll bar
+    folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
+    // Set file list height to enable sectional scrolling
+    folderContentContainer.style.height = window.innerHeight - header.getBoundingClientRect().bottom - 8;
+
+    // Set click listeners on context menu buttons
+    let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste"];
+    let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, pasteCurrentFile];
+    for (let i = 0; i < contextMenuItemIds.length; i++) {
+      document.getElementById(contextMenuItemIds[i]).addEventListener('click', contextMenuItemActions[i]);
+    }
+
+    // When user click on file list container but is not on any file or folder item, then reset file preview
+    folderContentContainer.addEventListener('click', function (e) {
+      Constants.resetActiveElement();
+      ReactDOM.render(<FilePreview contents={undefined} />, document.getElementById('file-preview'));
+      currentFile = undefined;
+    }, false);
+
+    // Assign context menu event to only those contextmenu triggers in the file-list section
+    folderContentContainer.addEventListener('contextmenu', contextMenuRequestHandler, false);
+
+    ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
+  }
 };
 
 // Functiont to render folder list, file list and file preview

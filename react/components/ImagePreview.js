@@ -1,5 +1,6 @@
 import React from 'react';
 import Constants from '../constants';
+import FetchFromServer from '../FetchFromServer';
 
 export default class ImagePreview extends React.Component {
   constructor (props) {
@@ -22,10 +23,7 @@ export default class ImagePreview extends React.Component {
       return;
     }
     let previewContainer = document.getElementById('file-preview');
-    fetch(`${Constants.BASE_URL}/file/thumb/image/${previewContainer.offsetWidth}x${previewContainer.offsetHeight / 2}?path=${encodeURIComponent(props.content.path)}`, {credentials: "same-origin"})
-    .then(result => {
-      return result.json();
-    })
+    FetchFromServer(`${Constants.BASE_URL}/file/thumb/image/${previewContainer.offsetWidth}x${previewContainer.offsetHeight / 2}?path=${encodeURIComponent(props.content.path)}`)
     .then(result => {
       this.setState({imageData: 'data:' + result.mime + ';base64,' + result.content, mime: result.mime});
     })

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Constants from '../constants';
+import FetchFromServer from '../FetchFromServer';
 
 export default class DefaultFilePreview extends React.Component {
   constructor (props) {
@@ -25,14 +26,11 @@ export default class DefaultFilePreview extends React.Component {
     if (!props || !props.content) {
       return "";
     }
-    fetch(`${Constants.BASE_URL}/file/string?path=${encodeURIComponent(props.content.path)}`, {credentials: "same-origin"})
-    .then(response => {
-      if (this.shouldShow) {
-        return response.json();
-      }
-      return null;
-    })
+    FetchFromServer(`${Constants.BASE_URL}/file/string?path=${encodeURIComponent(props.content.path)}`)
     .then(result => {
+      if (!this.shouldShow) {
+        return null;
+      }
       this.trucated = result.content.length > 1024 * 2;
       this.shouldShow && this.setState({data: result.content.slice(0, 1024 * 2)});
     });

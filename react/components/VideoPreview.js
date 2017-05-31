@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Constants from '../constants';
+import FetchFromServer from '../FetchFromServer';
 
 export default class VideoPreview extends React.Component {
   constructor (props) {
@@ -24,8 +25,7 @@ export default class VideoPreview extends React.Component {
       return;
     }
 
-    fetch(`${Constants.BASE_URL}/file/video?path=${encodeURIComponent(props.path)}`, {credentials: "same-origin"})
-    .then(r => r.json())
+    FetchFromServer(`${Constants.BASE_URL}/file/video?path=${encodeURIComponent(props.path)}`)
     .then(jsonResult => {
       this.setState({thumbURL: jsonResult.path.replace(/\//g, '-').slice(0, jsonResult.path.lastIndexOf('.')) + '.png'});
     });

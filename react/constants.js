@@ -18,5 +18,13 @@ export default {
       item.classList.remove('item-active')
     }
   },
+  "checkResponse": (response) => {
+    if (response.status === 403 && document.authenticationInProgress === false) {
+      document.cookie = "";
+      window.location.reload();
+      return false;
+    }
+    return true;
+  },
   "doubleClickDelay": 250
 }

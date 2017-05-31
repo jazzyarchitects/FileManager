@@ -2,6 +2,7 @@ import React from "react";
 
 import FolderListItem from './FolderListItem';
 import Constants from '../constants';
+import FetchFromServer from '../FetchFromServer';
 
 export default class FolderList extends React.Component {
   constructor (props) {
@@ -60,13 +61,7 @@ export default class FolderList extends React.Component {
   }
 
   fetchFromDirectory (directoryPath, preventUpdate) {
-    fetch(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`, {credentials: "same-origin"})
-    .then(response => {
-      if (response.status === 403) {
-        return undefined;
-      }
-      return response.json();
-    })
+    FetchFromServer(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`)
     .then(contents => {
       if (contents === undefined) {
         return;

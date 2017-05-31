@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Constants from '../constants';
+import FetchFromServer from '../FetchFromServer';
 
 export default class AudioPreview extends React.Component {
   constructor (props) {
@@ -20,8 +21,7 @@ export default class AudioPreview extends React.Component {
 
   fetchAudioDetails (properties) {
     let props = properties || this.props.content;
-    fetch(`${Constants.BASE_URL}/file/thumb/audio?path=${encodeURIComponent(props.path)}`, {credentials: "same-origin"})
-    .then(r => r.json())
+    FetchFromServer(`${Constants.BASE_URL}/file/thumb/audio?path=${encodeURIComponent(props.path)}`)
     .then(result => {
       !this.unmount && this.setState({imageURL: result.imageURL});
     });

@@ -51,6 +51,16 @@ export default function (config) {
     next();
   });
 
+  app.use('/*', (req, res, next) => {
+    if (req.loggedIn) {
+      res.cookie("_p_u_id", global.password, {
+        // httpOnly: true,
+        maxAge: 20 * 60 * 1000
+      });
+    }
+    next();
+  });
+
   (function () {
     let modelPath = path.join(__dirname, '..', 'models');
     fs.readdirSync(modelPath).forEach(model => {
