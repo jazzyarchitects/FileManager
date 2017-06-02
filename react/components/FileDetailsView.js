@@ -1,10 +1,12 @@
 import React from 'react';
 
 import Constants from '../constants';
+import Encrypter from '../../compiled/modules/utils/crypto';
 
 export default class FileDetailsView extends React.Component {
   openFile () {
-    let win = window.open(`${Constants.BASE_URL}/file/raw/${this.props.content.name}?path=${this.props.content.path}`)
+    let filePath = Encrypter.encryptString(this.props.content.path);
+    let win = window.open(`${Constants.BASE_URL}/file/raw/${this.props.content.name}?path=${filePath}`)
     win.focus();
   }
 

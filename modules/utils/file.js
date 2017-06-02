@@ -77,6 +77,32 @@ const writeFile = async (pathObj, content) => {
   return { success: false, error: error };
 }
 
+const copyFile = async (filePath, targetDirectory) => {
+  if (targetDirectory[targetDirectory.length - 1] === path.sep) {
+    targetDirectory = targetDirectory.substr(0, targetDirectory.length - 1);
+  }
+  let readStream = fs.createReadStream(filePath);
+  let fileName = getFileName(filePath);
+  let newFileName, firstName = fileName.split('.')[0], extn = fileName.substr(fileName.indexOf('.'));
+  let targetFilePath = path.join(targetDirectory, fileName);
+  for (let i = 0; await doesExists(targetFilePath) && i < 100; i++) {
+    newFileName = firstName + '(' + i + ')' + extn;
+    targetFilePath = path.join(targetDirectory, newFileName);
+  }
+  let writeStream = fs.createWriteStream(targetFilePath);
+  readStream.pipe(writeStream);
+  writeStream.on('finish', () => {
+    return Promise.resolve({success: true});
+  });
+}
+
+function getFileName (filePath) {
+  if (filePath) {
+    return filePath.slice(filePath.lastIndexOf(path.sep) + 1);
+  }
+  return "";
+}
+
 export { doesExists, readFile, deleteFile, createFile, writeFile }
 
 if (require.main === module) {

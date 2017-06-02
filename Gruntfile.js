@@ -145,6 +145,10 @@ module.exports = function (grunt) {
         tasks: ['clean:react', 'eslint:react', 'webpack:dev', 'chmod:react']
         // tasks: ['clean:react', 'eslint:react', 'babel:react', 'chmod:react']
       },
+      common: {
+        files: [ './modules/utils/crypto.js'],
+        tasks: ['clean:modules', 'clean:react', 'eslint:modules', 'eslint:react', 'babel:modules', 'chmod:modules', 'webpack:dev', 'chmod:react']
+      },
       modules: {
         files: ['./modules/**/*.js'],
         tasks: ['clean:modules', 'eslint:modules', 'babel:modules', 'chmod:modules']

@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import * as Utils from '../../utils';
+import Encrypter from '../../utils/crypto';
 
 export function initiateRoute (router) {
   let Router = express.Router();
@@ -14,7 +15,7 @@ export function initiateRoute (router) {
   });
 
   Router.get('/raw/:filename', (req, res) => {
-    let filePath = req.query.path;
+    let filePath = Encrypter.decryptString(req.query.path);
     if (!filePath) {
       return res.json({success: false, error: 'No path Supplied', code: 500});
     }
@@ -47,6 +48,19 @@ export function initiateRoute (router) {
       result.success = true;
       res.json(result);
     });
+  });
+
+  Router.use((req, res, next) => {
+    if (req.loggedIn) {
+      next();
+      return;
+    }
+    res.status(403);
+    res.json({success: false, error: 'Authentication Error', code: 403});
+  });
+
+  Router.put('/copy', (req, res) => {
+
   });
 
   // Router.get('/thumb/pdf', (req, res) => {

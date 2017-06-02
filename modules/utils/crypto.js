@@ -1,4 +1,4 @@
-import drawTable from './table';
+// import drawTable from './table';
 
 const mapping = {
   s: "string",
@@ -83,7 +83,9 @@ function isDigit (character) {
   }
 }
 
-export {encryptString, decryptString};
+const Encrypter = {encryptString, decryptString};
+
+export default Encrypter;
 
 // if (require.main === module) {
 //   // let string = '!sJibin%20Mathews!n852';

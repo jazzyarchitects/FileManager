@@ -1,5 +1,6 @@
 import React from 'react';
 import Constants from '../constants';
+import Encrypter from '../../compiled/modules/utils/crypto';
 
 export default class File extends React.Component {
   constructor (props) {
@@ -8,6 +9,8 @@ export default class File extends React.Component {
     this.doubleClickDelay = Constants.doubleClickDelay;
     this.clickedOnce = false;
     this.timer = undefined;
+
+    console.log(Encrypter);
   }
 
   componentDidMount () {
@@ -44,7 +47,8 @@ export default class File extends React.Component {
 
   doubleClick (id) {
     let path = this.props.content.path;
-    let win = window.open(`${Constants.BASE_URL}/file/raw/${this.props.content.name}?path=${path}`)
+    let filePath = Encrypter.encryptString(path);
+    let win = window.open(`${Constants.BASE_URL}/file/raw/${this.props.content.name}?path=${filePath}`)
     win.focus();
   }
 
