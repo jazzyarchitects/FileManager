@@ -29,7 +29,7 @@ const encryptString = function (inputString) {
   for (let j = 1; j <= typeList.length; j++) {
     let subString = inputString.substring(startIndex, endIndex + 1);
     // console.log(`Checking index: ${j}, string is : ${subString}: (${startIndex},${endIndex})`);
-    if (currentStreak !== typeList[j] || j === typeList.length || endIndex - startIndex === SEGMENT_LENGTH - 1) {
+    if (currentStreak !== typeList[j] || j === typeList.length || endIndex - startIndex >= SEGMENT_LENGTH - 1) {
       if (j === typeList.length) {
         endIndex++;
       }
@@ -42,6 +42,7 @@ const encryptString = function (inputString) {
     } else {
       endIndex++;
     }
+    SEGMENT_LENGTH = Math.floor(Math.random() * 5) + 2;
   }
 
   return finalString;
