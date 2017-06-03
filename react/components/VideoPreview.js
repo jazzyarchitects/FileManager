@@ -8,9 +8,11 @@ export default class VideoPreview extends React.Component {
     super(props);
 
     this.state = {};
+    this.shouldShow = false;
   }
 
   componentDidMount () {
+    this.shouldShow = true;
     this.fetchVideoThumbnail();
   }
 
@@ -27,8 +29,12 @@ export default class VideoPreview extends React.Component {
 
     FetchFromServer(`${Constants.BASE_URL}/file/video?path=${encodeURIComponent(props.path)}`)
     .then(jsonResult => {
-      this.setState({thumbURL: jsonResult.path.replace(/\//g, '-').slice(0, jsonResult.path.lastIndexOf('.')) + '.png'});
+      this.shouldShow && this.setState({thumbURL: jsonResult.path.replace(/\//g, '-').slice(0, jsonResult.path.lastIndexOf('.')) + '.png'});
     });
+  }
+
+  componentWillUnmount () {
+    this.shouldShow = false;
   }
 
   render () {

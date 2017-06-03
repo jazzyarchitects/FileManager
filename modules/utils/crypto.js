@@ -28,7 +28,7 @@ const encryptString = function (inputString) {
   let r = [];
   for (let j = 1; j <= typeList.length; j++) {
     let subString = inputString.substring(startIndex, endIndex + 1);
-    console.log(`Checking index: ${j}, string is : ${subString}: (${startIndex},${endIndex})`);
+    // console.log(`Checking index: ${j}, string is : ${subString}: (${startIndex},${endIndex})`);
     if (currentStreak !== typeList[j] || j === typeList.length || endIndex - startIndex === SEGMENT_LENGTH - 1) {
       if (j === typeList.length) {
         endIndex++;

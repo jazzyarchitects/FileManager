@@ -5,9 +5,7 @@ import Encrypter from '../../compiled/modules/utils/crypto';
 
 export default class FileDetailsView extends React.Component {
   openFile () {
-    let filePath = Encrypter.encryptString(this.props.content.path);
-    let win = window.open(`${Constants.BASE_URL}/file/raw/${this.props.content.name}?path=${filePath}`)
-    win.focus();
+    Constants.openFile(this.props.content.path);
   }
 
   render () {

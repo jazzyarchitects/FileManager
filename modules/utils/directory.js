@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import async from 'async';
+import * as File from './file';
 import 'babel-polyfill';
 
 const readDir = (pathObj) => {
@@ -44,7 +45,35 @@ const readDir = (pathObj) => {
   });
 };
 
-export { readDir }
+const transferFile = function (pathObj, isCut) {
+  return new Promise(resolve => {
+    console.log("Transferring files");
+    let readStream = fs.createReadStream(pathObj.targetFile);
+    let fileName = File.getFileName(pathObj.targetFile);
+    let newFileName, firstName = fileName.split('.')[0], extn = fileName.substr(fileName.indexOf('.'));
+    let targetFilePath = path.join(pathObj.targetDirectory, fileName);
+    let writeStream = fs.createWriteStream(targetFilePath);
+    readStream.on('error', (err) => {
+      console.log("Error readstream");
+      console.log(err);
+    });
+    writeStream.on('error', (err) => {
+      console.log("Error writestream");
+      console.log(err);
+    });
+    readStream.pipe(writeStream);
+    writeStream.on('close', () => {
+      // console.log("Copying successful");
+      if (isCut) {
+        return File.deleteFile(pathObj.targetFile)
+        .then(resolve);
+      }
+      resolve({success: true});
+    });
+  });
+}
+
+export { readDir, transferFile }
 
 if (require.main === module) {
   console.error('Start this script using index.js from the project root.');

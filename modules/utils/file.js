@@ -54,7 +54,12 @@ const createFile = async function (pathObj, content = "") {
 }
 
 const deleteFile = async (pathObj) => {
-  let filePath = path.join(pathObj.base, pathObj.name);
+  let filePath;
+  if (typeof (pathObj) === 'object') {
+    filePath = path.join(pathObj.base, pathObj.name);
+  } else {
+    filePath = pathObj;
+  }
   let fileExists = await doesExists(filePath);
   if (fileExists) {
     await FS.unlink(filePath);
@@ -77,25 +82,6 @@ const writeFile = async (pathObj, content) => {
   return { success: false, error: error };
 }
 
-const copyFile = async (filePath, targetDirectory) => {
-  if (targetDirectory[targetDirectory.length - 1] === path.sep) {
-    targetDirectory = targetDirectory.substr(0, targetDirectory.length - 1);
-  }
-  let readStream = fs.createReadStream(filePath);
-  let fileName = getFileName(filePath);
-  let newFileName, firstName = fileName.split('.')[0], extn = fileName.substr(fileName.indexOf('.'));
-  let targetFilePath = path.join(targetDirectory, fileName);
-  for (let i = 0; await doesExists(targetFilePath) && i < 100; i++) {
-    newFileName = firstName + '(' + i + ')' + extn;
-    targetFilePath = path.join(targetDirectory, newFileName);
-  }
-  let writeStream = fs.createWriteStream(targetFilePath);
-  readStream.pipe(writeStream);
-  writeStream.on('finish', () => {
-    return Promise.resolve({success: true});
-  });
-}
-
 function getFileName (filePath) {
   if (filePath) {
     return filePath.slice(filePath.lastIndexOf(path.sep) + 1);
@@ -103,7 +89,7 @@ function getFileName (filePath) {
   return "";
 }
 
-export { doesExists, readFile, deleteFile, createFile, writeFile }
+export { doesExists, readFile, deleteFile, createFile, writeFile, getFileName }
 
 if (require.main === module) {
   console.error('Start this script using index.js from the project root.');

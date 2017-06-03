@@ -8,6 +8,8 @@ import PasswordDialog from './components/PasswordDialog';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Constants from './constants';
+import Encrypter from '../compiled/modules/utils/crypto';
+import FetchFromServer from './FetchFromServer';
 
 String.prototype.getCurrentFolderName = function () {
   if (this) {
@@ -16,9 +18,25 @@ String.prototype.getCurrentFolderName = function () {
   return "";
 }
 
+let Operation = {
+  CUT: 0,
+  COPY: 1,
+  NONE: 2
+};
+
+let ContextMenuItems = {
+  OPEN: 0,
+  CUT: 1,
+  COPY: 2,
+  PASTE: 3
+};
+
 let contextMenu;
 let currentPathObj = {};
 let currentFile;
+let contextMenuItems = [];
+let currentOperation;
+let currentDirectory;
 
 let currentContextMenuParent;
 
@@ -55,7 +73,9 @@ window.onload = function () {
     let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste"];
     let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, pasteCurrentFile];
     for (let i = 0; i < contextMenuItemIds.length; i++) {
-      document.getElementById(contextMenuItemIds[i]).addEventListener('click', contextMenuItemActions[i]);
+      let temp = document.getElementById(contextMenuItemIds[i]);
+      temp.addEventListener('click', contextMenuItemActions[i]);
+      contextMenuItems.push(temp);
     }
 
     // When user click on file list container but is not on any file or folder item, then reset file preview
@@ -63,10 +83,13 @@ window.onload = function () {
       Constants.resetActiveElement();
       ReactDOM.render(<FilePreview contents={undefined} />, document.getElementById('file-preview'));
       currentFile = undefined;
-    }, false);
+    }, true);
 
     // Assign context menu event to only those contextmenu triggers in the file-list section
     folderContentContainer.addEventListener('contextmenu', contextMenuRequestHandler, false);
+    contextMenu.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
 
     ReactDOM.render(<FilePreview contents={currentFile} />, document.getElementById('file-preview'));
   }
@@ -83,6 +106,18 @@ function render () {
 document.addEventListener(Constants.Events.directoryChange, (e) => {
   document.getElementById('content-name-holder').innerHTML = `<a style="color: #222; line-height: 1.6em">${e.detail.pathObj.getCurrentFolderName()}</a><br /><a style='font-size: 0.6em; color: #555;'>${e.detail.pathObj.base}</a>`;
   ReactDOM.render(<FileList contents={e.detail.contents} pathObj={e.detail.pathObj} />, document.getElementById('folderContentContainer'));
+  currentDirectory = e.detail.pathObj.base;
+});
+
+// Event handler for event triggered when user double clicks a folder in folder list in file-list-container. Open clicked folder
+document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
+  // console.log("Received " + Constants.Events.directoryChangeFromContents);
+  let pathObj = e.detail.pathObj;
+  let folderObj = e.detail.folderObj;
+
+  pathObj.base += `/${folderObj.name}`;
+  currentPathObj = pathObj;
+  ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
 });
 
 // Event handler for event triggered when user changes hidden file visibility
@@ -109,29 +144,42 @@ document.addEventListener(Constants.Events.showFolderDetails, (e) => {
 // Event handler to handle events when a file or folder item is right clicked
 document.addEventListener(Constants.Events.setCurrentContextMenuParent, (e) => {
   // console.log("Received " + Constants.Events.setCurrentContextMenuParent);
-  currentContextMenuParent = e.detail;
-});
-
-// Event handler for event triggered when user double clicks a folder in folder list in file-list-container. Open clicked folder
-document.addEventListener(Constants.Events.directoryChangeFromContents, (e) => {
-  // console.log("Received " + Constants.Events.directoryChangeFromContents);
-  let pathObj = e.detail.pathObj;
-  let folderObj = e.detail.folderObj;
-
-  pathObj.base += `/${folderObj.name}`;
-  currentPathObj = pathObj;
-  ReactDOM.render(<FolderList pathObj={pathObj}/>, document.getElementById('folderListContainer'));
+  currentContextMenuParent = {content: e.detail.content, id: e.detail.id};
+  showContextMenu(e.detail.event, 'fileOperation');
 });
 
 /* Context menu related functions */
 // Show context menu at current cursor location
-function showContextMenu (e) {
+function showContextMenu (e, type) {
+  e.preventDefault();
   let cursorPostiion = getMousePosition(e);
   let scrollPosition = getScrollPosition();
 
   contextMenu.style.display = 'block';
   contextMenu.style.left = cursorPostiion.x + scrollPosition.x;
   contextMenu.style.top = cursorPostiion.y + scrollPosition.y;
+
+  let allowedIndexes;
+
+  if (type === 'fileOperation') {
+    allowedIndexes = [ContextMenuItems.OPEN, ContextMenuItems.CUT, ContextMenuItems.COPY];
+  } else {
+    allowedIndexes = [ContextMenuItems.PASTE];
+  }
+
+  for (let i = 0; i < contextMenuItems.length; i++) {
+    if (allowedIndexes.indexOf(i) !== -1) {
+      contextMenuItems[i].style.display = 'block';
+    } else {
+      contextMenuItems[i].style.display = 'none';
+    }
+  }
+
+  if (currentOperation === Operation.COPY || currentOperation === Operation.CUT) {
+    contextMenuItems[ContextMenuItems.PASTE].classList.remove('disabled');
+  } else {
+    contextMenuItems[ContextMenuItems.PASTE].classList.add('disabled');
+  }
 }
 
 // Hide context menu
@@ -145,8 +193,8 @@ document.addEventListener('click', function (e) {
 }, false);
 
 function contextMenuRequestHandler (e) {
-  e.preventDefault();
-  showContextMenu();
+  Constants.resetActiveElement();
+  showContextMenu(e);
 }
 
 /* Helper functions to get cursor position for context menu */
@@ -180,21 +228,29 @@ function getScrollPosition () {
 function openCurrentFile () {
   if (currentContextMenuParent) {
     let path = currentContextMenuParent.content.path;
-    let win = window.open(`${Constants.BASE_URL}/file/raw/${currentContextMenuParent.content.name}?path=${path}`)
-    win.focus();
+    Constants.openFile(path);
   }
 }
 
 function cutCurrentFile () {
-
+  currentOperation = Operation.CUT;
+  // console.log(currentContextMenuParent);
 }
 
 function copyCurrentFile () {
-
+  currentOperation = Operation.COPY;
+  // console.log(currentContextMenuParent);
 }
 
 function pasteCurrentFile () {
-
+  let operation = currentOperation == Operation.CUT ? 'cut' : 'copy';
+  let tf = Encrypter.encryptString(currentContextMenuParent.content.path);
+  let td = Encrypter.encryptString(currentDirectory);
+  FetchFromServer(`${Constants.BASE_URL}/directory/${operation}`, 'PUT', {tf, td})
+  .then(result => {
+    alert(JSON.stringify(result));
+    currentOperation = Operation.NONE;
+  });
 }
 
 function getCookie (cname) {

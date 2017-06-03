@@ -1,3 +1,5 @@
+import Encrypter from '../compiled/modules/utils/crypto';
+
 export default {
   "BASE_URL": process.env.NODE_ENV === "production" ? "http://<host_url>" : "http://localhost:3000",
   "DefaultPath": '/home/jibin/Downloads',
@@ -25,6 +27,11 @@ export default {
       return false;
     }
     return true;
+  },
+  "openFile": function (path) {
+    let filePath = Encrypter.encryptString(path);
+    let win = window.open(`${this.BASE_URL}/file/raw/${filePath.getCurrentFolderName()}?path=${filePath}`);
+    win.focus();
   },
   "doubleClickDelay": 250
 }

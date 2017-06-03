@@ -363,8 +363,13 @@ main .mdl-grid{
   padding: 10px;
   cursor: pointer;
   margin-bottom: 1.5px; 
-  margin-top: 1.5px
+  margin-top: 1.5px;
+  color: #222;
   /*border: 1px solid #000;*/
+}
+
+#myMenu .disabled{
+  color: #888;
 }
 
 #myMenu div:hover{

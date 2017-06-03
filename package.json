@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "compile": "webpack",
-    "start": "node index.js"
+    "start": "forever index.js --password=helloworld"
   },
   "author": "Jibin Mathews<jibinmathews7@gmail.com>",
   "license": "MIT",

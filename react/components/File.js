@@ -9,21 +9,20 @@ export default class File extends React.Component {
     this.doubleClickDelay = Constants.doubleClickDelay;
     this.clickedOnce = false;
     this.timer = undefined;
-
-    console.log(Encrypter);
   }
 
   componentDidMount () {
     this.view = document.querySelector(`#file-item-${this.props.id}`);
     this.view.addEventListener('contextmenu', (e) => {
+      e.stopPropagation();
       Constants.resetActiveElement();
       this.view.classList.add('item-active');
-      let event = new CustomEvent(Constants.Events.setCurrentContextMenuParent, {detail: {content: this.props.content, id: this.props.id, view: this.view}});
+      let event = new CustomEvent(Constants.Events.setCurrentContextMenuParent, {detail: {content: this.props.content, id: this.props.id, view: this.view, event: e}});
       document.dispatchEvent(event);
 
       let fileDetailsEvent = new CustomEvent(Constants.Events.showFileDetails, {detail: this.props.content});
       document.dispatchEvent(fileDetailsEvent);
-    });
+    }, false);
   }
 
   selectClick (id) {
@@ -46,10 +45,7 @@ export default class File extends React.Component {
   }
 
   doubleClick (id) {
-    let path = this.props.content.path;
-    let filePath = Encrypter.encryptString(path);
-    let win = window.open(`${Constants.BASE_URL}/file/raw/${this.props.content.name}?path=${filePath}`)
-    win.focus();
+    Constants.openFile(this.props.content.path);
   }
 
   showFileDetails (id) {
