@@ -42,7 +42,7 @@ export default function (config) {
     res.json({ success: true });
   });
 
-  app.use('/*', (req, res, next) => {
+  app.use((req, res, next) => {
     if (global.isTesting) {
       req.loggedIn = true;
     } else if (req.cookies && req.cookies["_p_u_id"] === global.password) {
@@ -51,7 +51,7 @@ export default function (config) {
     next();
   });
 
-  app.use('/*', (req, res, next) => {
+  app.use((req, res, next) => {
     if (req.loggedIn) {
       res.cookie("_p_u_id", global.password, {
         // httpOnly: true,

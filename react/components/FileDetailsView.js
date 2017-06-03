@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Constants from '../constants';
-import Encrypter from '../../compiled/modules/utils/crypto';
 
 export default class FileDetailsView extends React.Component {
   openFile () {

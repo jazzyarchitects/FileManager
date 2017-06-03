@@ -30,7 +30,7 @@ export default {
   },
   "openFile": function (path) {
     let filePath = Encrypter.encryptString(path);
-    let win = window.open(`${this.BASE_URL}/file/raw/${filePath.getCurrentFolderName()}?path=${filePath}`);
+    let win = window.open(`${this.BASE_URL}/file/raw/${path.getCurrentFolderName()}?path=${filePath}`);
     win.focus();
   },
   "doubleClickDelay": 250
