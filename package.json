@@ -75,6 +75,7 @@
     "jit-grunt": "^0.10.0",
     "load-grunt-tasks": "^3.5.2",
     "material-ui": "^0.17.4",
+    "md5": "^2.2.1",
     "mime-types": "^2.1.15",
     "mocha": "^3.2.0",
     "morgan": "^1.8.1",
@@ -82,7 +83,7 @@
     "react-dom": "15.3.x",
     "react-router": "2.6.x",
     "request": "^2.81.0",
-    "sharp": "^0.17.3",
+    "sharp": "^0.18.1",
     "then-fs": "^2.0.0",
     "typescript": "^2.2.2",
     "webpack": "^2.5.1"

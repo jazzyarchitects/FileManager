@@ -11,6 +11,8 @@ import Constants from './constants';
 import Encrypter from '../compiled/modules/utils/crypto';
 import FetchFromServer from './FetchFromServer';
 
+import md5 from 'md5';
+
 String.prototype.getCurrentFolderName = function () {
   if (this) {
     return this.slice(this.lastIndexOf('/') + 1);
@@ -28,13 +30,18 @@ let ContextMenuItems = {
   OPEN: 0,
   CUT: 1,
   COPY: 2,
-  PASTE: 3
+  PASTE: 3,
+  SHARE: 4
 };
 
+let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste", "content-menu-share"];
+let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, pasteCurrentFile, shareFilePath];
 let contextMenu;
-let currentPathObj = {};
-let currentFile;
 let contextMenuItems = [];
+let contextMenuCurrentState = {};
+
+let currentPathObj = {fromFile: false};
+let currentFile;
 let currentOperation;
 let currentDirectory;
 
@@ -70,8 +77,6 @@ window.onload = function () {
     folderContentContainer.style.height = window.innerHeight - header.getBoundingClientRect().bottom - 8;
 
     // Set click listeners on context menu buttons
-    let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste"];
-    let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, pasteCurrentFile];
     for (let i = 0; i < contextMenuItemIds.length; i++) {
       let temp = document.getElementById(contextMenuItemIds[i]);
       temp.addEventListener('click', contextMenuItemActions[i]);
@@ -161,11 +166,16 @@ function showContextMenu (e, type) {
 
   let allowedIndexes;
 
-  if (type === 'fileOperation') {
+  contextMenuCurrentState.fromFile = (type === 'fileOperation');
+  // Conditional items
+  if (contextMenuCurrentState.fromFile) {
     allowedIndexes = [ContextMenuItems.OPEN, ContextMenuItems.CUT, ContextMenuItems.COPY];
   } else {
     allowedIndexes = [ContextMenuItems.PASTE];
   }
+
+  // Unconditional items
+  allowedIndexes.push(ContextMenuItems.SHARE);
 
   for (let i = 0; i < contextMenuItems.length; i++) {
     if (allowedIndexes.indexOf(i) !== -1) {
@@ -234,16 +244,14 @@ function openCurrentFile () {
 
 function cutCurrentFile () {
   currentOperation = Operation.CUT;
-  // console.log(currentContextMenuParent);
 }
 
 function copyCurrentFile () {
   currentOperation = Operation.COPY;
-  // console.log(currentContextMenuParent);
 }
 
 function pasteCurrentFile () {
-  let operation = currentOperation == Operation.CUT ? 'cut' : 'copy';
+  let operation = currentOperation === Operation.CUT ? 'cut' : 'copy';
   let tf = Encrypter.encryptString(currentContextMenuParent.content.path);
   let td = Encrypter.encryptString(currentDirectory);
   FetchFromServer(`${Constants.BASE_URL}/directory/${operation}`, 'PUT', {tf, td})
@@ -253,16 +261,32 @@ function pasteCurrentFile () {
   });
 }
 
+function shareFilePath () {
+  let toSharePath;
+  if (contextMenuCurrentState.fromFile) {
+    toSharePath = currentContextMenuParent.content.path;
+  } else {
+    toSharePath = currentDirectory;
+  }
+  let password = Constants.getRandomString();
+  console.log("Password: " + password);
+  let finalURL = `${Constants.BASE_URL}/directory/share?p=${Encrypter.encryptString(toSharePath + '__password__=' + password)}`;
+  fetch(finalURL)
+  .then(r => r.json())
+  .then(result => console.log(Encrypter.decryptString(result.password)));
+  // console.log("To share the path: " + finalURL);
+}
+
 function getCookie (cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';');
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0) == ' ') {
+    while (c.charAt(0) === ' ') {
       c = c.substring(1);
     }
-    if (c.indexOf(name) == 0) {
+    if (c.indexOf(name) === 0) {
       return c.substring(name.length, c.length);
     }
   }

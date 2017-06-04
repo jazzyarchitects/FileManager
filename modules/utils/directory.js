@@ -50,7 +50,6 @@ const transferFile = function (pathObj, isCut) {
     console.log("Transferring files");
     let readStream = fs.createReadStream(pathObj.targetFile);
     let fileName = File.getFileName(pathObj.targetFile);
-    let newFileName, firstName = fileName.split('.')[0], extn = fileName.substr(fileName.indexOf('.'));
     let targetFilePath = path.join(pathObj.targetDirectory, fileName);
     let writeStream = fs.createWriteStream(targetFilePath);
     readStream.on('error', (err) => {

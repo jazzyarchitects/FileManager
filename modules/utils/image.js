@@ -1,6 +1,5 @@
 import fs from 'fs';
 import sharp from 'sharp';
-import path from 'path';
 
 import 'babel-polyfill';
 

@@ -33,5 +33,14 @@ export default {
     let win = window.open(`${this.BASE_URL}/file/raw/${path.getCurrentFolderName()}?path=${filePath}`);
     win.focus();
   },
+  "getRandomString": function (len) {
+    len = len || 7;
+    let allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()';
+    let finalString = "";
+    for (let i = 0; i < len; i++) {
+      finalString += allowed[Math.floor(Math.random() * allowed.length)];
+    }
+    return finalString;
+  },
   "doubleClickDelay": 250
 }

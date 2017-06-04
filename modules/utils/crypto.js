@@ -10,7 +10,6 @@ const mapping = {
 
 const encryptString = function (inputString) {
   let SEGMENT_LENGTH = 3;
-  let a = [];
 
   let typeList = [];
   for (let i = 0; i < inputString.length; i++) {
@@ -20,11 +19,11 @@ const encryptString = function (inputString) {
       typeList.push('s');
     }
   }
-  let indexes = {s: [], b: []};
   // typeList = typeList.join('');
   let finalString = '';
   let currentStreak = typeList[0];
-  let startIndex = 0, endIndex = 0;
+  let startIndex = 0;
+  let endIndex = 0;
   let r = [];
   for (let j = 1; j <= typeList.length; j++) {
     let subString = inputString.substring(startIndex, endIndex + 1);
@@ -58,7 +57,6 @@ const decryptString = function (encryptedString) {
   let finalString = "";
   for (let i = 0; i < splits.length; i++) {
     let str = splits[i];
-    let type = mapping[str[0]];
     finalString += Buffer.from(str.substr(1), 'base64').toString();
   }
   // console.log("Decrypted String");
