@@ -34,6 +34,15 @@ let ContextMenuItems = {
   SHARE: 4
 };
 
+let snackbarView;
+let SnackbarStatuses = {
+  visible: 1,
+  hidden: 0
+};
+let snackbarStatus = SnackbarStatuses.visible;
+let snackbarTimer;
+let SNACKBAR_TIMEOUT = 5 * 1000;
+
 let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste", "content-menu-share"];
 let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, pasteCurrentFile, shareFilePath];
 let contextMenu;
@@ -69,7 +78,9 @@ window.onload = function () {
     let folderList = document.getElementById('nav-folder-list');
     let header = document.querySelector("header");
     let folderContentContainer = document.getElementById("folderContentContainer");
+    snackbarView = document.getElementById('snackbar');
     contextMenu = document.querySelector("#myMenu");
+    document.getElementById("snackbar-close").addEventListener('click', function () { console.log("Snackbar close"); hideSnackbar() });
 
     // Set nav-bar folder list height to enable partial scroll bar
     folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
@@ -207,6 +218,24 @@ function contextMenuRequestHandler (e) {
   showContextMenu(e);
 }
 
+// Snackbar functions
+function hideSnackbar () {
+  snackbarView.classList.add('snackbar-hidden');
+  snackbarStatus = SnackbarStatuses.hidden;
+  clearTimeout(snackbarTimer);
+  // setTimeout(function () {
+  //   showSnackbar();
+  // }, 2000);
+}
+
+function showSnackbar () {
+  snackbarView.classList.remove('snackbar-hidden');
+  snackbarStatus = SnackbarStatuses.visible;
+  snackbarTimer = setTimeout(function () {
+    hideSnackbar();
+  }, SNACKBAR_TIMEOUT);
+}
+
 /* Helper functions to get cursor position for context menu */
 function getMousePosition (e) {
   e = e || window.event;
@@ -273,7 +302,10 @@ function shareFilePath () {
   let finalURL = `${Constants.BASE_URL}/directory/share?p=${Encrypter.encryptString(toSharePath + '__password__=' + password)}`;
   fetch(finalURL)
   .then(r => r.json())
-  .then(result => console.log(Encrypter.decryptString(result.password)));
+  .then(result => {
+    console.log(Encrypter.decryptString(result.password))
+    window.open(finalURL).focus();
+  });
   // console.log("To share the path: " + finalURL);
 }
 
