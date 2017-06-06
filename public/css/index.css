@@ -487,10 +487,13 @@ main .mdl-grid{
 
 .snackbar #snackbar-content{
   flex: 1;
+  color: #fff;
+  margin: auto;
+  text-align: center;
 }
 
 .snackbar #snackbar-close{
-  color: #fff;
+  color: #ff0;
   margin-top: 5px;
   line-height: 40px;
   margin-right: 10px;

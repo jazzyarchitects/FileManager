@@ -35,7 +35,8 @@ export default {
   },
   "getRandomString": function (len) {
     len = len || 7;
-    let allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()';
+    // No 0, O, I, l, 1
+    let allowed = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%^&*()';
     let finalString = "";
     for (let i = 0; i < len; i++) {
       finalString += allowed[Math.floor(Math.random() * allowed.length)];

@@ -41,6 +41,7 @@ let SnackbarStatuses = {
 };
 let snackbarStatus = SnackbarStatuses.visible;
 let snackbarTimer;
+let snackbarContentView;
 let SNACKBAR_TIMEOUT = 5 * 1000;
 
 let contextMenuItemIds = ["context-menu-open", "context-menu-cut", "context-menu-copy", "context-menu-paste", "content-menu-share"];
@@ -79,6 +80,7 @@ window.onload = function () {
     let header = document.querySelector("header");
     let folderContentContainer = document.getElementById("folderContentContainer");
     snackbarView = document.getElementById('snackbar');
+    snackbarContentView = document.getElementById("snackbar-content");
     contextMenu = document.querySelector("#myMenu");
     document.getElementById("snackbar-close").addEventListener('click', function () { console.log("Snackbar close"); hideSnackbar() });
 
@@ -222,18 +224,21 @@ function contextMenuRequestHandler (e) {
 function hideSnackbar () {
   snackbarView.classList.add('snackbar-hidden');
   snackbarStatus = SnackbarStatuses.hidden;
-  clearTimeout(snackbarTimer);
+  snackbarTimer && clearTimeout(snackbarTimer);
   // setTimeout(function () {
   //   showSnackbar();
   // }, 2000);
 }
 
-function showSnackbar () {
+function showSnackbar (content, preventAutoDismiss = false) {
   snackbarView.classList.remove('snackbar-hidden');
+  snackbarContentView.innerHTML = content;
   snackbarStatus = SnackbarStatuses.visible;
-  snackbarTimer = setTimeout(function () {
-    hideSnackbar();
-  }, SNACKBAR_TIMEOUT);
+  if (!preventAutoDismiss) {
+    snackbarTimer = setTimeout(function () {
+      hideSnackbar();
+    }, SNACKBAR_TIMEOUT);
+  }
 }
 
 /* Helper functions to get cursor position for context menu */
@@ -300,12 +305,27 @@ function shareFilePath () {
   let password = Constants.getRandomString();
   console.log("Password: " + password);
   let finalURL = `${Constants.BASE_URL}/directory/share?p=${Encrypter.encryptString(toSharePath + '__password__=' + password)}`;
-  fetch(finalURL)
-  .then(r => r.json())
-  .then(result => {
-    console.log(Encrypter.decryptString(result.password))
-    window.open(finalURL).focus();
-  });
+
+  let newElement = document.createElement('input');
+  document.body.appendChild(newElement);
+  newElement.type = 'text';
+  newElement.value = finalURL;
+  console.log(newElement);
+  console.log(newElement.value);
+  newElement.select();
+  document.execCommand('copy');
+  console.log("Finished copying");
+
+  document.body.removeChild(newElement);
+
+  showSnackbar(`Share link copied to clipboard . <br />Use password: <b>${password}</b> to access this file on the URL.`, true);
+  // fetch(finalURL)
+  // .then(r => r.json())
+  // .then(result => {
+  //   console.log(Encrypter.decryptString(result.password));
+
+  //   // window.open(finalURL).focus();
+  // });
   // console.log("To share the path: " + finalURL);
 }
 
