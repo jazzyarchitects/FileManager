@@ -50,13 +50,19 @@ let contextMenuItemActions = [openCurrentFile, cutCurrentFile, copyCurrentFile, 
 let contextMenu;
 let contextMenuItems = [];
 let contextMenuCurrentState = {};
+let currentContextMenuParent;
 
 let currentPathObj = {fromFile: false};
 let currentFile;
 let currentOperation;
 let currentDirectory;
 
-let currentContextMenuParent;
+let PopupStates = {
+  OPEN: 0,
+  CLOSE: 1
+};
+
+let currentPopupState = PopupStates.CLOSE;
 
 window.onload = function () {
   // Show password dialog if not logged in
@@ -299,39 +305,17 @@ function pasteCurrentFile () {
   });
 }
 
+function showSharePopup (content, url, password) {
+  ReactDOM.render(<ShareModal content={currentContextMenuParent.content} url={url} password={password} />, document.getElementById("popup"));
+  currentPopupState = PopupStates.OPEN;
+}
+
+function hideSharePopup () {
+  React.unmountComponentAtNode(document.getElementById("popup"));
+}
+
 function shareFilePath () {
-  ReactDOM.render(<ShareModal />, document.getElementById("popup"));
-  let toSharePath;
-  if (contextMenuCurrentState.fromFile) {
-    toSharePath = currentContextMenuParent.content.path;
-  } else {
-    toSharePath = currentDirectory;
-  }
-  let password = Constants.getRandomString();
-  console.log("Password: " + password);
-  let finalURL = `${Constants.BASE_URL}/directory/share?p=${Encrypter.encryptString(toSharePath + '__password__=' + password)}`;
-
-  let newElement = document.createElement('input');
-  document.body.appendChild(newElement);
-  newElement.type = 'text';
-  newElement.value = finalURL;
-  console.log(newElement);
-  console.log(newElement.value);
-  newElement.select();
-  document.execCommand('copy');
-  console.log("Finished copying");
-
-  document.body.removeChild(newElement);
-
-  showSnackbar(`Share link copied to clipboard . <br />Use password: <b>${password}</b> to access this file on the URL.`, true);
-  // fetch(finalURL)
-  // .then(r => r.json())
-  // .then(result => {
-  //   console.log(Encrypter.decryptString(result.password));
-
-  //   // window.open(finalURL).focus();
-  // });
-  // console.log("To share the path: " + finalURL);
+  showSharePopup();
 }
 
 function getCookie (cname) {
