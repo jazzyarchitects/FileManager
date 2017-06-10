@@ -4,6 +4,7 @@ import HiddenToggle from './components/HiddenToggle';
 import FilePreview from './components/FilePreview';
 import FolderPreview from './components/FolderPreview';
 import PasswordDialog from './components/PasswordDialog';
+import ShareModal from './components/ShareModal';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -162,7 +163,7 @@ document.addEventListener(Constants.Events.showFolderDetails, (e) => {
 // Event handler to handle events when a file or folder item is right clicked
 document.addEventListener(Constants.Events.setCurrentContextMenuParent, (e) => {
   // console.log("Received " + Constants.Events.setCurrentContextMenuParent);
-  currentContextMenuParent = {content: e.detail.content, id: e.detail.id};
+  currentContextMenuParent = {content: e.detail.content, id: e.detail.id, isFolder: e.detail.isFolder || false, isFile: e.detail.isFile || false};
   showContextMenu(e.detail.event, 'fileOperation');
 });
 
@@ -179,10 +180,13 @@ function showContextMenu (e, type) {
 
   let allowedIndexes;
 
-  contextMenuCurrentState.fromFile = (type === 'fileOperation');
+  contextMenuCurrentState.fromFile = currentContextMenuParent.isFile;
+  contextMenuCurrentState.fromFolder = currentContextMenuParent.isFolder;
   // Conditional items
   if (contextMenuCurrentState.fromFile) {
     allowedIndexes = [ContextMenuItems.OPEN, ContextMenuItems.CUT, ContextMenuItems.COPY];
+  } else if (contextMenuCurrentState.fromFolder) {
+    allowedIndexes = [ContextMenuItems.OPEN];
   } else {
     allowedIndexes = [ContextMenuItems.PASTE];
   }
@@ -296,6 +300,7 @@ function pasteCurrentFile () {
 }
 
 function shareFilePath () {
+  ReactDOM.render(<ShareModal />, document.getElementById("popup"));
   let toSharePath;
   if (contextMenuCurrentState.fromFile) {
     toSharePath = currentContextMenuParent.content.path;

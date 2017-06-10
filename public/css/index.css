@@ -480,7 +480,7 @@ main .mdl-grid{
   bottom: 0;
   left: 0;
   display: flex;
-  z-index: 9999999;
+  z-index: 998;
   transition: all 0.5s;
   transform: translateY(0);
 }
@@ -502,4 +502,35 @@ main .mdl-grid{
 
 .snackbar-hidden{
   transform: translateY(50px);
+}
+
+.modal{
+  position: fixed;
+  left: 0;
+  top:0; 
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.modal .modal-backdrop{
+  background: rgba(0,0,0,0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.modal .modal-content{
+  position: relative;
+  background: rgba(255,255,255,1);
+  width: 50%;
+  margin: auto;
+  height: 40%;
+  top: 30%;
+  border-radius: 10px;
+  z-index: 1001;
 }

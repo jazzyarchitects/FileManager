@@ -16,7 +16,15 @@ export default class File extends React.Component {
       e.stopPropagation();
       Constants.resetActiveElement();
       this.view.classList.add('item-active');
-      let event = new CustomEvent(Constants.Events.setCurrentContextMenuParent, {detail: {content: this.props.content, id: this.props.id, view: this.view, event: e}});
+      let event = new CustomEvent(Constants.Events.setCurrentContextMenuParent, {
+        detail: {
+          content: this.props.content,
+          id: this.props.id,
+          view: this.view,
+          event: e,
+          isFile: true
+        }
+      });
       document.dispatchEvent(event);
 
       let fileDetailsEvent = new CustomEvent(Constants.Events.showFileDetails, {detail: this.props.content});

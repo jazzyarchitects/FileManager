@@ -10,6 +10,27 @@ export default class Folder extends React.Component {
     this.timer = undefined;
   }
 
+  componentDidMount () {
+    this.view = document.querySelector(`#folder-item-${this.props.id}`);
+    this.view.addEventListener('contextmenu', (e) => {
+      e.stopPropagation();
+      Constants.resetActiveElement();
+      this.view.classList.add('item-active');
+      let event = new CustomEvent(Constants.Events.setCurrentContextMenuParent, {
+        detail: {
+          content: this.props.content,
+          id: this.props.id,
+          view: this.view,
+          event: e,
+          isFolder: true
+        }
+      });
+      document.dispatchEvent(event);
+
+      showDetails();
+    }, false);
+  }
+
   doubleClick (obj) {
     obj.clickedOnce = false;
     obj.props.onClick();

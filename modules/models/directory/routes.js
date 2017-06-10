@@ -12,11 +12,9 @@ export function initiateRoute (router) {
       return res.json({success: false, error: 'No File Specified'});
     }
     query = Encrypter.decryptString(query);
-    console.log(query);
     let parts = query.split('__password__=');
     let filePath = parts[0];
     let password = Encrypter.encryptString(md5(parts[1]));
-
     res.json({filePath, password});
   });
 

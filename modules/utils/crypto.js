@@ -44,7 +44,7 @@ const encryptString = function (inputString) {
     SEGMENT_LENGTH = Math.floor(Math.random() * 5) + 2;
   }
 
-  return finalString;
+  return Buffer.from(finalString).toString('base64');
 
   // drawTable(r);
 
@@ -53,6 +53,8 @@ const encryptString = function (inputString) {
 }
 
 const decryptString = function (encryptedString) {
+  encryptedString = Buffer.from(encryptedString, 'base64').toString();
+  // console.log(encryptedString);
   let splits = encryptedString.split('!');
   let finalString = "";
   for (let i = 0; i < splits.length; i++) {
