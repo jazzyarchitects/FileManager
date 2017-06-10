@@ -441,7 +441,7 @@ main .mdl-grid{
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-.error-input{
+.error-input, .passwordDialog .error-input{
   user-select: none;
   background: #F44336;
   border: solid 1px #D22F2F ;
@@ -560,6 +560,7 @@ main .mdl-grid{
   padding: 0 10px;
   background: rgba(0,0,0,0.1);
   text-align: center;
+  font-family: monospace;
 }
 
 .modal .password-display{
@@ -569,6 +570,7 @@ main .mdl-grid{
   margin-top: 5px;
   background: rgba(0,0,0,0.1);
   text-align: center;
+  font-family: monospace;
 }
 
 .btns{
@@ -629,9 +631,17 @@ main .mdl-grid{
   width: 50%;
   height: 30px;
   line-height: 50px;
-  border: 1px solid #2979ff;
+  border: none;
   padding: 5px;
   border-radius: 5px;
+}
+
+.modal-content .modal-content-form input[type="password"]:enabled{
+  border: 1px solid #aaa;  
+}
+
+.modal-content .modal-content-form input[type="password"]:focus{
+  border: 1px solid #2979ff;  
 }
 
 .modal-content .modal-content-form span{

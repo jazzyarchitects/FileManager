@@ -10,7 +10,8 @@ export default {
     "showFileDetails": 'show-file-details',
     "goBackFromContents": 'go-back-from-contents',
     "showFolderDetails": 'show-folder-details',
-    "setCurrentContextMenuParent": 'set-current-context-menu-parent'
+    "setCurrentContextMenuParent": 'set-current-context-menu-parent',
+    "closePopup": 'close-popup'
   },
   "days": ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   "months": ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],

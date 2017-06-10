@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Encrypter from '../../compiled/modules/utils/crypto';
+import FetchFromServer from '../FetchFromServer';
 import Constants from '../constants';
 
 export default class ShareModal extends React.Component {
@@ -35,9 +36,15 @@ export default class ShareModal extends React.Component {
     console.log("Generating for password:" + password);
     let toSharePath = this.props.content.path;
     password = password || Constants.getRandomString();
-    let finalURL = `${Constants.BASE_URL}/directory/share?p=${Encrypter.encryptString(toSharePath + '__password__=' + password)}`;
-    this.setState({password: password, url: finalURL})
-    // showSharePopup(content, finalURL, password);
+    FetchFromServer(`${Constants.BASE_URL}/share/url`, "POST", {
+      data: Buffer.from(JSON.stringify({
+        filePath: toSharePath,
+        password: password
+      })).toString('base64')
+    })
+    .then(result => {
+      this.setState({password: password, url: `${Constants.BASE_URL}/share/file?p=` + result.link})
+    });
   }
 
   copyToClipboard (string) {
@@ -48,6 +55,11 @@ export default class ShareModal extends React.Component {
     newElement.select();
     document.execCommand('copy');
     document.body.removeChild(newElement);
+  }
+
+  closePopup () {
+    let event = new Event(Constants.Events.closePopup);
+    document.dispatchEvent(event);
   }
 
   render () {
@@ -77,7 +89,7 @@ export default class ShareModal extends React.Component {
             <div className="url-display">{url}</div>
             <div className="password-display"><b>Password:</b> {this.state.password}</div>
             <div className="btns">
-              <div className="done-button btn">Done</div>
+              <div className="done-button btn" onClick={this.closePopup}>Done</div>
               <div className="copy-button btn" onClick={this.copyToClipboard.bind(this)}>Copy link</div>
             </div>
           </div>

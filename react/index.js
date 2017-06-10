@@ -173,6 +173,11 @@ document.addEventListener(Constants.Events.setCurrentContextMenuParent, (e) => {
   showContextMenu(e.detail.event, 'fileOperation');
 });
 
+// Event handler to close share popup as it cannot be unmounted from itself
+document.addEventListener(Constants.Events.closePopup, (e) => {
+  hideSharePopup();
+});
+
 /* Context menu related functions */
 // Show context menu at current cursor location
 function showContextMenu (e, type) {
@@ -311,7 +316,7 @@ function showSharePopup (content, url, password) {
 }
 
 function hideSharePopup () {
-  React.unmountComponentAtNode(document.getElementById("popup"));
+  ReactDOM.unmountComponentAtNode(document.getElementById("popup"));
 }
 
 function shareFilePath () {
