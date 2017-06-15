@@ -19,19 +19,19 @@ export default class PasswordDialog extends React.Component {
       credentials: "same-origin",
       body: JSON.stringify({password: inputBox.value})
     })
-    .then(r => r.json())
-    .then(result => {
-      console.log(result);
-      if (result.success) {
-        let d = new Date();
-        d.setTime(d.getTime() + (20 * 60 * 1000));
-        document.cookie = "userSessionStatus=loggedIn;expires=" + d.toUTCString(); +";path=/";
-        window.location.reload();
-      } else {
-        inputBox.blur();
-        inputBox.classList.add('error-input');
-      }
-    });
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+        if (result.success) {
+          let d = new Date();
+          d.setTime(d.getTime() + (20 * 60 * 1000));
+          document.cookie = "userSessionStatus=loggedIn;expires=" + d.toUTCString(); +";path=/";
+          window.location.reload();
+        } else {
+          inputBox.blur();
+          inputBox.classList.add('error-input');
+        }
+      });
   }
 
   render () {

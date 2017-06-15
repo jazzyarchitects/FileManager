@@ -27,13 +27,13 @@ export default class DefaultFilePreview extends React.Component {
       return "";
     }
     FetchFromServer(`${Constants.BASE_URL}/file/string?path=${encodeURIComponent(props.content.path)}`)
-    .then(result => {
-      if (!this.shouldShow) {
-        return null;
-      }
-      this.trucated = result.content.length > 1024 * 2;
-      this.shouldShow && this.setState({data: result.content.slice(0, 1024 * 2)});
-    });
+      .then(result => {
+        if (!this.shouldShow) {
+          return null;
+        }
+        this.trucated = result.content.length > 1024 * 2;
+        this.shouldShow && this.setState({data: result.content.slice(0, 1024 * 2)});
+      });
   }
 
   componentWillUnmount () {

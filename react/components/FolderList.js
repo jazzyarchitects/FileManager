@@ -62,24 +62,24 @@ export default class FolderList extends React.Component {
 
   fetchFromDirectory (directoryPath, preventUpdate) {
     FetchFromServer(`${Constants.BASE_URL}/directory?base=${encodeURIComponent(directoryPath || this.state.pathObj.base)}`)
-    .then(contents => {
-      if (contents === undefined) {
-        return;
-      }
-      if (!preventUpdate) {
-        contents.content = contents.content.sort(function (a, b) {
-          if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-          return 0;
-        });
-        // console.log(contents.content);
-        let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content.sort(), 'pathObj': this.state.pathObj}});
-        document.dispatchEvent(event);
-        this.fetchFromDirectory(this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/')), true);
-      } else {
-        this.setState({folderContents: contents.content});
-      }
-    });
+      .then(contents => {
+        if (contents === undefined) {
+          return;
+        }
+        if (!preventUpdate) {
+          contents.content = contents.content.sort(function (a, b) {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            return 0;
+          });
+          // console.log(contents.content);
+          let event = new CustomEvent(Constants.Events.directoryChange, {detail: {'contents': contents.content.sort(), 'pathObj': this.state.pathObj}});
+          document.dispatchEvent(event);
+          this.fetchFromDirectory(this.state.pathObj.base.slice(0, this.state.pathObj.base.lastIndexOf('/')), true);
+        } else {
+          this.setState({folderContents: contents.content});
+        }
+      });
   }
 
   render () {
@@ -90,21 +90,21 @@ export default class FolderList extends React.Component {
         <span className="current-path">{this.state.pathObj.parent()}</span>
         <span onClick={this.goBack.bind(this)} className="cursor back-button back_button" href="" id="back-button"><i className="material-icons" role="presentation">keyboard_backspace</i>&nbsp;&nbsp;&nbsp;Back</span>
         <ul id="nav-folder-list">
-        {
-          folderContents.filter((content) => {
-            if (document.hiddenVisible) {
-              return true;
-            } else {
-              return content.name[0] !== '.';
-            }
-          }).map((content, index) => {
-            if (!content.isFile) {
-              return <li key={index} onClick={this.moveToDirectory.bind(this, content.name)} className="cursor folder-list-item" ><FolderListItem item={content} /></li>
-            } else {
-              return null;
-            }
-          })
-        }
+          {
+            folderContents.filter((content) => {
+              if (document.hiddenVisible) {
+                return true;
+              } else {
+                return content.name[0] !== '.';
+              }
+            }).map((content, index) => {
+              if (!content.isFile) {
+                return <li key={index} onClick={this.moveToDirectory.bind(this, content.name)} className="cursor folder-list-item" ><FolderListItem item={content} /></li>
+              } else {
+                return null;
+              }
+            })
+          }
         </ul>
       </div>
     )

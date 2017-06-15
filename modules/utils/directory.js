@@ -65,7 +65,7 @@ const transferFile = function (pathObj, isCut) {
       // console.log("Copying successful");
       if (isCut) {
         return File.deleteFile(pathObj.targetFile)
-        .then(resolve);
+          .then(resolve);
       }
       resolve({success: true});
     });

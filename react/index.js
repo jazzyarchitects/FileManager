@@ -304,10 +304,10 @@ function pasteCurrentFile () {
   let tf = Encrypter.encryptString(currentContextMenuParent.content.path);
   let td = Encrypter.encryptString(currentDirectory);
   FetchFromServer(`${Constants.BASE_URL}/directory/${operation}`, 'PUT', {tf, td})
-  .then(result => {
-    alert(JSON.stringify(result));
-    currentOperation = Operation.NONE;
-  });
+    .then(result => {
+      alert(JSON.stringify(result));
+      currentOperation = Operation.NONE;
+    });
 }
 
 function showSharePopup (content, url, password) {

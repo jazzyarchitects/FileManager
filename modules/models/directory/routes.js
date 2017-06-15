@@ -30,9 +30,9 @@ export function initiateRoute (router) {
   Router.get('/', (req, res) => {
     let params = req.query;
     Utils.Directory.readDir({ base: params.base })
-    .then(result => {
-      res.json(result);
-    });
+      .then(result => {
+        res.json(result);
+      });
   });
 
   Router.put('/:operation', (req, res) => {
@@ -41,14 +41,14 @@ export function initiateRoute (router) {
       targetDirectory: Encrypter.decryptString(req.body.td)
     };
     Utils.Directory.transferFile(pathObj, req.params.operation === 'cut')
-    .then(result => {
+      .then(result => {
       // console.log(result)
-      res.json(result);
-    })
-    .catch(err => {
-      console.log(err);
-      res.json({success: false});
-    })
+        res.json(result);
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({success: false});
+      })
   });
 
   router.use('/directory', Router);

@@ -8,14 +8,14 @@ const saveVideoThumbnail = (videoPath) => {
     let tempFolder = path.join(__dirname, '..', '..', '..', 'tmp', 'video');
     let filename;
     ffmpeg(videoPath)
-    .on('filenames', (filenames) => { filename = filenames[0] })
-    .on('end', () => resolve(filename))
-    .screenshots({
-      timestamps: ['50%'],
-      filename: videoPath.replace(/\//g, '-').slice(0, videoPath.lastIndexOf('.')) + '.png',
-      folder: tempFolder,
-      size: '320x240'
-    });
+      .on('filenames', (filenames) => { filename = filenames[0] })
+      .on('end', () => resolve(filename))
+      .screenshots({
+        timestamps: ['50%'],
+        filename: videoPath.replace(/\//g, '-').slice(0, videoPath.lastIndexOf('.')) + '.png',
+        folder: tempFolder,
+        size: '320x240'
+      });
   });
 };
 

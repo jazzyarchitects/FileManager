@@ -13,13 +13,13 @@ export default function fetchFromServer (url, method = "GET", data = {}) {
       },
       credentials: "same-origin"
     })
-    .then(r => {
-      let result = false;
-      result = Constants.checkResponse(r);
-      if (result) {
-        return r.json();
-      }
-    })
-    .then(resolve);
+      .then(r => {
+        let result = false;
+        result = Constants.checkResponse(r);
+        if (result) {
+          return r.json();
+        }
+      })
+      .then(resolve);
   });
 }

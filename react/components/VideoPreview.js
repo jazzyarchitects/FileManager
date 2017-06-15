@@ -28,9 +28,9 @@ export default class VideoPreview extends React.Component {
     }
 
     FetchFromServer(`${Constants.BASE_URL}/file/video?path=${encodeURIComponent(props.path)}`)
-    .then(jsonResult => {
-      this.shouldShow && this.setState({thumbURL: jsonResult.path.replace(/\//g, '-').slice(0, jsonResult.path.lastIndexOf('.')) + '.png'});
-    });
+      .then(jsonResult => {
+        this.shouldShow && this.setState({thumbURL: jsonResult.path.replace(/\//g, '-').slice(0, jsonResult.path.lastIndexOf('.')) + '.png'});
+      });
   }
 
   componentWillUnmount () {
@@ -43,8 +43,8 @@ export default class VideoPreview extends React.Component {
     }
     return (
       <div className="image-preview">
-       <img src={`${Constants.BASE_URL}/file/thumb/video?path=${encodeURIComponent(this.state.thumbURL)}`} className="preview-image" />
-     </div>
+        <img src={`${Constants.BASE_URL}/file/thumb/video?path=${encodeURIComponent(this.state.thumbURL)}`} className="preview-image" />
+      </div>
     );
   }
 }

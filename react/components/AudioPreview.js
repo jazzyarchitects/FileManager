@@ -22,9 +22,9 @@ export default class AudioPreview extends React.Component {
   fetchAudioDetails (properties) {
     let props = properties || this.props.content;
     FetchFromServer(`${Constants.BASE_URL}/file/thumb/audio?path=${encodeURIComponent(props.path)}`)
-    .then(result => {
-      !this.unmount && this.setState({imageURL: result.imageURL});
-    });
+      .then(result => {
+        !this.unmount && this.setState({imageURL: result.imageURL});
+      });
   }
 
   componentWillUnmount () {

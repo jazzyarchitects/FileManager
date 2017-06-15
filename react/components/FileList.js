@@ -20,18 +20,18 @@ export default class FileList extends React.Component {
   }
 
   // componentDidMount () {
-    // this.setState({contents: this.props.contents || [], pathObj: this.props.pathObj});
+  // this.setState({contents: this.props.contents || [], pathObj: this.props.pathObj});
   // }
 
   render () {
     this.contents = this.props.contents || [];
     return (
       <div className="directory-list">
-          <h2 className="section-heading"> Folders </h2>
+        <h2 className="section-heading"> Folders </h2>
         <div className="folder-section section">
           <div className="directory-item directory-item-back-button" onClick={this.goBack} title="Back" style={{textAlign: 'center'}}>
-              <i className="material-icons" role="presentation">keyboard_backspace</i> Back
-            </div>
+            <i className="material-icons" role="presentation">keyboard_backspace</i> Back
+          </div>
           {
             this.contents.filter((content) => {
               if (document.hiddenVisible) {
@@ -46,26 +46,26 @@ export default class FileList extends React.Component {
               return null;
             })
           }
-      </div>
-      <br />
-      <h2 className="section-heading"> Files </h2>
+        </div>
+        <br />
+        <h2 className="section-heading"> Files </h2>
 
-      <div className="file-section section">
-      {
-        this.contents.filter((content) => {
-          if (document.hiddenVisible) {
-            return true;
-          } else {
-            return content.name[0] !== '.';
+        <div className="file-section section">
+          {
+            this.contents.filter((content) => {
+              if (document.hiddenVisible) {
+                return true;
+              } else {
+                return content.name[0] !== '.';
+              }
+            }).map((content, index) => {
+              if (content.isFile) {
+                return <File key={index} content={content} id={index}/>
+              }
+              return null;
+            })
           }
-        }).map((content, index) => {
-          if (content.isFile) {
-            return <File key={index} content={content} id={index}/>
-          }
-          return null;
-        })
-      }
-      </div>
+        </div>
       </div>
     )
   }

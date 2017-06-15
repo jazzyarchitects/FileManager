@@ -24,23 +24,23 @@ export default class ImagePreview extends React.Component {
     }
     let previewContainer = document.getElementById('file-preview');
     FetchFromServer(`${Constants.BASE_URL}/file/thumb/image/${previewContainer.offsetWidth}x${previewContainer.offsetHeight / 2}?path=${encodeURIComponent(props.content.path)}`)
-    .then(result => {
-      this.setState({imageData: 'data:' + result.mime + ';base64,' + result.content, mime: result.mime});
-    })
+      .then(result => {
+        this.setState({imageData: 'data:' + result.mime + ';base64,' + result.content, mime: result.mime});
+      })
   }
 
   render () {
     if (!this.state || !this.state.mime) {
       if (this.props && this.count) {
-        this.count --;
+        this.count--;
         this.fetchData();
       }
       return null;
     }
     return (
-     <div className="image-preview">
-       <img src={this.state.imageData} className="preview-image" />
-     </div>
+      <div className="image-preview">
+        <img src={this.state.imageData} className="preview-image" />
+      </div>
     )
   }
 }
