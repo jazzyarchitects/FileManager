@@ -27,7 +27,7 @@ export default class Folder extends React.Component {
       });
       document.dispatchEvent(event);
 
-      showDetails();
+      this.showDetails();
     }, false);
   }
 

@@ -136,7 +136,7 @@ window.onload = function () {
   }
 };
 
-// Functiont to render folder list, file list and file preview
+// Function to render folder list, file list and file preview
 function render () {
   ReactDOM.render(<FolderList pathObj={currentPathObj} />, document.getElementById('folderListContainer'));
   ReactDOM.render(<FileList />, document.getElementById('folderContentContainer'));
@@ -316,7 +316,11 @@ function getScrollPosition () {
 function openCurrentFile () {
   if (currentContextMenuParent) {
     let path = currentContextMenuParent.content.path;
-    Constants.openFile(path);
+    if (currentContextMenuParent.content.isFile) {
+      Constants.openFile(path);
+    } else {
+      ReactDOM.render(<FolderList pathObj={{base: currentContextMenuParent.content.path}} />, document.getElementById('folderListContainer'));
+    }
   }
 }
 
