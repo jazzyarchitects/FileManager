@@ -28,13 +28,17 @@ export default class FolderList extends React.Component {
 
   componentDidMount () {
     this.state.pathObj.base = Constants.DefaultPath;
+    if (this.props && this.props.pathObj && this.props.pathObj.base) {
+      this.state.pathObj.base = this.props.pathObj.base;
+    }
     this.fetchFromDirectory();
   }
 
-  componentWillReceiveProps () {
+  componentWillReceiveProps (newProps) {
     if (!this.props.pathObj) {
       this.state.pathObj.base = Constants.DefaultPath;
     }
+    this.state.pathObj.base = newProps.pathObj.base;
     this.state.pathObj.getCurrentFolderName = () => {
       if (this.state.pathObj.base) {
         return this.state.pathObj.base.slice(this.state.pathObj.base.lastIndexOf('/') + 1);

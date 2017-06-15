@@ -64,6 +64,8 @@ let PopupStates = {
 
 let currentPopupState = PopupStates.CLOSE;
 
+let historyPopComplete = true;
+
 window.onload = function () {
   // Show password dialog if not logged in
   if (getCookie("userSessionStatus") !== "loggedIn") {
@@ -77,6 +79,20 @@ window.onload = function () {
     document.getElementById('loginPassword').focus();
     document.authenticationInProgress = true;
   } else {
+    if (document.location.search.indexOf('?path=') !== -1) {
+      let queries = document.location.search.split('?')[1].split('&');
+      let pathQuery;
+      for (let query of queries) {
+        if (query.indexOf('path=') !== -1) {
+          pathQuery = query;
+          break;
+        }
+      }
+      currentPathObj = {
+        base: decodeURIComponent(pathQuery.split('path=')[1])
+      };
+      // console.log("Current Path object: " + JSON.stringify(currentPathObj));
+    }
     document.authenticationInProgress = false;
     document.isLoggedIn = true;
 
@@ -89,7 +105,7 @@ window.onload = function () {
     snackbarView = document.getElementById('snackbar');
     snackbarContentView = document.getElementById("snackbar-content");
     contextMenu = document.querySelector("#myMenu");
-    document.getElementById("snackbar-close").addEventListener('click', function () { console.log("Snackbar close"); hideSnackbar() });
+    document.getElementById("snackbar-close").addEventListener('click', function () { /* console.log("Snackbar close"); */ hideSnackbar() });
 
     // Set nav-bar folder list height to enable partial scroll bar
     folderList.style.height = window.innerHeight - backButton.getBoundingClientRect().bottom - 15;
@@ -129,6 +145,11 @@ function render () {
 
 // Event handler for event when user clicks on a folder from nav bar folder list
 document.addEventListener(Constants.Events.directoryChange, (e) => {
+  // console.log(e.detail.pathObj);
+  if (historyPopComplete) {
+    history.pushState({pathObj: {base: e.detail.pathObj.base}}, 'File Manager', '?path=' + encodeURIComponent(e.detail.pathObj.base));
+  }
+  historyPopComplete = true;
   document.getElementById('content-name-holder').innerHTML = `<a style="color: #222; line-height: 1.6em">${e.detail.pathObj.getCurrentFolderName()}</a><br /><a style='font-size: 0.6em; color: #555;'>${e.detail.pathObj.base}</a>`;
   ReactDOM.render(<FileList contents={e.detail.contents} pathObj={e.detail.pathObj} />, document.getElementById('folderContentContainer'));
   currentDirectory = e.detail.pathObj.base;
@@ -151,6 +172,13 @@ document.addEventListener(Constants.Events.hiddenVisibilityToggle, (e) => {
   render();
   // }
 });
+
+window.onpopstate = function (e) {
+  historyPopComplete = false;
+  let pathObj = e.state.pathObj;
+  pathObj.base = pathObj.base.slice(0, pathObj.base.lastIndexOf('/'));
+  ReactDOM.render(<FolderList pathObj={pathObj} />, document.getElementById('folderListContainer'));
+};
 
 // Event handler for event triggered when user clicks on a file name. Show this file details
 document.addEventListener(Constants.Events.showFileDetails, (e) => {
@@ -223,7 +251,7 @@ function showContextMenu (e, type) {
 
 // Hide context menu
 function dismissContextMenu () {
-  contextMenu.style.display = 'none';
+  if (contextMenu) contextMenu.style.display = 'none';
 }
 
 // When user click anywhere in the document, dismiss the context menu
