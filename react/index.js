@@ -194,8 +194,10 @@ function showContextMenu (e, type) {
   contextMenuCurrentState.fromFile = currentContextMenuParent.isFile;
   contextMenuCurrentState.fromFolder = currentContextMenuParent.isFolder;
   // Conditional items
+  // Currently sharing folders is disabled
   if (contextMenuCurrentState.fromFile) {
     allowedIndexes = [ContextMenuItems.OPEN, ContextMenuItems.CUT, ContextMenuItems.COPY];
+    allowedIndexes.push(ContextMenuItems.SHARE);
   } else if (contextMenuCurrentState.fromFolder) {
     allowedIndexes = [ContextMenuItems.OPEN];
   } else {
@@ -203,7 +205,6 @@ function showContextMenu (e, type) {
   }
 
   // Unconditional items
-  allowedIndexes.push(ContextMenuItems.SHARE);
 
   for (let i = 0; i < contextMenuItems.length; i++) {
     if (allowedIndexes.indexOf(i) !== -1) {

@@ -17,6 +17,14 @@ export default class ShareModal extends React.Component {
     passwordField.addEventListener('focus', () => {
       passwordField.classList.remove('error-input');
     });
+    document.querySelector('.modal-backdrop').addEventListener('click', (e) => {
+      this.closePopup();
+    });
+    document.addEventListener('keyup', (e) => {
+      if (e.keyCode === 27) {
+        this.closePopup();
+      }
+    })
   }
 
   checkboxChangeHandler (e) {

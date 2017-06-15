@@ -53,6 +53,9 @@ const encryptString = function (inputString, dontRamdomise = false) {
 }
 
 const decryptString = function (encryptedString) {
+  if (!encryptedString) {
+    return null;
+  }
   encryptedString = Buffer.from(encryptedString, 'base64').toString();
   // console.log(encryptedString);
   let splits = encryptedString.split('!');

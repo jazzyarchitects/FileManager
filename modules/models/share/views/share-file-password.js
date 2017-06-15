@@ -38,8 +38,8 @@ export default (initialState) => {
     </head>
     <body>
       <div class='passwordDialog'>
-          <center><h4 for="password">Enter Password to continue</h4></center>
-          <input type="password" placeholder="password" id="loginPassword" />
+          <center><h4 for="password">Enter Password to access ${initialState.filename}</h4></center>
+          <input type="password" placeholder="Password" id="loginPassword" />
           <br />
           <button id="loginButton" >Open</button>
         </div>
