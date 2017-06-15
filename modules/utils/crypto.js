@@ -8,7 +8,7 @@ const mapping = {
   j: "json"
 };
 
-const encryptString = function (inputString) {
+const encryptString = function (inputString, dontRamdomise = false) {
   let SEGMENT_LENGTH = 3;
 
   let typeList = [];
@@ -41,7 +41,7 @@ const encryptString = function (inputString) {
     } else {
       endIndex++;
     }
-    SEGMENT_LENGTH = Math.floor(Math.random() * 5) + 2;
+    if (!dontRamdomise) { SEGMENT_LENGTH = Math.floor(Math.random() * 5) + 2; }
   }
 
   return Buffer.from(finalString).toString('base64');

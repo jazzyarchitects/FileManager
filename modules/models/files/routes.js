@@ -26,14 +26,14 @@ export function initiateRoute (router) {
     let query = req.query;
     if (req.params.fileType === "video") {
       Utils.Video.getVideoThumbnail(query.path)
-      .then((result) => {
-        res.json(result);
-      });
+        .then((result) => {
+          res.json(result);
+        });
     } else {
       Utils.File.readFile({ base: query.path }, {fileType: req.params.fileType})
-      .then(result => {
-        res.json(result);
-      });
+        .then(result => {
+          res.json(result);
+        });
     }
   });
 
@@ -44,10 +44,10 @@ export function initiateRoute (router) {
 
   Router.get('/thumb/audio', (req, res) => {
     Utils.Audio.getAudioDetails(req.query.path)
-    .then(result => {
-      result.success = true;
-      res.json(result);
-    });
+      .then(result => {
+        result.success = true;
+        res.json(result);
+      });
   });
 
   Router.use((req, res, next) => {
@@ -71,9 +71,9 @@ export function initiateRoute (router) {
     let params = req.query;
     let dimens = req.params.size.split('x');
     Utils.File.readFile({ base: params.path }, {fileType: req.params.fileType, isThumbnail: true, width: dimens[0], height: dimens[1]})
-    .then(result => {
-      res.json({success: result.success, content: result.content.toString('base64'), mime: result.mime});
-    });
+      .then(result => {
+        res.json({success: result.success, content: result.content.toString('base64'), mime: result.mime});
+      });
   });
 
   router.use('/file', Router);

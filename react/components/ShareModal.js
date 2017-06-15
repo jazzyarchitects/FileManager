@@ -42,9 +42,9 @@ export default class ShareModal extends React.Component {
         password: password
       })).toString('base64')
     })
-    .then(result => {
-      this.setState({password: password, url: `${Constants.BASE_URL}/share/file/${this.props.content.name}?p=` + result.link})
-    });
+      .then(result => {
+        this.setState({password: password, url: `${Constants.BASE_URL}/share/file/${this.props.content.name}?p=` + result.link})
+      });
   }
 
   copyToClipboard (string) {

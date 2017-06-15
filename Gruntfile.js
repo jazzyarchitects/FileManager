@@ -14,9 +14,12 @@ module.exports = function (grunt) {
       react: {
         src: ['compiled/react/**/*.*', 'compiled/react/', 'public/js/bundle.js']
       },
-      reactServer: {
-        src: ['compiled/react-server/**/*.js']
+      common: {
+        src: 'compiled/constants.js'
       },
+      // reactServer: {
+      //   src: ['compiled/react-server/**/*.js']
+      // },
       modules: {
         src: ['compiled/modules/**/*.*']
       },
@@ -38,14 +41,22 @@ module.exports = function (grunt) {
           dest: 'compiled/modules/utils/'
         }]
       },
-      reactServer: {
+      common:{
         files: [{
-          expand: true,
-          cwd: 'react/server-rendering/',
-          src: ['**/*.js'],
-          dest: 'compiled/react-server/'
+          expand: false,
+          cwd: '.',
+          src: 'react/constants.js',
+          dest: 'compiled/constants.js'
         }]
       },
+      // reactServer: {
+      //   files: [{
+      //     expand: true,
+      //     cwd: 'react/server-rendering/',
+      //     src: ['**/*.js'],
+      //     dest: 'compiled/react-server/'
+      //   }]
+      // },
       modules: {
         files: [{
           expand: true,
@@ -82,9 +93,12 @@ module.exports = function (grunt) {
       modules: {
         src: ['./modules/**/*.js',]
       },
-      reactServer: {
-        src: ['./react/server-rendering/**/*.js']
+      common: {
+        src: ['./react/constants.js']
       },
+      // reactServer: {
+      //   src: ['./react/server-rendering/**/*.js']
+      // },
       index:{
         src: ['index.es6.js', '!index.js']
       }
@@ -97,8 +111,11 @@ module.exports = function (grunt) {
       all: {
         src: ['./compiled/**/*.*', 'index.js', '*.map']
       },
-      reactServer: {
-        src: ['./compiled/react-server/**/*.js']
+      // reactServer: {
+      //   src: ['./compiled/react-server/**/*.js']
+      // },
+      common: {
+        src: ['./compiled/constants.js']
       },
       react: {
         src: ['./public/js/bundle.js']
@@ -152,11 +169,15 @@ module.exports = function (grunt) {
         tasks: ['clean:react', 'eslint:react', 'webpack:dev', 'chmod:react', 'syncConstants']
         // tasks: ['clean:react', 'eslint:react', 'babel:react', 'chmod:react']
       },
-      'react-server': {
-        files: ['./react/server-rendering/**/*.js'],
-        tasks: ['clean:reactServer', 'eslint:reactServer', 'babel:reactServer', 'chmod:reactServer']
-      },
+      // 'react-server': {
+      //   files: ['./react/server-rendering/**/*.js'],
+      //   tasks: ['clean:reactServer', 'eslint:reactServer', 'babel:reactServer', 'chmod:reactServer', '']
+      // },
       common: {
+        files: ['./react/constants'],
+        task: ['clean:common', 'eslint:common', 'babel:common', 'chmod:common']
+      },
+      crypto: {
         files: [ './modules/utils/crypto.js'],
         tasks: ['clean:modules', 'clean:react', 'eslint:modules', 'eslint:react', 'babel:modules', 'chmod:modules', 'webpack:dev', 'chmod:react']
       },
@@ -179,8 +200,31 @@ module.exports = function (grunt) {
         cache: true
       },
       prod: webpackConfig,
-      dev: webpackConfig
-    }
+      dev: webpackConfig,
+      templates_shareFilePassword: {
+        entry: path.join(__dirname, 'react', 'server-rendering', 'ShareFilePassword.js'),
+        output: {
+          path: path.join(__dirname, 'public', 'js'),
+          filename: 'bundle-share-file-password.js'
+        },
+        module: {
+          rules: [
+            {
+              test: /\.js$/,
+              exclude: /node_modules/,
+              use: [
+                'babel-loader',
+              ],
+            },
+          ],
+        },
+        resolve: {
+          modules: [
+            path.join(__dirname, 'node_modules'),
+          ],
+        },
+      }
+    },
   });
 
   grunt.loadNpmTasks("gruntify-eslint");
@@ -195,12 +239,18 @@ module.exports = function (grunt) {
   grunt.registerTask('syncConstants', function(){
     let original = fs.readFileSync(path.join(__dirname, 'react', 'constants.js')).toString();
     let json = original.substr(original.indexOf('{')+1);
-    let baseURL = json.split(',')[0];
+    let baseURL = json.split('\n')[1];
+    baseURL = baseURL.substr(0, baseURL.length - 1);
+    // console.log(baseURL);
     let writeFileContent = fs.readFileSync(path.join(__dirname, 'react', 'server-rendering', 'constants.js')).toString();
     let firstPart = 'export default { ';
-    let mainPart = writeFileContent.substr(writeFileContent.indexOf('{')+1).split(',')[0];
-    let lastPart = writeFileContent.substr(writeFileContent.indexOf(','));
-    let finalContent = firstPart+baseURL+","+lastPart;
+    let deliminator = ',';
+    if(writeFileContent.indexOf(',') === -1){
+      deliminator = '}';
+    }
+    let mainPart = writeFileContent.substr(writeFileContent.indexOf('{')+1).split(deliminator)[0];
+    let lastPart = writeFileContent.substr(writeFileContent.indexOf(deliminator));
+    let finalContent = firstPart + baseURL + lastPart;
     fs.writeFileSync(path.join(__dirname, 'react', 'server-rendering', 'constants.js'), finalContent);
     this.async()(true);
   });
