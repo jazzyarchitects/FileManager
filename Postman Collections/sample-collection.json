@@ -18,18 +18,6 @@
 				"url": "https://postman-echo.com/get"
 			},
 			"response": []
-		},
-		{
-			"name": "post request",
-			"id": "b72a6e72-220f-4efb-8a0b-d34e2774611e",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
 		}
 	]
 }
