@@ -30,7 +30,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"hello\": \"world\"\n}",
+					"raw": "{\n    \"hello\": \"world\",\n    \"IAm\": \"Jibin\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
