@@ -1,0 +1,23 @@
+{
+	"info": {
+		"_postman_id": "ed8e6d43-8f2b-4bb1-a9c8-5468176763d0",
+		"name": "Sample collection",
+		"description": "Hello world\n\nasfdsv",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"id": "583ac9b9-f666-4aa0-ad09-ca0c2e4941fe",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://postman-echo.com/post"
+			},
+			"response": []
+		}
+	]
+}
