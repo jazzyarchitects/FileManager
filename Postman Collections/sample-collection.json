@@ -13,7 +13,7 @@
 				"disableBodyPruning": true
 			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": "https://postman-echo.com/post"
 			},
