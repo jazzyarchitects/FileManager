@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "10000000000152-ed8e6d43-8f2b-4bb1-a9c8-5468176763d0",
+		"name": "Sample collection",
+		"description": "Hello world\n\nasfdsv",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get request",
+			"id": "10000000000152-583ac9b9-f666-4aa0-ad09-ca0c2e4941fe",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/get5",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"get5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post request",
+			"id": "10000000000152-b72a6e72-220f-4efb-8a0b-d34e2774611e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hello\": \"world\",\n    \"IAm\": \"Jibin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://postman-echo.com/post",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
