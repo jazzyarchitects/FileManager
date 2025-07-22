@@ -15,7 +15,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "https://postman-echo.com/get5"
+				"url": "https://postman-echo.com/get6"
 			},
 			"response": []
 		},
