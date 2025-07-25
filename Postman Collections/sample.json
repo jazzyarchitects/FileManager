@@ -29,7 +29,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "https://www.postman-echo.com/get"
+				"url": "https://www.postman-echo.com/post"
 			},
 			"response": []
 		}
