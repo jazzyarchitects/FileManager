@@ -13,8 +13,8 @@
 					"script": {
 						"id": "e7129aaa-e95a-4450-a25b-23694af4a7b2",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
 							"});"
 						],
 						"type": "text/javascript",
